@@ -8,14 +8,17 @@ namespace EifelMono.Fluent.IO
     {
 
         public static DirectoryPath Combine(this DirectoryPath thisValue, params string[] directories)
-            => new DirectoryPath(Path.Combine((new string[] { thisValue.Value }).Concat(directories).ToArray()));
+            => new DirectoryPath(Path.Combine((new string[] { thisValue }).Concat(directories).ToArray()));
+
+        public static DirectoryPath FullPath(this DirectoryPath thisValue)
+           => new DirectoryPath(thisValue.FullPath);
 
         public static DirectoryPath EnsureExist(this DirectoryPath thisValue, FluentExAction<DirectoryPath> fluentExAction = default)
         {
             try
             {
-                if (!Directory.Exists(thisValue.Value))
-                    Directory.CreateDirectory(thisValue.Value);
+                if (!Directory.Exists(thisValue))
+                    Directory.CreateDirectory(thisValue);
             }
             catch (Exception ex)
             {
@@ -47,14 +50,13 @@ namespace EifelMono.Fluent.IO
 
         public static DirectoryPath Delete(this DirectoryPath thisValue, bool recursive = false)
         {
-            CleanAndOrDelete(new DirectoryInfo(thisValue.Value), recursive, true);
+            CleanAndOrDelete(new DirectoryInfo(thisValue), recursive, true);
             return thisValue;
         }
 
-
         public static DirectoryPath Clean(this DirectoryPath thisValue, bool recursive = false)
         {
-            CleanAndOrDelete(new DirectoryInfo(thisValue.Value), recursive, false);
+            CleanAndOrDelete(new DirectoryInfo(thisValue), recursive, false);
             return thisValue;
         }
 

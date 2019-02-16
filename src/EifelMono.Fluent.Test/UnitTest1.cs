@@ -1,4 +1,5 @@
 using System;
+using EifelMono.Fluent.IO;
 using Xunit;
 
 namespace EifelMono.Fluent.Test
@@ -8,6 +9,12 @@ namespace EifelMono.Fluent.Test
         [Fact]
         public void Test1()
         {
+            var x = new DirectoryPath("./src");
+            var s = x.FullPath;
+
+            string a = x;
+            var b = x;
+            DirectoryPath c = x;
 
         }
     }

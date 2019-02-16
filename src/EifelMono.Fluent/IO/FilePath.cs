@@ -9,9 +9,14 @@ namespace EifelMono.Fluent.IO
 
         public FilePath(string value) : base(value) { }
 
+        public FilePath(string dir, string fileName) : base(Path.Combine(dir, fileName)) { }
+
         public FilePath(FilePath filePath) : this(filePath?.Value ?? "") { }
 
-        public string FileName { get => Path.GetFileName(Value);}
+        public static implicit operator FilePath(string path)
+            => new FilePath(path);
+
+        public string FileName { get => Path.GetFileName(Value); }
 
         public string FullPath { get => Path.GetFullPath(Value); }
 
@@ -24,7 +29,15 @@ namespace EifelMono.Fluent.IO
         public string FileNameWithoutExtension { get => Path.GetFileNameWithoutExtension(Value); }
 
 
-       
+        #region Os Directories
+
+        public FilePath TempFileName()
+            => new FilePath(Path.GetTempFileName());
+
+        public FilePath RandomFileName()
+            => new FilePath(Path.GetRandomFileName());
+
+        #endregion
 
     }
 }
