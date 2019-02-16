@@ -44,19 +44,20 @@ namespace EifelMono.Fluent.IO
                 file.Delete();
             }
 
+
             if (deleteDir)
                 baseDirectory.Delete();
         }
 
-        public static DirectoryPath Delete(this DirectoryPath thisValue, bool recursive = false)
+        public static DirectoryPath Delete(this DirectoryPath thisValue, string searchPattern= "*")
         {
-            CleanAndOrDelete(new DirectoryInfo(thisValue), recursive, true);
+            CleanAndOrDelete(new DirectoryInfo(thisValue), false, true);
             return thisValue;
         }
 
-        public static DirectoryPath Clean(this DirectoryPath thisValue, bool recursive = false)
+        public static DirectoryPath Clean(this DirectoryPath thisValue, string searchPattern = "*")
         {
-            CleanAndOrDelete(new DirectoryInfo(thisValue), recursive, false);
+            CleanAndOrDelete(new DirectoryInfo(thisValue), false, false);
             return thisValue;
         }
 
