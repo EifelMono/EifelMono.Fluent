@@ -6,13 +6,6 @@ namespace EifelMono.Fluent.IO
 {
     public static class DirectoryExtensions
     {
-
-        public static DirectoryPath Combine(this DirectoryPath thisValue, params string[] directories)
-            => new DirectoryPath(Path.Combine((new string[] { thisValue }).Concat(directories).ToArray()));
-
-        public static DirectoryPath FullPath(this DirectoryPath thisValue)
-           => new DirectoryPath(thisValue.FullPath);
-
         public static DirectoryPath EnsureExist(this DirectoryPath thisValue, FluentExAction<DirectoryPath> fluentExAction = default)
         {
             try

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 
 namespace EifelMono.Fluent.IO
 {
@@ -11,6 +12,8 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath(DirectoryPath directoryPath) : this(directoryPath?.Value ?? "") { }
 
+        public DirectoryPath Clone() => new DirectoryPath(this);
+
         public static implicit operator DirectoryPath(string path)
             => new DirectoryPath(path);
 
@@ -20,14 +23,32 @@ namespace EifelMono.Fluent.IO
         }
 
         public bool Exist
-            => Directory.Exists(Value);
+          => Directory.Exists(Value);
+
+        #region Values changes
+
+        public DirectoryPath MakeAbsolute()
+        {
+            Value = FullPath;
+            return this;
+        }
+
+        public DirectoryPath Append(params string[] paths)
+        {
+            Value = Path.Combine(new string[] { Value }.Concat(paths).ToArray());
+            return this;
+        }
+
+        #endregion
+
+
 
         #region Os Directories
 
-        public DirectoryPath CurrentDirectory()
+        public DirectoryPath Current()
             => new DirectoryPath(Directory.GetCurrentDirectory());
 
-        public DirectoryPath TempPath()
+        public DirectoryPath Temp()
             => new DirectoryPath(Path.GetTempPath());
 
         public static DirectoryPath SpezialDirectoryPath(Environment.SpecialFolder specialFolder)

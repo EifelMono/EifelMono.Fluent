@@ -30,5 +30,11 @@ namespace EifelMono.Fluent.Test
                 Assert.Equal(typeof(string), v.GetType());
             }
         }
+
+        [Fact]
+        public void DirectoryTest()
+        {
+            var filePath = new FilePath("./src", "Karl.test");
+        }
     }
 }

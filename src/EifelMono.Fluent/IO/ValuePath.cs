@@ -8,7 +8,7 @@ namespace EifelMono.Fluent.IO
 
         public ValuePath(string value) : this() { Value = value; }
 
-        public string Value { get; private set; }
+        public string Value { get; protected set; }
 
         public static implicit operator string(ValuePath path)
             => path.Value;
