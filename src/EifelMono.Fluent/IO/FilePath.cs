@@ -191,6 +191,7 @@ namespace EifelMono.Fluent.IO
             get => IsAttributes(FileAttributes.Device);
             set => ChangeAttributes(FileAttributes.Device, value);
         }
+
         public bool AttributeDirectory
         {
             get => IsAttributes(FileAttributes.Directory);
@@ -202,6 +203,7 @@ namespace EifelMono.Fluent.IO
             get => IsAttributes(FileAttributes.Encrypted);
             set => ChangeAttributes(FileAttributes.Encrypted, value);
         }
+
         public bool AttributeHidden
         {
             get => IsAttributes(FileAttributes.Hidden);
@@ -213,6 +215,7 @@ namespace EifelMono.Fluent.IO
             get => IsAttributes(FileAttributes.IntegrityStream);
             set => ChangeAttributes(FileAttributes.IntegrityStream, value);
         }
+
         public bool AttributeNormal
         {
             get => IsAttributes(FileAttributes.Normal);
@@ -224,31 +227,37 @@ namespace EifelMono.Fluent.IO
             get => IsAttributes(FileAttributes.NoScrubData);
             set => ChangeAttributes(FileAttributes.NoScrubData, value);
         }
+
         public bool AttributeNotContentIndexed
         {
             get => IsAttributes(FileAttributes.NotContentIndexed);
             set => ChangeAttributes(FileAttributes.NotContentIndexed, value);
         }
+
         public bool AttributeOffline
         {
             get => IsAttributes(FileAttributes.Offline);
             set => ChangeAttributes(FileAttributes.Offline, value);
         }
+
         public bool AttributeReadOnly
         {
             get => IsAttributes(FileAttributes.ReadOnly);
             set => ChangeAttributes(FileAttributes.ReadOnly, value);
         }
+
         public bool AttributeReparsePoint
         {
             get => IsAttributes(FileAttributes.ReparsePoint);
             set => ChangeAttributes(FileAttributes.ReparsePoint, value);
         }
+
         public bool AttributeSparseFile
         {
             get => IsAttributes(FileAttributes.SparseFile);
             set => ChangeAttributes(FileAttributes.SparseFile, value);
         }
+
         public bool AttributeSystem
         {
             get => IsAttributes(FileAttributes.System);
