@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 namespace EifelMono.Fluent.IO
 {
+    [DataContract]
     public class FilePath : ValuePath
     {
         #region Core things
