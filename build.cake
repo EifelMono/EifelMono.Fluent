@@ -5,38 +5,57 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
-///////////////////////////////////////////////////////////////////////////////
-// SETUP / TEARDOWN
-///////////////////////////////////////////////////////////////////////////////
+var sln= new FilePath("EifelMono.Fluent.sln");
 
-Setup(ctx =>
-{
-   // Executed BEFORE the first task.
-   Information("Running tasks...");
+
+
+Task("Clean")
+.Does(()=> {
+    for (int i= 0;i< 5; i++) // Try it more times.....
+    try {
+        CleanDirectories($"./src/**/bin/{configuration}/**/**");
+        return;
+    }
+    catch {}
 });
 
-Teardown(ctx =>
-{
-   // Executed AFTER the last task.
-   Information("Finished running tasks.");
-});
-
-///////////////////////////////////////////////////////////////////////////////
-// TASKS
-///////////////////////////////////////////////////////////////////////////////
-
-
-Task("Test")
+Task("Restore")
 .Does(() => {
-    foreach(var file in GetFiles("./src/**/*.cs"))
-        Information(file);
+    DotNetCoreRestore(sln.FullPath);
 });
-Task("Default")
+
+Task("Build")
 .Does(() => {
-    DotNetCoreBuild("EifelMono.Fluent.sln", new DotNetCoreBuildSettings{
+    DotNetCoreBuild(sln.FullPath, new DotNetCoreBuildSettings{
         Configuration= configuration
     });
-   Information("Hello Cake!");
+});
+
+Task("CleanNuget")
+.Does(()=> {
+     CleanDirectories($"./nuget");
+});
+
+Task("CopyNuget")
+.Does(()=> {
+    foreach(var file in GetFiles($"./src/**/bin/{configuration}/*.nupkg"))
+        CopyFile(file, $"./nuget/{file.GetFilename()}");
+});
+
+Task("Default")
+.IsDependentOn("Clean")
+.IsDependentOn("Restore")
+.IsDependentOn("Build")
+.IsDependentOn("CleanNuget")
+.IsDependentOn("CopyNuget")
+.Does(() => {
+});
+
+
+Task("DirTest")
+.Does(() => {
+    foreach(var file in GetFiles("./src/**"))
+        Information(file);
 });
 
 RunTarget(target);
