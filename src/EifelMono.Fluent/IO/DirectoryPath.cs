@@ -13,10 +13,10 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath(DirectoryPath directoryPath) : this(directoryPath?.Value ?? "") { }
 
-        public DirectoryPath Clone() => new DirectoryPath(this);
+        public DirectoryPath Clone() => new DirectoryPath(Value);
 
         public FilePath MakeFilePath(string fileName)
-            => new FilePath(this, fileName);
+            => new FilePath(Value, fileName);
 
         public static implicit operator DirectoryPath(string path)
             => new DirectoryPath(path);
@@ -45,20 +45,20 @@ namespace EifelMono.Fluent.IO
 
         #endregion
 
-        public static DirectoryPath EnsureExist(this DirectoryPath thisValue, FluentExAction<DirectoryPath> fluentExAction = default)
+        public DirectoryPath EnsureExist(FluentExAction<DirectoryPath> fluentExAction = default)
         {
             try
             {
-                if (!Directory.Exists(thisValue))
-                    Directory.CreateDirectory(thisValue);
+                if (!Directory.Exists(Value))
+                    Directory.CreateDirectory(Value);
             }
             catch (Exception ex)
             {
-                if (fluentExAction?.Invoke(ex, thisValue) is var result && result != null && result.Fixed)
-                    return thisValue;
+                if (fluentExAction?.Invoke(ex, Value) is var result && result != null && result.Fixed)
+                    return this;
                 throw ex;
             }
-            return thisValue;
+            return this;
         }
 
         private void CleanAndOrDelete(DirectoryInfo baseDirectory, bool recursive, bool deleteDir)
@@ -83,13 +83,13 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath Delete(string searchPattern = "*")
         {
-            CleanAndOrDelete(new DirectoryInfo(this), false, true);
+            CleanAndOrDelete(new DirectoryInfo(Value), false, true);
             return this;
         }
 
         public DirectoryPath Clean(string searchPattern = "*")
         {
-            CleanAndOrDelete(new DirectoryInfo(this), false, false);
+            CleanAndOrDelete(new DirectoryInfo(Value), false, false);
             return this;
         }
 
