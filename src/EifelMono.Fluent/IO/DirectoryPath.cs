@@ -45,6 +45,12 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
+        public DirectoryPath Normalize()
+        {
+            Value = Value.NormalizePath();
+            return this;
+        }
+
         public DirectoryPath Append(params string[] paths)
         {
             Value = Path.Combine(new string[] { Value }.Concat(paths).ToArray());

@@ -37,7 +37,7 @@ namespace EifelMono.Fluent.Test
             var filePath = new FilePath("./src", "Hugo.test");
             if (filePath.Exists)
                 Console.WriteLine("x");
-            // Assert.Equal("./src", filePath.DirectoryName);
+            Assert.Equal("./src".NormalizePath(), filePath.DirectoryName);
             Assert.Equal("Hugo.test", filePath.FileName);
             Assert.Equal("Hugo", filePath.FileNameWithoutExtension);
             Assert.Equal(".test", filePath.Extension);

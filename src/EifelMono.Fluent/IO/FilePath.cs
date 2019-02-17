@@ -58,6 +58,12 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
+        public FilePath Normalize()
+        {
+            Value = Value.NormalizePath();
+            return this;
+        }
+
         public FilePath ChangeFileName(string fileName)
         {
             Value = Path.Combine(DirectoryName, fileName);
