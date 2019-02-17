@@ -13,7 +13,8 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath(DirectoryPath directoryPath) : this(directoryPath?.Value ?? "") { }
 
-        public DirectoryPath Clone() => new DirectoryPath(Value);
+        public DirectoryPath Clone() 
+            => new DirectoryPath(Value);
 
         public FilePath MakeFilePath(string fileName)
             => new FilePath(Value, fileName);
@@ -21,13 +22,11 @@ namespace EifelMono.Fluent.IO
         public static implicit operator DirectoryPath(string path)
             => new DirectoryPath(path);
 
-        public string FullPath
-        {
-            get => Path.GetFullPath(Value);
-        }
+        public string FullPath 
+            => Path.GetFullPath(Value);
 
-        public bool Exist
-          => Directory.Exists(Value);
+        public bool Exists 
+            => Directory.Exists(Value);
 
         #region Values changes
 
@@ -76,21 +75,27 @@ namespace EifelMono.Fluent.IO
                 file.Delete();
             }
 
-
             if (deleteDir)
                 baseDirectory.Delete();
         }
 
         public DirectoryPath Delete(string searchPattern = "*")
         {
+            // TODO
             CleanAndOrDelete(new DirectoryInfo(Value), false, true);
             return this;
         }
 
         public DirectoryPath Clean(string searchPattern = "*")
         {
+            // TODO
             CleanAndOrDelete(new DirectoryInfo(Value), false, false);
             return this;
+        }
+
+        public IEnumerable<FilePath> GetFiles(string searchPattern= "*")
+        {
+            throw new NotImplementedException();
         }
 
         #region Os Directories

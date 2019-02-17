@@ -25,6 +25,12 @@ Teardown(ctx =>
 // TASKS
 ///////////////////////////////////////////////////////////////////////////////
 
+
+Task("Test")
+.Does(() => {
+    foreach(var file in GetFiles("./src/**/*.cs"))
+        Information(file);
+});
 Task("Default")
 .Does(() => {
     DotNetCoreBuild("EifelMono.Fluent.sln", new DotNetCoreBuildSettings{
