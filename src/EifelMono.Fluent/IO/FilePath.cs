@@ -324,11 +324,15 @@ namespace EifelMono.Fluent.IO
         #endregion
 
         #region Os Files
-        public FilePath TempFileName()
-            => new FilePath(Path.GetTempFileName());
 
-        public FilePath RandomFileName()
-            => new FilePath(Path.GetRandomFileName());
+        public static class Os
+        {
+            public static FilePath TempFileName
+                => new FilePath(Path.GetTempFileName());
+
+            public static FilePath RandomFileName
+                => new FilePath(Path.GetRandomFileName());
+        }
         #endregion
     }
 }

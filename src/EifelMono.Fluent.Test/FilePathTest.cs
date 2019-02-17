@@ -2,11 +2,14 @@
 using EifelMono.Fluent.IO;
 using Xunit;
 using System.IO;
+using Xunit.Abstractions;
 
 namespace EifelMono.Fluent.Test
 {
-    public class FilePathTest
+    public class FilePathTest : XunitCore
     {
+        public FilePathTest(ITestOutputHelper output) : base(output) { }
+
         [Fact]
         public void OperationTestType()
         {

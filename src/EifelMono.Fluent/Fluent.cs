@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace EifelMono.Fluent
 {
-    public class FluentExActionResult<T>
+#pragma warning disable IDE1006 // Naming Styles
+    public static partial class fluent
+#pragma warning restore IDE1006 // Naming Styles
     {
-        public bool Fixed { get; set; }
-        public T Data { get; set; }
     }
-    public delegate FluentExActionResult<T> FluentExAction<T>(Exception ex, T data);
-    public delegate FluentExActionResult<TOut> FluentExAction<TIn, TOut>(Exception ex, TIn data);
 }
