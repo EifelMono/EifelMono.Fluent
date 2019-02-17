@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -7,26 +8,34 @@ namespace EifelMono.Fluent.IO
 {
     public class DirectoryPath : ValuePath
     {
+        #region Core things
         public DirectoryPath() : base() { }
 
         public DirectoryPath(string value) : base(value) { }
 
         public DirectoryPath(DirectoryPath directoryPath) : this(directoryPath?.Value ?? "") { }
 
-        public DirectoryPath Clone() 
+        public DirectoryPath Clone()
             => new DirectoryPath(Value);
+
+        public static implicit operator DirectoryPath(string path)
+            => new DirectoryPath(path);
+        #endregion
+
+        #region Actions, ...
 
         public FilePath MakeFilePath(string fileName)
             => new FilePath(Value, fileName);
 
-        public static implicit operator DirectoryPath(string path)
-            => new DirectoryPath(path);
-
-        public string FullPath 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public string FullPath
             => Path.GetFullPath(Value);
 
-        public bool Exists 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public bool Exists
             => Directory.Exists(Value);
+
+        #endregion
 
         #region Values changes
 
@@ -93,7 +102,7 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public IEnumerable<FilePath> GetFiles(string searchPattern= "*")
+        public IEnumerable<FilePath> GetFiles(string searchPattern = "*")
         {
             throw new NotImplementedException();
         }

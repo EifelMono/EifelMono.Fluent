@@ -1,11 +1,13 @@
 ﻿using System.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace EifelMono.Fluent.IO
 {
     public class FilePath : ValuePath
     {
+        #region Core things
         public FilePath() : base() { }
 
         public FilePath(string value) : base(value) { }
@@ -19,10 +21,13 @@ namespace EifelMono.Fluent.IO
 
         public static implicit operator FilePath(string path)
             => new FilePath(path);
+        #endregion
 
+        #region Actions, Properties, ...
         public string FileName
             => Path.GetFileName(Value);
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string FullPath
             => Path.GetFullPath(Value);
 
@@ -43,6 +48,7 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath Directory
             => new DirectoryPath(DirectoryName);
+        #endregion
 
         #region Values changes
 
@@ -64,6 +70,12 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
+        public FilePath RemoveExtension()
+        {
+            Value = Path.Combine(DirectoryName, FileNameWithoutExtension);
+            return this;
+        }
+
         public FilePath ChangeDirectoryName(string directoryName)
         {
             Value = Path.Combine(directoryName, FileName);
@@ -78,9 +90,11 @@ namespace EifelMono.Fluent.IO
         #endregion
 
         #region Actions, Copy, Move, Delete, etc...
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Exists
             => File.Exists(Value);
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool DirectoryExists
             => Directory.Exists;
 
@@ -150,6 +164,7 @@ namespace EifelMono.Fluent.IO
         #endregion
 
         #region Attributes
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public FileAttributes Attributes
             => File.GetAttributes(Value);
 
@@ -174,95 +189,112 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeArchive
         {
             get => IsAttributes(FileAttributes.Archive);
             set => ChangeAttributes(FileAttributes.Archive, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeCompressed
         {
             get => IsAttributes(FileAttributes.Compressed);
             set => ChangeAttributes(FileAttributes.Compressed, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeDevice
         {
             get => IsAttributes(FileAttributes.Device);
             set => ChangeAttributes(FileAttributes.Device, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeDirectory
         {
             get => IsAttributes(FileAttributes.Directory);
             set => ChangeAttributes(FileAttributes.Directory, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeEncrypted
         {
             get => IsAttributes(FileAttributes.Encrypted);
             set => ChangeAttributes(FileAttributes.Encrypted, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeHidden
         {
             get => IsAttributes(FileAttributes.Hidden);
             set => ChangeAttributes(FileAttributes.Hidden, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeIntegrityStream
         {
             get => IsAttributes(FileAttributes.IntegrityStream);
             set => ChangeAttributes(FileAttributes.IntegrityStream, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeNormal
         {
             get => IsAttributes(FileAttributes.Normal);
             set => ChangeAttributes(FileAttributes.Normal, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeNoScrubData
         {
             get => IsAttributes(FileAttributes.NoScrubData);
             set => ChangeAttributes(FileAttributes.NoScrubData, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeNotContentIndexed
         {
             get => IsAttributes(FileAttributes.NotContentIndexed);
             set => ChangeAttributes(FileAttributes.NotContentIndexed, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeOffline
         {
             get => IsAttributes(FileAttributes.Offline);
             set => ChangeAttributes(FileAttributes.Offline, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeReadOnly
         {
             get => IsAttributes(FileAttributes.ReadOnly);
             set => ChangeAttributes(FileAttributes.ReadOnly, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeReparsePoint
         {
             get => IsAttributes(FileAttributes.ReparsePoint);
             set => ChangeAttributes(FileAttributes.ReparsePoint, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeSparseFile
         {
             get => IsAttributes(FileAttributes.SparseFile);
             set => ChangeAttributes(FileAttributes.SparseFile, value);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeSystem
         {
             get => IsAttributes(FileAttributes.System);
             set => ChangeAttributes(FileAttributes.System, value);
         }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool AttributeTemporary
         {
             get => IsAttributes(FileAttributes.Temporary);

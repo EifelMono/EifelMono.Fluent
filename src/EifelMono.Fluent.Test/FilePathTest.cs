@@ -32,9 +32,19 @@ namespace EifelMono.Fluent.Test
         }
 
         [Fact]
-        public void DirectoryTest()
+        public void PropertyTest()
         {
-            var filePath = new FilePath("./src", "Karl.test");
+            var filePath = new FilePath("./src", "Hugo.test");
+            if (filePath.Exists)
+                Console.WriteLine("x");
+            // Assert.Equal("./src", filePath.DirectoryName);
+            Assert.Equal("Hugo.test", filePath.FileName);
+            Assert.Equal("Hugo", filePath.FileNameWithoutExtension);
+            Assert.Equal(".test", filePath.Extension);
+            filePath.RemoveExtension();
+            Assert.Equal("Hugo", filePath.FileName);
+            Assert.Equal("Hugo", filePath.FileNameWithoutExtension);
+            Assert.Equal("", filePath.Extension);
         }
     }
 }

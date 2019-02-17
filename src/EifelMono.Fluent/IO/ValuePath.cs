@@ -21,6 +21,6 @@ namespace EifelMono.Fluent.IO
             => Value.Split(Path.PathSeparator).ToList();
 
         public override string ToString()
-            => "{Value}";
+            => $"{Value}";
     }
 }
