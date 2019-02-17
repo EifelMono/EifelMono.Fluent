@@ -3,9 +3,17 @@
 
 Fluent writing of
 
-* FilePath file operation
+* FilePath file operations
 * Directory Path directory operations
 
 * Generic Types
 
 * strings ... 
+
+* Helpers
+    * fluent
+        .Enums
+        .Path
+
+        
+

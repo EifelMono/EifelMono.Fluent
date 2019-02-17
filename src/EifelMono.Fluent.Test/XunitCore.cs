@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Newtonsoft.Json;
 using Xunit.Abstractions;
 
+// us this in Main assemblies for internal things to the test
+[assembly: InternalsVisibleTo("EifelMono.Fluent.Test")]
 namespace EifelMono.Fluent.Test
 {
     public class XunitCore

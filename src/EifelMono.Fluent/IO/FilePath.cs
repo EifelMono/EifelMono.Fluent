@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace EifelMono.Fluent.IO
 {
@@ -62,7 +63,7 @@ namespace EifelMono.Fluent.IO
 
         public FilePath Normalize()
         {
-            Value = Value.NormalizePath();
+            Value = fluent.Path.Normalize(Value);
             return this;
         }
 
@@ -179,8 +180,47 @@ namespace EifelMono.Fluent.IO
             File.Decrypt(this);
             return this;
         }
+        #endregion
 
+        #region DateTime
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime CreationTime
+        {
+            get => File.GetCreationTime(Value);
+            set => File.SetCreationTime(Value, value);
+        }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime CreationTimeUtc
+        {
+            get => File.GetCreationTimeUtc(Value);
+            set => File.SetCreationTimeUtc(Value, value);
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime LastAccessTime
+        {
+            get => File.GetLastAccessTime(Value);
+            set => File.SetLastAccessTime(Value, value);
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime LastAccessTimeUtc
+        {
+            get => File.GetLastAccessTimeUtc(Value);
+            set => File.SetLastAccessTimeUtc(Value, value);
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime LastWriteTime
+        {
+            get => File.GetLastWriteTime(Value);
+            set => File.SetLastWriteTime(Value, value);
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime LastWriteTimeUtc
+        {
+            get => File.GetLastWriteTimeUtc(Value);
+            set => File.SetLastWriteTimeUtc(Value, value);
+        }
         #endregion
 
         #region Attributes
@@ -322,23 +362,48 @@ namespace EifelMono.Fluent.IO
         }
         #endregion
 
-        #region Read/Write
+        #region Read/Write/Append
+        public byte[] ReadAllBytes()
+            => File.ReadAllBytes(Value);
+        public string[] ReadAllLines()
+            => File.ReadAllLines(Value);
+        public string[] ReadAllLines(Encoding encoding)
+            => File.ReadAllLines(Value, encoding);
         public string ReadAllText()
             => File.ReadAllText(Value);
-
-        public string ReadAllLinesAsync()
-        {
-            File.Decrypt(Value);
-
-            return this;
-        }
-
+        public string ReadAllText(Encoding encoding)
+            => File.ReadAllText(Value, encoding);
         public IEnumerable<string> ReadLines()
             => File.ReadLines(Value);
+        public IEnumerable<string> ReadLines(Encoding encoding)
+            => File.ReadLines(Value, encoding);
+
+        public void WriteAllBytes(byte[] bytes)
+            => File.WriteAllBytes(Value, bytes);
+        public void WriteAllLines(IEnumerable<string> contents)
+            => File.WriteAllLines(Value, contents);
+        public void WriteAllLines(IEnumerable<string> contents, Encoding encoding)
+            => File.WriteAllLines(Value, contents, encoding);
+        public void WriteAllLines(string[] contents)
+            => File.WriteAllLines(Value, contents);
+        public void WriteAllLines(string[] contents, Encoding encoding)
+            => File.WriteAllLines(Value, contents, encoding);
+        public void WriteAllText(string contents)
+            => File.WriteAllText(Value, contents);
+        public void WriteAllText(string contents, Encoding encoding)
+            => File.WriteAllText(Value, contents, encoding);
+
+        public void AppendAllLines(IEnumerable<string> contents)
+            => File.AppendAllLines(Value, contents);
+        public void AppendAllLines(IEnumerable<string> contents, Encoding encoding)
+            => File.AppendAllLines(Value, contents, encoding);
+        public void AppendAllText(string contents)
+            => File.AppendAllText(Value, contents);
+        public void AppendAllText(string contents, Encoding encoding)
+            => File.AppendAllText(Value, contents, encoding);
         #endregion
 
         #region Os Files
-
         public static class Os
         {
             public static FilePath TempFileName

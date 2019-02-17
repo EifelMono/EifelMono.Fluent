@@ -49,7 +49,7 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath Normalize()
         {
-            Value = Value.NormalizePath();
+            Value = fluent.Path.Normalize(Value);
             return this;
         }
 
