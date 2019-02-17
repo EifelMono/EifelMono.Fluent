@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -13,6 +14,9 @@ namespace EifelMono.Fluent.IO
         public DirectoryPath(DirectoryPath directoryPath) : this(directoryPath?.Value ?? "") { }
 
         public DirectoryPath Clone() => new DirectoryPath(this);
+
+        public FilePath MakeFilePath(string fileName)
+            => new FilePath(this, fileName);
 
         public static implicit operator DirectoryPath(string path)
             => new DirectoryPath(path);
@@ -41,7 +45,53 @@ namespace EifelMono.Fluent.IO
 
         #endregion
 
+        public static DirectoryPath EnsureExist(this DirectoryPath thisValue, FluentExAction<DirectoryPath> fluentExAction = default)
+        {
+            try
+            {
+                if (!Directory.Exists(thisValue))
+                    Directory.CreateDirectory(thisValue);
+            }
+            catch (Exception ex)
+            {
+                if (fluentExAction?.Invoke(ex, thisValue) is var result && result != null && result.Fixed)
+                    return thisValue;
+                throw ex;
+            }
+            return thisValue;
+        }
 
+        private void CleanAndOrDelete(DirectoryInfo baseDirectory, bool recursive, bool deleteDir)
+        {
+            if (!baseDirectory.Exists)
+                return;
+
+            if (recursive)
+                foreach (var directory in baseDirectory.EnumerateDirectories())
+                    CleanAndOrDelete(directory, recursive, deleteDir);
+
+            foreach (var file in baseDirectory.GetFiles())
+            {
+                file.IsReadOnly = false;
+                file.Delete();
+            }
+
+
+            if (deleteDir)
+                baseDirectory.Delete();
+        }
+
+        public DirectoryPath Delete(string searchPattern = "*")
+        {
+            CleanAndOrDelete(new DirectoryInfo(this), false, true);
+            return this;
+        }
+
+        public DirectoryPath Clean(string searchPattern = "*")
+        {
+            CleanAndOrDelete(new DirectoryInfo(this), false, false);
+            return this;
+        }
 
         #region Os Directories
 

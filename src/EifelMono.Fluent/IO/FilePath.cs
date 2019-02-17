@@ -14,7 +14,7 @@ namespace EifelMono.Fluent.IO
 
         public FilePath(FilePath filePath) : this(filePath?.Value ?? "") { }
 
-        public FilePath Clone() => new FilePath(this);
+        public FilePath Clone() => new FilePath(Value);
 
         public static implicit operator FilePath(string path)
             => new FilePath(path);
@@ -30,6 +30,8 @@ namespace EifelMono.Fluent.IO
         public string DirectoryName { get => Path.GetDirectoryName(Value); }
 
         public string FileNameWithoutExtension { get => Path.GetFileNameWithoutExtension(Value); }
+
+        public bool HasExtension { get => Path.HasExtension(Value); }
 
         public DirectoryPath Directory() => new DirectoryPath(DirectoryName);
 
@@ -68,18 +70,18 @@ namespace EifelMono.Fluent.IO
 
         #region Read/Write
         public string ReadAllText()
-            => File.ReadAllText(this);
+            => File.ReadAllText(Value);
 
 
         public string ReadAllLinesAsync()
         {
-            File.Decrypt(this);
+            File.Decrypt(Value);
 
             return this;
         }
 
         public IEnumerable<string> ReadLines()
-            => File.ReadLines(this);
+            => File.ReadLines(Value);
         #endregion
 
         #region Os Files
