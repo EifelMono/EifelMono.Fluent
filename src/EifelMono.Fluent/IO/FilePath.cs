@@ -118,6 +118,12 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
+        public FilePath Copy(string fileName)
+        {
+            File.Copy(this, new FilePath(Directory, fileName));
+            return this;
+        }
+
         public FilePath Copy(DirectoryPath directoryPath, string newFileName = null)
         {
             newFileName = newFileName ?? FileName;
@@ -128,6 +134,12 @@ namespace EifelMono.Fluent.IO
         public FilePath Move(FilePath filePath)
         {
             File.Move(this, filePath);
+            return this;
+        }
+
+        public FilePath Move(string fileName)
+        {
+            File.Move(this, new FilePath(Directory, fileName));
             return this;
         }
 
