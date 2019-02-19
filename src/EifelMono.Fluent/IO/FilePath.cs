@@ -61,9 +61,9 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public FilePath Normalize()
+        public FilePath NormalizePath()
         {
-            Value = fluent.Path.Normalize(Value);
+            Value = Value.NormalizePath();
             return this;
         }
 

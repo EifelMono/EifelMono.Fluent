@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace EifelMono.Fluent.IO
 {
@@ -47,9 +48,9 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public DirectoryPath Normalize()
+        public DirectoryPath NormalizePath()
         {
-            Value = fluent.Path.Normalize(Value);
+            Value = Value.NormalizePath();
             return this;
         }
 
@@ -110,9 +111,16 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public IEnumerable<FilePath> GetFiles(string searchPattern = "*")
+        public async Task<List<FilePath>> GetFilesAsync(string searchPattern = "*")
         {
-            throw new NotImplementedException();
+            using (var searchPath = new SearchPath())
+                return await searchPath.GetFilesAsync(Value, searchPattern);
+        }
+
+        public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchPattern = "*")
+        {
+            using (var searchPath = new SearchPath())
+                return await searchPath.GetDirectoriesAsync(Value, searchPattern);
         }
 
         #region Os Directories
@@ -230,7 +238,7 @@ namespace EifelMono.Fluent.IO
             }
         }
 
- 
+
 
         #endregion
     }

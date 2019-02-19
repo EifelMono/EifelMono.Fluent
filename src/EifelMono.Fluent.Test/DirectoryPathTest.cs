@@ -46,5 +46,13 @@ namespace EifelMono.Fluent.Test
                 Assert.Equal(typeof(string), v.GetType());
             }
         }
+
+        [Fact]
+        public void FindFiles()
+        {
+            var dir = new DirectoryPath(@"C:\Dev\github\EifelMono.Fluent\src");
+            foreach (var f in dir.GetFiles(@"**\*.cs"))
+                WriteLine(f);
+        }
     }
 }
