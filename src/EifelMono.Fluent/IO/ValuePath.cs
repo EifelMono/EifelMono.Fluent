@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 
 namespace EifelMono.Fluent.IO
 {
-
     [DataContract]
     public class ValuePath
     {
@@ -15,15 +15,22 @@ namespace EifelMono.Fluent.IO
         public ValuePath(string value) : this() { Value = value; }
 
         [DataMember]
-        public string Value { get; protected set; }
+        public string Value { get; internal set; }
+
+        public override string ToString()
+            => $"{Value}";
 
         public static implicit operator string(ValuePath path)
             => path.Value;
 
-        public List<string> Segements()
-            => Value.Split(Path.PathSeparator).ToList();
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public string FullPath
+            => Path.GetFullPath(Value);
 
-        public override string ToString()
-            => $"{Value}";
+        public string NormalizedValue
+            { get => Value.NormalizePath(); }
+
+        public IEnumerable<string> SpiltValue
+            { get => Value.NormalizePath().SplitPath(); }
     }
 }

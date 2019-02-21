@@ -31,28 +31,12 @@ namespace EifelMono.Fluent.IO
             => new FilePath(Value, fileName);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public string FullPath
-            => Path.GetFullPath(Value);
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Exists
             => Directory.Exists(Value);
 
         #endregion
 
         #region Values changes
-
-        public DirectoryPath MakeAbsolute()
-        {
-            Value = FullPath;
-            return this;
-        }
-
-        public DirectoryPath NormalizePath()
-        {
-            Value = Value.NormalizePath();
-            return this;
-        }
 
         public DirectoryPath Append(params string[] paths)
         {
@@ -117,11 +101,17 @@ namespace EifelMono.Fluent.IO
                 return await searchPath.GetFilesAsync(Value, searchPattern);
         }
 
+        public List<FilePath> GetFiles(string searchPattern = "*")
+            => Task.Run(async () => await GetFilesAsync(searchPattern)).Result;
+
         public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchPattern = "*")
         {
             using (var searchPath = new SearchPath())
                 return await searchPath.GetDirectoriesAsync(Value, searchPattern);
         }
+
+        public List<DirectoryPath> GetDirectories(string searchPattern = "*")
+            => Task.Run(async () => await GetDirectoriesAsync(searchPattern)).Result;
 
         #region Os Directories
 

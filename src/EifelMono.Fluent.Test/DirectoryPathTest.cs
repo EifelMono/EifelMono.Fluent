@@ -48,6 +48,14 @@ namespace EifelMono.Fluent.Test
         }
 
         [Fact]
+        public async void FindFilesAsync()
+        {
+            var dir = new DirectoryPath(@"C:\Dev\github\EifelMono.Fluent\src");
+            foreach (var f in await dir.GetFilesAsync(@"**\*.cs"))
+                WriteLine(f);
+        }
+
+        [Fact]
         public void FindFiles()
         {
             var dir = new DirectoryPath(@"C:\Dev\github\EifelMono.Fluent\src");

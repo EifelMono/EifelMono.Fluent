@@ -12,7 +12,9 @@ namespace EifelMono.Fluent
            .Replace("\\", Path.DirectorySeparatorChar.ToString())
            .Replace("/", Path.DirectorySeparatorChar.ToString());
 
-        public static IEnumerable<string> SplittPath(this string thisValue)
+        public static IEnumerable<string> SplitPath(this string thisValue)
             => (thisValue ?? "").Split(Path.DirectorySeparatorChar);
+        public static string ToPath(this List<string> thisValue)
+            => string.Join(Path.DirectorySeparatorChar.ToString(), thisValue);
     }
 }

@@ -59,9 +59,18 @@ Task("DirTest")
 });
 
 
-Task("DirTestA")
+Task("DirTestB")
 .Does(() => {
-    foreach(var file in GetFiles("./src/**.cs"))
+    foreach(var file in GetFiles("./src/**/*.cs"))
         Information(file);
 });
+
+Task("DirTestC")
+.Does(() => {
+    foreach(var file in GetFiles("./src/**/*.Fluent.*/**/*.cs"))
+        Information(file);
+});
+
+
+
 RunTarget(target);

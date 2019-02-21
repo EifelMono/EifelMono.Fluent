@@ -55,18 +55,6 @@ namespace EifelMono.Fluent.IO
 
         #region Values changes
 
-        public FilePath MakeAbsolute()
-        {
-            Value = FullPath;
-            return this;
-        }
-
-        public FilePath NormalizePath()
-        {
-            Value = Value.NormalizePath();
-            return this;
-        }
-
         public FilePath ChangeFileName(string fileName)
         {
             Value = Path.Combine(DirectoryName, fileName);
