@@ -46,6 +46,48 @@ namespace EifelMono.Fluent.IO
 
         #endregion
 
+        #region DateTime
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime CreationTime
+        {
+            get => Directory.GetCreationTime(Value);
+            set => Directory.SetCreationTime(Value, value);
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime CreationTimeUtc
+        {
+            get => Directory.GetCreationTimeUtc(Value);
+            set => Directory.SetCreationTimeUtc(Value, value);
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime LastAccessTime
+        {
+            get => Directory.GetLastAccessTime(Value);
+            set => Directory.SetLastAccessTime(Value, value);
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime LastAccessTimeUtc
+        {
+            get => Directory.GetLastAccessTimeUtc(Value);
+            set => Directory.SetLastAccessTimeUtc(Value, value);
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime LastWriteTime
+        {
+            get => Directory.GetLastWriteTime(Value);
+            set => Directory.SetLastWriteTime(Value, value);
+        }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DateTime LastWriteTimeUtc
+        {
+            get => Directory.GetLastWriteTimeUtc(Value);
+            set => Directory.SetLastWriteTimeUtc(Value, value);
+        }
+        #endregion
+
+      
         public DirectoryPath EnsureExist(FluentExAction<DirectoryPath> fluentExAction = default)
         {
             try
@@ -112,6 +154,13 @@ namespace EifelMono.Fluent.IO
 
         public List<DirectoryPath> GetDirectories(string searchPattern = "*")
             => Task.Run(async () => await GetDirectoriesAsync(searchPattern)).Result;
+
+        /*
+        public static string GetDirectoryRoot(string path);
+        public static string[] GetLogicalDrives();
+        public static DirectoryInfo GetParent(string path);
+        public static void Move(string sourceDirName, string destDirName);
+        */
 
         #region Os Directories
 

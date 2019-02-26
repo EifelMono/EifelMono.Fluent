@@ -30,10 +30,6 @@ namespace EifelMono.Fluent.IO
         public string FileName
             => Path.GetFileName(Value);
 
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public string FullPath
-            => Path.GetFullPath(Value);
-
         public string PathRoot
             => Path.GetPathRoot(Value);
 

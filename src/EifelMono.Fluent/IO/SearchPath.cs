@@ -31,7 +31,7 @@ namespace EifelMono.Fluent.IO
         {
             var splitSearchMask = searchMask.NormalizePath().SplitPath().ToList();
             var searchMaskDirectories = splitSearchMask.Take(splitSearchMask.Count() - 1).ToList();
-            var searchMaskFiles= splitSearchMask.Last();
+            var searchMaskFiles = splitSearchMask.Last();
             var result = new List<FilePath>();
             foreach (var directory in await GetDirectoriesAsync(directoryPath, searchMaskDirectories.ToPath()))
             {
