@@ -20,7 +20,18 @@ namespace EifelMono.Fluent.IO
 
             return result;
         }
+        /*
+        From http://www.codeproject.com/KB/recipes/wildcardtoregex.aspx:
 
+public static string WildcardToRegex(string pattern)
+{
+    return "^" + Regex.Escape(pattern)
+                      .Replace(@"\*", ".*")
+                      .Replace(@"\?", ".")
+               + "$";
+}
+So something like foo*.xls? will get transformed to ^foo.*\.xls.$.
+         */
         protected (List<string> searchMaskDirectories, string SearchMaskFiles) SplitSearchMask(string searchMask)
         {
             var splitSearchMask = searchMask.NormalizePath().SplitPath().ToList();
@@ -33,11 +44,12 @@ namespace EifelMono.Fluent.IO
             var searchMaskDirectories = splitSearchMask.Take(splitSearchMask.Count() - 1).ToList();
             var searchMaskFiles = splitSearchMask.Last();
             var result = new List<FilePath>();
-            foreach (var directory in await GetDirectoriesAsync(directoryPath, searchMaskDirectories.ToPath()))
+            Parallel.ForEach(await GetDirectoriesAsync(directoryPath, searchMaskDirectories.ToPath()), foundDirectoryPath =>
             {
-
-            }
-            await Task.Delay(1);
+                var files = Directory.GetFiles(foundDirectoryPath, searchMaskFiles).Select(f => new FilePath(f)).ToList();
+                lock (result)
+                    result.AddRange(files);
+            });
             return result;
         }
 

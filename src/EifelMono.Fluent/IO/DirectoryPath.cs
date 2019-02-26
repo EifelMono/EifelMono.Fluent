@@ -26,13 +26,39 @@ namespace EifelMono.Fluent.IO
         #endregion
 
         #region Actions, ...
-
         public FilePath MakeFilePath(string fileName)
             => new FilePath(Value, fileName);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Exists
             => Directory.Exists(Value);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public string DirectoryRoot
+            => Directory.GetDirectoryRoot(Value);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public List<string> LogicalDrives
+            => Directory.GetLogicalDrives().ToList();
+        public DirectoryPath Parent
+            => new DirectoryPath(Directory.GetParent(Value).FullName);
+
+        public DirectoryPath Move(DirectoryPath destinationDirectory, FluentExAction<DirectoryPath, DirectoryPath, bool> fluentExAction = default)
+        {
+            try
+            {
+                Directory.Move(Value, destinationDirectory);
+            }
+            catch (Exception ex)
+            {
+                if (fluentExAction?.Invoke(ex, this, destinationDirectory) is var result && result.Fixed)
+                    return destinationDirectory;
+                else
+                    return this;
+
+            }
+            return destinationDirectory;
+        }
 
         #endregion
 
@@ -87,7 +113,11 @@ namespace EifelMono.Fluent.IO
         }
         #endregion
 
-      
+        #region Actions
+
+
+
+
         public DirectoryPath EnsureExist(FluentExAction<DirectoryPath> fluentExAction = default)
         {
             try
@@ -155,13 +185,8 @@ namespace EifelMono.Fluent.IO
         public List<DirectoryPath> GetDirectories(string searchPattern = "*")
             => Task.Run(async () => await GetDirectoriesAsync(searchPattern)).Result;
 
-        /*
-        public static string GetDirectoryRoot(string path);
-        public static string[] GetLogicalDrives();
-        public static DirectoryInfo GetParent(string path);
-        public static void Move(string sourceDirName, string destDirName);
-        */
 
+        #endregion
         #region Os Directories
 
         public static class Os
@@ -276,9 +301,6 @@ namespace EifelMono.Fluent.IO
                     => SpecialFolderPath(Environment.SpecialFolder.Windows);
             }
         }
-
-
-
         #endregion
     }
 }

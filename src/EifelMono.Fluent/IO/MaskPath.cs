@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EifelMono.Fluent.IO
 {
-    class MaskPath
+    public class MaskPath: ValuePath
     {
     }
 }
