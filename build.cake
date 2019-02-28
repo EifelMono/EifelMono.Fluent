@@ -54,23 +54,52 @@ Task("Default")
 
 Task("DirTest")
 .Does(() => {
-    foreach(var file in GetFiles("./**/*.Test/*.cs"))
+    var files= GetFiles("./**/*.Test/*.cs");
+    foreach(var file in files)
         Information(file);
+    Information($"count={files.Count()}");
 });
 
 
 Task("DirTestB")
 .Does(() => {
-    foreach(var file in GetFiles("./src/**/*.cs"))
+    var files= GetFiles("./src/**/*.cs");
+    foreach(var file in files)
         Information(file);
+    Information($"count={files.Count()}");
 });
 
 Task("DirTestC")
 .Does(() => {
-    foreach(var file in GetFiles("./src/**/*.Fluent.*/**/*.cs"))
+    var files= GetFiles("./src/**/*.Fluent.*/**/*.cs");
+    foreach(var file in files)
         Information(file);
+    Information($"count={files.Count()}");
 });
 
+Task("DirTestD")
+.Does(() => {
+    var files= GetFiles("./**/*.cs");
+    foreach(var file in files)
+        Information(file);
+    Information($"count={files.Count()}");
+    files= GetFiles("./**/**/*.cs");
+    foreach(var file in files)
+        Information(file);
+    Information($"count={files.Count()}");
+});
+
+Task("DirTestE")
+.Does(() => {
+    var files= GetFiles("./**/**.cs");
+    foreach(var file in files)
+        Information(file);
+    Information($"count={files.Count()}");
+    files= GetFiles("");
+    foreach(var file in files)
+        Information(file);
+    Information($"count={files.Count()}");
+});
 
 
 RunTarget(target);

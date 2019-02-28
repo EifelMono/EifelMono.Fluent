@@ -6,6 +6,7 @@ namespace EifelMono.Fluent.Test
 {
     public class DirectoryPathTest : XunitCore
     {
+        public static DirectoryPath s_SrcFolder = new DirectoryPath(@".\..\..\..\..\..\src");
         public DirectoryPathTest(ITestOutputHelper output) : base(output) { }
         [Fact]
         public void OperationTestType()
@@ -29,6 +30,14 @@ namespace EifelMono.Fluent.Test
                 string v = dirPath;
                 Assert.Equal(typeof(string), v.GetType());
             }
+        }
+
+        [Fact]
+        public void GetDir1Async()
+        {
+            var dir = s_SrcFolder.Clone();
+            foreach (var d in dir.GetDirectories("**"))
+                WriteLine(d);
         }
 
         [Fact]
