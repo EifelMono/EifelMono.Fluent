@@ -13,11 +13,9 @@ namespace EifelMono.Fluent.IO
         #region Core things
         public FilePath() : base() { }
 
-        public FilePath(string value) : base(value) { }
+        public FilePath(string fileName) : base(fileName) { }
 
-        public FilePath(string dir, string fileName) : base(Path.Combine(dir, fileName)) { }
-
-        public FilePath(FilePath filePath) : this(filePath?.Value ?? "") { }
+        public FilePath(string directoryName, string fileName) : base(Path.Combine(directoryName, fileName)) { }
 
         public FilePath Clone()
             => new FilePath(Value);

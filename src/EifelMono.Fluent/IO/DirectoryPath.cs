@@ -14,9 +14,7 @@ namespace EifelMono.Fluent.IO
         #region Core things
         public DirectoryPath() : base() { }
 
-        public DirectoryPath(string value) : base(value) { }
-
-        public DirectoryPath(DirectoryPath directoryPath) : this(directoryPath?.Value ?? "") { }
+        public DirectoryPath(string directoryName) : base(directoryName) { }
 
         public DirectoryPath Clone()
             => new DirectoryPath(Value);
