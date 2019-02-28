@@ -16,5 +16,8 @@ namespace EifelMono.Fluent
             => (thisValue ?? "").Split(Path.DirectorySeparatorChar);
         public static string ToPath(this List<string> thisValue)
             => string.Join(Path.DirectorySeparatorChar.ToString(), thisValue);
+
+        public static string ToJoinString(this List<string> thisValue, string joinChar)
+              => string.Join(joinChar, thisValue);
     }
 }

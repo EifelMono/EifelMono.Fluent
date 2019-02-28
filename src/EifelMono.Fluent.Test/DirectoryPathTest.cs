@@ -11,19 +11,6 @@ namespace EifelMono.Fluent.Test
     {
         public DirectoryPathTest(ITestOutputHelper output) : base(output) { }
         [Fact]
-        public void SpecialFolderOutput()
-        {
-            foreach (var value in fluent.Enum.Values<Environment.SpecialFolder>())
-                WriteLine($"{value}{Environment.NewLine}  {DirectoryPath.Os.SpecialFolderPath(value)}");
-        }
-        [Fact]
-        public void SpecialFolderOutputNames()
-        {
-            var valueNames = fluent.Enum.Values<Environment.SpecialFolder>()
-                    .Select(v => v.ToString());
-            var names = fluent.Enum.Names<Environment.SpecialFolder>();
-        }
-        [Fact]
         public void OperationTestType()
         {
             var dirPath = new DirectoryPath("./src");
