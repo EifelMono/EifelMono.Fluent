@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EifelMono.Fluent.IO
+﻿namespace EifelMono.Fluent.IO
 {
-    public class MaskPath: ValuePath
+    public class MaskPath : ValuePath
     {
     }
 }

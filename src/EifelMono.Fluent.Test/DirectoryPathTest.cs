@@ -1,9 +1,6 @@
-using System;
 using EifelMono.Fluent.IO;
 using Xunit;
-using System.IO;
 using Xunit.Abstractions;
-using System.Linq;
 
 namespace EifelMono.Fluent.Test
 {

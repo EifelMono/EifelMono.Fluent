@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using EifelMono.Fluent.IO;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -12,7 +9,7 @@ namespace EifelMono.Fluent.Test
     {
         public EnumTest(ITestOutputHelper output) : base(output) { }
         [Fact]
-        public void EnumCore_Test_With_SpecialFolderOutputNames()
+        public void Fluent_Enum_Values_SpecialFolderOutputNames()
         {
             var valueNames = fluent.Enum.Values<Environment.SpecialFolder>()
                 .Select(v => v.ToString()).ToList();

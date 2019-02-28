@@ -1,7 +1,7 @@
-﻿using System.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -385,8 +385,8 @@ namespace EifelMono.Fluent.IO
             => File.AppendAllText(Value, contents, encoding);
         #endregion
 
-        #region Os Files
-        public static class Os
+        #region OS Files
+        public static class OS
         {
             public static FilePath Current
              => new FilePath(Environment.GetCommandLineArgs()[0]);

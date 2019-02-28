@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Newtonsoft.Json;
 using Xunit.Abstractions;
 
@@ -16,6 +14,8 @@ namespace EifelMono.Fluent.Test
         public XunitCore(ITestOutputHelper output) => Output = output;
 
         public void WriteLine(string text = "") => Output.WriteLine(text);
+
+        public void WriteLine(object @object) => Output.WriteLine(@object?.ToString() ?? "");
 
         public void Line(int count = 80) => Output.WriteLine(new string('-', count));
 

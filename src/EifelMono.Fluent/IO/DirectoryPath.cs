@@ -185,9 +185,9 @@ namespace EifelMono.Fluent.IO
 
 
         #endregion
-        #region Os Directories
+        #region OS Directories
 
-        public static class Os
+        public static class OS
         {
             public static DirectoryPath Current
                 => new DirectoryPath(Directory.GetCurrentDirectory());
