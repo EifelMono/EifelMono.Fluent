@@ -388,10 +388,11 @@ namespace EifelMono.Fluent.IO
         #region Os Files
         public static class Os
         {
-            public static FilePath TempFileName
+            public static FilePath Current
+             => new FilePath(Environment.GetCommandLineArgs()[0]);
+            public static FilePath Temp
                 => new FilePath(Path.GetTempFileName());
-
-            public static FilePath RandomFileName
+            public static FilePath Random
                 => new FilePath(Path.GetRandomFileName());
         }
         #endregion
