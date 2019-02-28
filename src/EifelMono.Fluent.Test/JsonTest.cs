@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 using Xunit;
 using Xunit.Abstractions;

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 using Xunit;
 using Xunit.Abstractions;
@@ -11,6 +9,27 @@ namespace EifelMono.Fluent.Test
     public class InformationTest : XunitCore
     {
         public InformationTest(ITestOutputHelper output) : base(output) { }
+
+        [Fact]
+        public void FilePath_Infos()
+        {
+            var current = FilePath.Os.Current;
+            WriteLine($"FilePath");
+
+            WriteLine($"  Current {FilePath.Os.Current}");
+            WriteLine($"  Temp {FilePath.Os.Temp}");
+            WriteLine($"  Random {FilePath.Os.Random}");
+
+            WriteLine($"  Current.Value {current.Value}");
+            WriteLine($"  Current.NormalizedValue {current.NormalizedValue}");
+            WriteLine($"  Current.FileName {current.FileName}");
+            WriteLine($"  Current.FileNameWithoutExtension {current.FileNameWithoutExtension}");
+            WriteLine($"  Current.Extension {current.Extension}");
+            WriteLine($"  Current.DirectoryName {current.DirectoryName}");
+            WriteLine($"  Current.Directory {current.Directory}");
+
+        }
+
         [Fact]
         public void DirectoryPath_Infos()
         {
@@ -21,6 +40,8 @@ namespace EifelMono.Fluent.Test
             WriteLine($"  Data {DirectoryPath.Os.Data}");
             WriteLine($"  Temp {DirectoryPath.Os.Temp}");
 
+            WriteLine($"  Current.Value {current.Value}");
+            WriteLine($"  Current.NormalizedValue {current.NormalizedValue}");
             WriteLine($"  Current.DirectoryRoot {current.DirectoryRoot}");
             WriteLine($"  Current.LogicalDrives {current.LogicalDrives.ToJoinString(",")}");
 

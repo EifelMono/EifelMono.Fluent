@@ -1,7 +1,7 @@
 ﻿using System;
+using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 using Xunit;
-using System.IO;
 using Xunit.Abstractions;
 
 namespace EifelMono.Fluent.Test

@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 
 
-namespace EifelMono.Fluent
+namespace EifelMono.Fluent.Extensions
 {
     public static class StringExtensions
     {

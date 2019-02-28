@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EifelMono.Fluent
+namespace EifelMono.Fluent.Extensions
 {
     public static class PipeExtensions
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
-namespace EifelMono.Fluent
+
+namespace EifelMono.Fluent.Extensions
 {
     public static class JsonExtensions
     {

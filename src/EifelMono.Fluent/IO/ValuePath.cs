@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
+using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.IO
 {
@@ -28,9 +27,9 @@ namespace EifelMono.Fluent.IO
             => Path.GetFullPath(Value);
 
         public string NormalizedValue
-            { get => Value.NormalizePath(); }
+        { get => Value.NormalizePath(); }
 
         public IEnumerable<string> SpiltValue
-            { get => Value.NormalizePath().SplitPath(); }
+        { get => Value.NormalizePath().SplitPath(); }
     }
 }
