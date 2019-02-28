@@ -165,14 +165,14 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public async Task<List<FilePath>> GetFilesAsync(string searchPattern = "*")
+        public async Task<List<FilePath>> GetFilesAsync(string searchPattern)
         {
             using (var searchPath = new SearchPath())
                 return await searchPath.GetFilesAsync(Value, searchPattern);
         }
 
-        public List<FilePath> GetFiles(string searchPattern = "*")
-            => Task.Run(async () => await GetFilesAsync(searchPattern)).Result;
+        public List<FilePath> GetFiles(string searchPattern)
+            => Task.Run(async () => await GetFilesAsync(searchPattern).ConfigureAwait(false)).Result;
 
         public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchPattern)
         {
@@ -181,8 +181,7 @@ namespace EifelMono.Fluent.IO
         }
 
         public List<DirectoryPath> GetDirectories(string searchPattern)
-            => GetDirectoriesAsync(searchPattern).GetAwaiter().GetResult();
-        //     => Task.Run(async () => await GetDirectoriesAsync(searchPattern)).Result;
+            => Task.Run(async () => await GetDirectoriesAsync(searchPattern).ConfigureAwait(false)).Result;
 
         #endregion
         #region OS Directories

@@ -35,7 +35,7 @@ namespace EifelMono.Fluent.Test
         [Fact]
         public void GetDir1Async()
         {
-            var dir = s_SrcFolder.Clone();
+            var dir = s_SrcFolder;
             foreach (var d in dir.GetDirectories("**"))
                 WriteLine(d);
         }

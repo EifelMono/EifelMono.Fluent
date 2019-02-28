@@ -75,6 +75,19 @@ namespace EifelMono.Fluent.Test
         {
             WriteLine($"fluent.App");
             WriteLine($"Executable {fluent.App.Executable}");
+            WriteLine($"AssemblyVersion {fluent.App.AssemblyVersion}");
+            WriteLine($"FileVersion {fluent.App.FileVersion}");
+            WriteLine($"Version {fluent.App.Version}");
+            WriteLine($"Company {fluent.App.Company}");
+            WriteLine($"Copyright {fluent.App.Copyright}");
+            WriteLine($"Title {fluent.App.Title}");
+            WriteLine($"Product {fluent.App.Product}");
+            WriteLine($"Configuration {fluent.App.Configuration}");
+            WriteLine($"Culture {fluent.App.Culture}");
+            WriteLine($"Description {fluent.App.Description}");
+            WriteLine($"Trademark {fluent.App.Trademark}");
+            WriteLine($"FrameworkName {fluent.App.FrameworkName}");
+            WriteLine($"FrameworkDisplayName {fluent.App.FrameworkDisplayName}");
         }
 
     }

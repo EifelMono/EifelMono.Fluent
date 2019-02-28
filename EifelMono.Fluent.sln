@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EifelMono.Fluent.ConsoleTestApp", "src\EifelMono.Fluent.ConsoleTestApp\EifelMono.Fluent.ConsoleTestApp.csproj", "{022C8E40-3FA3-4310-9F3C-91337C0C451E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{4053E873-636E-46F7-B15D-BEDBEAD2744B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4053E873-636E-46F7-B15D-BEDBEAD2744B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4053E873-636E-46F7-B15D-BEDBEAD2744B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{022C8E40-3FA3-4310-9F3C-91337C0C451E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{022C8E40-3FA3-4310-9F3C-91337C0C451E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{022C8E40-3FA3-4310-9F3C-91337C0C451E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{022C8E40-3FA3-4310-9F3C-91337C0C451E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
