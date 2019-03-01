@@ -101,5 +101,27 @@ Task("DirTestE")
     Information($"count={files.Count()}");
 });
 
+void ListDirs(string mask, bool output= false)
+{
+    Information(mask);
+    var directories= GetDirectories(mask);
+    if (output)
+    {
+        foreach(var directory in directories)
+            Information(directory);
+    }
+    Information($"count={directories.Count()}");
+}
+
+Task("DirTestF")
+.Does(() => {
+    ListDirs("./src/**");
+    ListDirs("./src/**/*");
+    ListDirs("./src/**/EifelMono.Fluent/**", true);
+    ListDirs("./src/**/EifelMono.Fluent/*", true);
+    ListDirs("./src/**/*Test/**");
+    ListDirs("./src/**/*Hallo*");
+});
+
 
 RunTarget(target);

@@ -21,7 +21,7 @@ namespace EifelMono.Fluent.Test
             WriteLine($"  Random {FilePath.OS.Random}");
 
             WriteLine($"  Current.Value {current.Value}");
-            WriteLine($"  Current.NormalizedValue {current.NormalizedValue}");
+            WriteLine($"  Current.NormalizeValue {current.NormalizeValue}");
             WriteLine($"  Current.FileName {current.FileName}");
             WriteLine($"  Current.FileNameWithoutExtension {current.FileNameWithoutExtension}");
             WriteLine($"  Current.Extension {current.Extension}");
@@ -40,7 +40,7 @@ namespace EifelMono.Fluent.Test
             WriteLine($"  Temp {DirectoryPath.OS.Temp}");
 
             WriteLine($"  Current.Value {current.Value}");
-            WriteLine($"  Current.NormalizedValue {current.NormalizedValue}");
+            WriteLine($"  Current.NormalizeValue {current.NormalizeValue}");
             WriteLine($"  Current.DirectoryRoot {current.DirectoryRoot}");
             WriteLine($"  Current.LogicalDrives {current.LogicalDrives.ToJoinString(",")}");
         }

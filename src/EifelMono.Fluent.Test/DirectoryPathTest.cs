@@ -32,18 +32,27 @@ namespace EifelMono.Fluent.Test
             }
         }
 
+        private void SearchDirectory(string searchMask)
+        {
+            WriteLine($"SearchMask={searchMask}");
+            var startDirectory = s_SrcFolder.MakeAbsolute();
+            WriteLine($"Directory={startDirectory}");
+            var foundDirectories = startDirectory.GetDirectories("**");
+            foreach (var directory in foundDirectories)
+                WriteLine(directory);
+            WriteLine($"Count={foundDirectories.Count}");
+
+        }
         [Fact]
         public void GetDir1Async()
         {
-            var dir = s_SrcFolder;
-            foreach (var d in dir.GetDirectories("**"))
-                WriteLine(d);
+            SearchDirectory("**");
         }
 
         [Fact]
         public async void FindFilesAsync()
         {
-            var dir = new DirectoryPath(@"C:\Dev\github\EifelMono.Fluent\src");
+            var dir = s_SrcFolder;
             foreach (var f in await dir.GetFilesAsync(@"**\*.cs"))
                 WriteLine(f);
         }
@@ -51,7 +60,7 @@ namespace EifelMono.Fluent.Test
         [Fact]
         public void FindFiles()
         {
-            var dir = new DirectoryPath(@"C:\Dev\github\EifelMono.Fluent\src");
+            var dir = s_SrcFolder;
             foreach (var f in dir.GetFiles(@"**\*.cs"))
                 WriteLine(f);
         }

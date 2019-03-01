@@ -29,7 +29,19 @@ namespace EifelMono.Fluent.IO
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Exists
-            => Directory.Exists(Value);
+        {
+            get
+            {
+                try
+                {
+                    return Directory.Exists(Value);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string DirectoryRoot
@@ -111,10 +123,12 @@ namespace EifelMono.Fluent.IO
         }
         #endregion
 
+        #region Others
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public DirectoryInfo DirectoryInfo => new DirectoryInfo(Value);
+        #endregion
+
         #region Actions
-
-
-
 
         public DirectoryPath EnsureExist(FluentExAction<DirectoryPath> fluentExAction = default)
         {
@@ -151,37 +165,31 @@ namespace EifelMono.Fluent.IO
                 baseDirectory.Delete();
         }
 
-        public DirectoryPath Delete(string searchPattern = "*")
+        public DirectoryPath Delete(string searchMask = "*")
         {
             // TODO
             CleanAndOrDelete(new DirectoryInfo(Value), false, true);
             return this;
         }
 
-        public DirectoryPath Clean(string searchPattern = "*")
+        public DirectoryPath Clean(string searchMask = "*")
         {
             // TODO
             CleanAndOrDelete(new DirectoryInfo(Value), false, false);
             return this;
         }
 
-        public async Task<List<FilePath>> GetFilesAsync(string searchPattern)
-        {
-            using (var searchPath = new SearchPath())
-                return await searchPath.GetFilesAsync(Value, searchPattern);
-        }
+        public async Task<List<FilePath>> GetFilesAsync(string searchMask)
+            => await new MaskPath(searchMask).GetFilesAsync(Value);
 
-        public List<FilePath> GetFiles(string searchPattern)
-            => Task.Run(async () => await GetFilesAsync(searchPattern).ConfigureAwait(false)).Result;
+        public List<FilePath> GetFiles(string searchMask)
+            => Task.Run(async () => await GetFilesAsync(searchMask).ConfigureAwait(false)).Result;
 
-        public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchPattern)
-        {
-            using (var searchPath = new SearchPath())
-                return await searchPath.GetDirectoriesAsync(Value, searchPattern);
-        }
+        public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchMask)
+            => await new MaskPath(searchMask).GetDirectoriesAsync(Value);
 
-        public List<DirectoryPath> GetDirectories(string searchPattern)
-            => Task.Run(async () => await GetDirectoriesAsync(searchPattern).ConfigureAwait(false)).Result;
+        public List<DirectoryPath> GetDirectories(string searchMask)
+            => Task.Run(async () => await GetDirectoriesAsync(searchMask).ConfigureAwait(false)).Result;
 
         #endregion
         #region OS Directories

@@ -32,11 +32,11 @@ namespace EifelMono.Fluent.Test
             Assert.Equal(x.D, directoryName);
             Assert.Equal(x.E, directoryName);
 
-            Assert.Equal(x.A.NormalizedValue, $"{fileName}".NormalizePath());
-            Assert.Equal(x.B.NormalizedValue, $"{directoryName}/{fileName}".NormalizePath());
-            Assert.Equal(x.C.NormalizedValue, $"{directoryName}/{fileName}".NormalizePath());
-            Assert.Equal(x.D.NormalizedValue, $"{directoryName}".NormalizePath());
-            Assert.Equal(x.E.NormalizedValue, $"{directoryName}".NormalizePath());
+            Assert.Equal(x.A.NormalizeValue, $"{fileName}".NormalizePath());
+            Assert.Equal(x.B.NormalizeValue, $"{directoryName}/{fileName}".NormalizePath());
+            Assert.Equal(x.C.NormalizeValue, $"{directoryName}/{fileName}".NormalizePath());
+            Assert.Equal(x.D.NormalizeValue, $"{directoryName}".NormalizePath());
+            Assert.Equal(x.E.NormalizeValue, $"{directoryName}".NormalizePath());
 
             var json = x.ToJson();
             var jsonEnvelope = x.ToJsonEnvelope();
