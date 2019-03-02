@@ -41,7 +41,7 @@ namespace EifelMono.Fluent.Classes
 
         [DefaultDateTimeMinValue()]
         public DateTime BuildTimeStampUtc
-            => _Assembly?.GetCustomAttribute<BuildTimeStampUtcAttribute>()?.DateTime?? DateTime.MinValue;
+            => CustomAttribute<BuildTimeStampUtcAttribute>()?.DateTime?? DateTime.MinValue;
 
         // <Version> 1.0.1 </Version>
         [DefaultValue("")]
