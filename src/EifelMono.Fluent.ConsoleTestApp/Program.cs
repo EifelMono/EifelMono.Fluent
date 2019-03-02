@@ -12,6 +12,8 @@ namespace EifelMono.Fluent.ConsoleTestApp
 
             Console.WriteLine($"fluent.FluentLib");
             Console.WriteLine(fluent.FluentLib.ToString());
+
+            Console.WriteLine(fluent.FluentLib.Version);
         }
     }
 }
