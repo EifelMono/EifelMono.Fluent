@@ -5,11 +5,16 @@ namespace EifelMono.Fluent.Extensions
 {
     public static class JsonExtensions
     {
-        public static string ToJson(this object thisValue, bool indented = true, FluentExAction<object, string> fluentExAction = default)
+
+        public static string ToJson(this object thisValue, bool indented = true, bool defaults= true, FluentExAction<object, string> fluentExAction = default)
         {
             try
             {
-                return JsonConvert.SerializeObject(thisValue, indented ? Formatting.Indented : Formatting.None);
+                return JsonConvert.SerializeObject(thisValue, new JsonSerializerSettings
+                {
+                    Formatting = indented ? Formatting.Indented : Formatting.None,
+                    DefaultValueHandling = defaults? DefaultValueHandling.Include: DefaultValueHandling.Ignore
+                });
             }
             catch (Exception ex)
             {
@@ -33,7 +38,6 @@ namespace EifelMono.Fluent.Extensions
             }
         }
 
-
         public class JsonEnvelope
         {
             public string Name { get; set; }
@@ -42,11 +46,11 @@ namespace EifelMono.Fluent.Extensions
             public static JsonEnvelope Create(object data)
                 => new JsonEnvelope { Name = data?.GetType().Name ?? "", Data = data };
         }
-        public static string ToJsonEnvelope(this object thisValue, bool indented = true, FluentExAction<object, string> fluentExAction = default)
+        public static string ToJsonEnvelope(this object thisValue, bool indented = true, bool defaults = true, FluentExAction<object, string> fluentExAction = default)
         {
             try
             {
-                return JsonConvert.SerializeObject(JsonEnvelope.Create(thisValue), indented ? Formatting.Indented : Formatting.None);
+                return JsonEnvelope.Create(thisValue).ToJson(indented, defaults, fluentExAction);
             }
             catch (Exception ex)
             {
