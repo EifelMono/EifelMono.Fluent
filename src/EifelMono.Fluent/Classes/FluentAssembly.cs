@@ -9,10 +9,6 @@ namespace EifelMono.Fluent.Classes
 {
     public class AssemblyInfo
     {
-        static AssemblyInfo()
-        {
-            
-        }
         protected Assembly _Assembly;
 
         public AssemblyInfo(Assembly assembly)
@@ -41,7 +37,7 @@ namespace EifelMono.Fluent.Classes
 
         [DefaultDateTimeMinValue()]
         public DateTime BuildTimeStampUtc
-            => CustomAttribute<BuildTimeStampUtcAttribute>()?.DateTime?? DateTime.MinValue;
+            => CustomAttribute<BuildTimeStampUtcAttribute>()?.DateTime ?? DateTime.MinValue;
 
         // <Version> 1.0.1 </Version>
         [DefaultValue("")]

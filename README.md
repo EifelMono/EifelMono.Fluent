@@ -1,7 +1,6 @@
 # EifelMono.Fluent
 
-
-Fluent writing of
+## Fluent writing of
 
 * FilePath file operations
 * Directory Path directory operations
@@ -16,4 +15,9 @@ Fluent writing of
         .Path
 
         
+
+##  Requirements
+
+* Visual Studio 2019 preview
+*  
 

@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="EifelMono.Fluent.Classes.BuildTimeStampUtcAttribute">
+      <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EifelMono.Fluent\EifelMono.Fluent.csproj" />
   </ItemGroup>
 

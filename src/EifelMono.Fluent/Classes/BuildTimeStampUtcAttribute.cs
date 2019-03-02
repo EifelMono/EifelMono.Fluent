@@ -9,7 +9,7 @@ namespace EifelMono.Fluent.Classes
     /// 
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly)]
-    internal class BuildTimeStampUtcAttribute : Attribute
+    public class BuildTimeStampUtcAttribute : Attribute
     {
         public BuildTimeStampUtcAttribute(string value)
         {
