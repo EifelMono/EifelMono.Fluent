@@ -1,12 +1,14 @@
+using System;
 using EifelMono.Fluent.IO;
 using Xunit;
 using Xunit.Abstractions;
+using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.Test
 {
     public class DirectoryPathTest : XunitCore
     {
-        public static DirectoryPath s_SrcFolder = new DirectoryPath(@".\..\..\..\..\..\src");
+        public static DirectoryPath s_srcFolder = new DirectoryPath(@".\..\..\..\..\..\src");
         public DirectoryPathTest(ITestOutputHelper output) : base(output) { }
         [Fact]
         public void OperationTestType()
@@ -35,9 +37,9 @@ namespace EifelMono.Fluent.Test
         private void SearchDirectory(string searchMask)
         {
             WriteLine($"SearchMask={searchMask}");
-            var startDirectory = s_SrcFolder.MakeAbsolute();
+            var startDirectory = s_srcFolder.MakeAbsolute();
             WriteLine($"Directory={startDirectory}");
-            var foundDirectories = startDirectory.GetDirectories("**");
+            var foundDirectories = startDirectory.GetDirectories(searchMask);
             foreach (var directory in foundDirectories)
                 WriteLine(directory);
             WriteLine($"Count={foundDirectories.Count}");
@@ -46,13 +48,24 @@ namespace EifelMono.Fluent.Test
         [Fact]
         public void GetDir1Async()
         {
-            SearchDirectory("**");
+            try
+            {
+                // SearchDirectory("**");
+                // SearchDirectory("**/*/**");
+                SearchDirectory("**/EifelMono.Fluent/**");
+            }
+            catch (Exception ex)
+            {
+                WriteLine(ex.ToString());
+                Assert.True(false, ex.ToString());
+            }
         }
+
 
         [Fact]
         public async void FindFilesAsync()
         {
-            var dir = s_SrcFolder;
+            var dir = s_srcFolder;
             foreach (var f in await dir.GetFilesAsync(@"**\*.cs"))
                 WriteLine(f);
         }
@@ -60,7 +73,7 @@ namespace EifelMono.Fluent.Test
         [Fact]
         public void FindFiles()
         {
-            var dir = s_SrcFolder;
+            var dir = s_srcFolder;
             foreach (var f in dir.GetFiles(@"**\*.cs"))
                 WriteLine(f);
         }

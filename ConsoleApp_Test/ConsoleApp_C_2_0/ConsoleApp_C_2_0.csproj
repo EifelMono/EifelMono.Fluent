@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EifelMono.Fluent" Version="0.0.1" />
+  </ItemGroup>
+
+  <Import Project="..\ConsoleApp_Shared\ConsoleApp_Shared.projitems" Label="Shared" />
+
+</Project>

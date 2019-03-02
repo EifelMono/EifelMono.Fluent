@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -107,9 +108,11 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public FilePath Copy(DirectoryPath directoryPath, string newFileName = null)
+#pragma warning disable IDE0060 // Remove unused parameter
+        public FilePath Copy(DirectoryPath directoryPath, string? newFileName = null)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
-            newFileName = newFileName ?? FileName;
+            newFileName ??= FileName;
             Copy(new FilePath(directoryPath, newFileName));
             return this;
         }
@@ -126,9 +129,11 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public FilePath Move(DirectoryPath directoryPath, string newFileName = null)
+#pragma warning disable IDE0060 // Remove unused parameter
+        public FilePath Move(DirectoryPath directoryPath, string? newFileName = null)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
-            newFileName = newFileName ?? FileName;
+            newFileName ??= FileName;
             Move(new FilePath(directoryPath, newFileName));
             return this;
         }
@@ -139,6 +144,7 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
+#if NETSTANDARD2_0
         public FilePath Replace(FilePath destination, FilePath destinationBackup)
         {
             File.Replace(this, destination, destinationBackup);
@@ -162,6 +168,7 @@ namespace EifelMono.Fluent.IO
             File.Decrypt(this);
             return this;
         }
+#endif
         #endregion
 
         #region DateTime

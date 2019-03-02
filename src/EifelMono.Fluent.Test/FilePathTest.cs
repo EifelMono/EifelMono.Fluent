@@ -32,6 +32,11 @@ namespace EifelMono.Fluent.Test
                 string v = filePath;
                 Assert.Equal(typeof(string), v.GetType());
             }
+
+            {
+                string v = "./src/Karl.Test".AsFilePath();
+                Assert.Equal(typeof(string), v.GetType());
+            }
         }
 
         [Fact]

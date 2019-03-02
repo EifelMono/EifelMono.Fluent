@@ -5,11 +5,11 @@ namespace EifelMono.Fluent.Extensions
 {
     public static class JsonExtensions
     {
-        public static string ToJson(this object thisValue, Formatting formatting = Formatting.Indented, FluentExAction<object, string> fluentExAction = default)
+        public static string ToJson(this object thisValue, bool indented = true, FluentExAction<object, string> fluentExAction = default)
         {
             try
             {
-                return JsonConvert.SerializeObject(thisValue, Formatting.Indented);
+                return JsonConvert.SerializeObject(thisValue, indented ? Formatting.Indented : Formatting.None);
             }
             catch (Exception ex)
             {
@@ -42,11 +42,11 @@ namespace EifelMono.Fluent.Extensions
             public static JsonEnvelope Create(object data)
                 => new JsonEnvelope { Name = data?.GetType().Name ?? "", Data = data };
         }
-        public static string ToJsonEnvelope(this object thisValue, Formatting formatting = Formatting.Indented, FluentExAction<object, string> fluentExAction = default)
+        public static string ToJsonEnvelope(this object thisValue, bool indented = true, FluentExAction<object, string> fluentExAction = default)
         {
             try
             {
-                return JsonConvert.SerializeObject(JsonEnvelope.Create(thisValue), Formatting.Indented);
+                return JsonConvert.SerializeObject(JsonEnvelope.Create(thisValue), indented ? Formatting.Indented : Formatting.None);
             }
             catch (Exception ex)
             {

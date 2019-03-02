@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.IO
 {
@@ -47,9 +48,11 @@ namespace EifelMono.Fluent.IO
         public string DirectoryRoot
             => Directory.GetDirectoryRoot(Value);
 
+#if NETSTANDARD2_0
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public List<string> LogicalDrives
             => Directory.GetLogicalDrives().ToList();
+#endif
         public DirectoryPath Parent
             => new DirectoryPath(Directory.GetParent(Value).FullName);
 
@@ -146,36 +149,17 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        private void CleanAndOrDelete(DirectoryInfo baseDirectory, bool recursive, bool deleteDir)
+        public async Task<DirectoryPath> DeleteAsync(string searchMask = "**")
         {
-            if (!baseDirectory.Exists)
-                return;
-
-            if (recursive)
-                foreach (var directory in baseDirectory.EnumerateDirectories())
-                    CleanAndOrDelete(directory, recursive, deleteDir);
-
-            foreach (var file in baseDirectory.GetFiles())
-            {
-                file.IsReadOnly = false;
-                file.Delete();
-            }
-
-            if (deleteDir)
-                baseDirectory.Delete();
-        }
-
-        public DirectoryPath Delete(string searchMask = "*")
-        {
-            // TODO
-            CleanAndOrDelete(new DirectoryInfo(Value), false, true);
+            foreach (var directory in (await GetDirectoriesAsync(searchMask)).Pipe(d => d.Reverse()))
+                Directory.Delete(directory);
             return this;
         }
 
-        public DirectoryPath Clean(string searchMask = "*")
+        public async Task<DirectoryPath> CleanAsync(string searchMask)
         {
-            // TODO
-            CleanAndOrDelete(new DirectoryInfo(Value), false, false);
+            foreach (var filePath in await GetFilesAsync(searchMask))
+                filePath.Delete();
             return this;
         }
 
@@ -202,6 +186,7 @@ namespace EifelMono.Fluent.IO
             public static DirectoryPath Temp
                 => new DirectoryPath(Path.GetTempPath());
 
+#if NETSTANDARD2_0
             public static DirectoryPath Data
                 => SpezialDirectory.CommonApplicationData;
 
@@ -305,6 +290,7 @@ namespace EifelMono.Fluent.IO
                 public static DirectoryPath Windows
                     => SpecialFolderPath(Environment.SpecialFolder.Windows);
             }
+#endif
         }
         #endregion
     }

@@ -15,9 +15,9 @@ namespace EifelMono.Fluent.IO
             Value = value;
         }
 
-        public static string s_PlaceholderSingle = "?";
-        public static string s_PlaceholderMulti = "*";
-        public static string s_PlaceholderAll = "**";
+        public static string s_placeholderSingle = "?";
+        public static string s_placeholderMulti = "*";
+        public static string s_placeholderAll = "**";
 
         protected override bool CheckValue()
         {
@@ -26,9 +26,9 @@ namespace EifelMono.Fluent.IO
             var lastAll = false;
             foreach (var splitValue in SplitValues)
             {
-                if (splitValue.Contains(s_PlaceholderAll) && splitValue.Length > s_PlaceholderAll.Length)
+                if (splitValue.Contains(s_placeholderAll) && splitValue.Length > s_placeholderAll.Length)
                     return false;
-                if (splitValue == s_PlaceholderAll)
+                if (splitValue == s_placeholderAll)
                 {
                     if (lastAll)
                         return false;
@@ -52,24 +52,37 @@ namespace EifelMono.Fluent.IO
                    + "$";
 
         protected bool IsMasksAll(List<string> searchMasks)
-            => searchMasks.Count == 1 && searchMasks[0] == s_PlaceholderAll;
+            => searchMasks.Count == 1 && searchMasks[0] == s_placeholderAll;
         protected bool IsMasksText(List<string> searchMasks)
             => !IsMasksAll(searchMasks);
+
+        protected bool IsMaskAll(List<string> searchMasks)
+            => searchMasks.Count > 0 && searchMasks[0] == s_placeholderAll;
+
         protected bool IsMaskAllAndText(List<string> searchMasks, string directory)
-            => searchMasks.Count > 1 && searchMasks[0] == s_PlaceholderAll;
+        {
+            if (IsMaskAll(searchMasks))
+                if (IsMaskText(searchMasks.Skip(1).ToList(), directory))
+                    return true;
+            return false;
+
+        }
         protected bool IsMaskText(List<string> searchMasks, string directory)
         {
+            if (searchMasks.Count == 0)
+                return false;
+            var match = new Regex(WildcardToRegex(searchMasks[0]));
+            if (match.IsMatch(directory))
+                return true;
             return false;
         }
-        protected bool IsMaskAll(List<string> searchMasks)
-            => searchMasks.Count == 1 && searchMasks[0] == s_PlaceholderAll;
+
 
         protected List<DirectoryPath> SearchDirectories(bool root, DirectoryPath startDirectory, List<string> searchMasks)
         {
             var result = new List<DirectoryPath>();
-            if (root)
-                if (IsMasksAll(searchMasks))
-                    result.Add(startDirectory);
+            if (root && IsMasksAll(searchMasks))
+                result.Add(startDirectory);
 
             var directories = Directory.GetDirectories(startDirectory).Select(d => new DirectoryPath(d)).ToList();
             foreach (var directory in directories)
@@ -80,16 +93,17 @@ namespace EifelMono.Fluent.IO
                     result.Add(directory);
                     result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(2).ToList()));
                 }
-                else if (IsMaskText(searchMasks, directoryName))
-                {
-                    result.Add(directory);
-                    result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(1).ToList()));
-                }
                 else if (IsMaskAll(searchMasks))
                 {
                     result.Add(directory);
                     result.AddRange(SearchDirectories(false, directory, searchMasks));
                 }
+                else if (IsMaskText(searchMasks, directoryName))
+                {
+                    result.Add(directory);
+                    result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(1).ToList()));
+                }
+
             }
             return result;
         }
@@ -115,6 +129,7 @@ namespace EifelMono.Fluent.IO
             var fileMask = SplitValues.Last();
             // multiples file mask seperate by ,
             // *.cs,*.h,*.md
+#if NETSTANDARD2_0
             Parallel.ForEach(SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()),
                 searchDirectory =>
                 {
@@ -122,6 +137,14 @@ namespace EifelMono.Fluent.IO
                     lock (files)
                         files.AddRange(localFiles);
                 });
+#else
+            foreach(var searchDirectory in SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()))
+            {
+                var localFiles = Directory.GetFiles(directory, fileMask).Select(f => new FilePath(f)).ToList();
+                lock (files)
+                    files.AddRange(localFiles);
+            };
+#endif
             return files;
         }
     }

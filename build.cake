@@ -115,12 +115,12 @@ void ListDirs(string mask, bool output= false)
 
 Task("DirTestF")
 .Does(() => {
-    ListDirs("./src/**");
-    ListDirs("./src/**/*");
+    // ListDirs("./src/**", false);
+    // ListDirs("./src/**/*/**", true);
     ListDirs("./src/**/EifelMono.Fluent/**", true);
-    ListDirs("./src/**/EifelMono.Fluent/*", true);
-    ListDirs("./src/**/*Test/**");
-    ListDirs("./src/**/*Hallo*");
+    // ListDirs("./src/**/EifelMono.Fluent/*", true);
+    // ListDirs("./src/**/*Test/**");
+    // ListDirs("./src/**/*Hallo*");
 });
 
 

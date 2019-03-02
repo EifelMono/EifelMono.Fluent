@@ -21,7 +21,7 @@ namespace EifelMono.Fluent.Test
 
         public void DoubleLine(int count = 80) => Output.WriteLine(new string('=', count));
 
-        public void Dump(object dump, string title = default(string))
+        public void Dump(object dump, string title = default)
         {
             if (!string.IsNullOrEmpty(title))
             {
