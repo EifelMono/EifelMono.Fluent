@@ -42,6 +42,14 @@ Task("CopyNuget")
         CopyFile(file, $"./nuget/{file.GetFilename()}");
 });
 
+Task("Doc")
+.Does(()=> {
+        StartAndReturnProcess("generateomd", new ProcessSettings
+            { Arguments = $"/source=./src" }
+        );
+});
+
+
 Task("Default")
 .IsDependentOn("Clean")
 .IsDependentOn("Restore")
@@ -50,6 +58,8 @@ Task("Default")
 .IsDependentOn("CopyNuget")
 .Does(() => {
 });
+
+
 
 
 Task("DirTest")

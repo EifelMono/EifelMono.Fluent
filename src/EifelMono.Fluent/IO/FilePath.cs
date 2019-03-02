@@ -79,6 +79,18 @@ namespace EifelMono.Fluent.IO
             Value = Path.Combine(Directory.Append(directoryName), FileName);
             return this;
         }
+
+        public FilePath Write(string content)
+        {
+            AppendAllText(content);
+            return this;
+        }
+
+        public FilePath WriteLine(string content)
+        {
+            Write($"{content}{Environment.NewLine}");
+            return this;
+        }
         #endregion
 
         #region Actions, Copy, Move, Delete, etc...
