@@ -108,11 +108,10 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
         public FilePath Copy(DirectoryPath directoryPath, string? newFileName = null)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
-            newFileName ??= FileName;
+            if (newFileName == null)
+                newFileName = FileName;
             Copy(new FilePath(directoryPath, newFileName));
             return this;
         }
@@ -129,11 +128,10 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-#pragma warning disable IDE0060 // Remove unused parameter
         public FilePath Move(DirectoryPath directoryPath, string? newFileName = null)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
-            newFileName ??= FileName;
+            if (newFileName == null)
+                newFileName = FileName;
             Move(new FilePath(directoryPath, newFileName));
             return this;
         }
