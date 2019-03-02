@@ -34,25 +34,32 @@ namespace EifelMono.Fluent.Test
             }
         }
 
-        private void SearchDirectory(string searchMask)
+        private void SearchDirectory(string searchMask, int count = -1)
         {
-            WriteLine($"SearchMask={searchMask}");
+            WriteLine($"SearchMask={searchMask} {DateTime.Now}");
             var startDirectory = s_srcFolder.MakeAbsolute();
             WriteLine($"Directory={startDirectory}");
             var foundDirectories = startDirectory.GetDirectories(searchMask);
             foreach (var directory in foundDirectories)
                 WriteLine(directory);
             WriteLine($"Count={foundDirectories.Count}");
-
+            if (count != -1)
+                Assert.Equal(count, foundDirectories.Count);
         }
         [Fact]
         public void GetDir1Async()
         {
             try
             {
+                // 38
                 // SearchDirectory("**");
-                // SearchDirectory("**/*/**");
-                SearchDirectory("**/EifelMono.Fluent/**");
+                // 37 /34 ???
+                SearchDirectory("**/*/**", 37);
+                // SearchDirectory("**/EifelMono.Fluent/**");
+                // 6
+                // SearchDirectory("**/EifelMono.Fluent/*");
+                // 4
+                // SearchDirectory("**/EifelMono.Fluent.*/*");
             }
             catch (Exception ex)
             {

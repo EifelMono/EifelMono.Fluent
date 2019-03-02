@@ -40,70 +40,52 @@ namespace EifelMono.Fluent.IO
             return true;
         }
 
-        /*
-       From http://www.codeproject.com/KB/recipes/wildcardtoregex.aspx:
-       */
-
+        // From http://www.codeproject.com/KB/recipes/wildcardtoregex.aspx:
         // So something like foo*.xls? will get transformed to ^foo.*\.xls.$.
         public string WildcardToRegex(string pattern)
-            => "^" + Regex.Escape(pattern)
-                        .Replace(@"\*", ".*")
-                        .Replace(@"\?", ".")
-                   + "$";
-
-        protected bool IsMasksAll(List<string> searchMasks)
-            => searchMasks.Count == 1 && searchMasks[0] == s_placeholderAll;
-        protected bool IsMasksText(List<string> searchMasks)
-            => !IsMasksAll(searchMasks);
-
-        protected bool IsMaskAll(List<string> searchMasks)
-            => searchMasks.Count > 0 && searchMasks[0] == s_placeholderAll;
-
-        protected bool IsMaskAllAndText(List<string> searchMasks, string directory)
-        {
-            if (IsMaskAll(searchMasks))
-                if (IsMaskText(searchMasks.Skip(1).ToList(), directory))
-                    return true;
-            return false;
-
-        }
-        protected bool IsMaskText(List<string> searchMasks, string directory)
-        {
-            if (searchMasks.Count == 0)
-                return false;
-            var match = new Regex(WildcardToRegex(searchMasks[0]));
-            if (match.IsMatch(directory))
-                return true;
-            return false;
-        }
-
+            => $"^{Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".")}$";
 
         protected List<DirectoryPath> SearchDirectories(bool root, DirectoryPath startDirectory, List<string> searchMasks)
         {
             var result = new List<DirectoryPath>();
-            if (root && IsMasksAll(searchMasks))
+            if (root && searchMasks.Count == 1 && searchMasks[0] == s_placeholderAll)
                 result.Add(startDirectory);
 
             var directories = Directory.GetDirectories(startDirectory).Select(d => new DirectoryPath(d)).ToList();
             foreach (var directory in directories)
             {
                 var directoryName = directory.SplitValues.Last();
-                if (IsMaskAllAndText(searchMasks, directoryName))
+                if (searchMasks.Count > 0)
                 {
-                    result.Add(directory);
-                    result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(2).ToList()));
+                    if (searchMasks[0] == s_placeholderAll)
+                    {
+                        if (searchMasks.Count == 1)
+                        {
+                            result.Add(directory);
+                            result.AddRange(SearchDirectories(false, directory, searchMasks));
+                        }
+                        else
+                        {
+                            var match = new Regex(WildcardToRegex(searchMasks[1]));
+                            if (match.IsMatch(directoryName))
+                            {
+                                if (searchMasks.Count == 2)
+                                    result.Add(directory);
+                                result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(2).ToList()));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var match = new Regex(WildcardToRegex(searchMasks[0]));
+                        if (match.IsMatch(directoryName))
+                        {
+                            if (searchMasks.Count == 1)
+                                result.Add(directory);
+                            result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(1).ToList()));
+                        }
+                    }
                 }
-                else if (IsMaskAll(searchMasks))
-                {
-                    result.Add(directory);
-                    result.AddRange(SearchDirectories(false, directory, searchMasks));
-                }
-                else if (IsMaskText(searchMasks, directoryName))
-                {
-                    result.Add(directory);
-                    result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(1).ToList()));
-                }
-
             }
             return result;
         }
@@ -138,7 +120,7 @@ namespace EifelMono.Fluent.IO
                         files.AddRange(localFiles);
                 });
 #else
-            foreach(var searchDirectory in SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()))
+            foreach (var searchDirectory in SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()))
             {
                 var localFiles = Directory.GetFiles(directory, fileMask).Select(f => new FilePath(f)).ToList();
                 lock (files)
