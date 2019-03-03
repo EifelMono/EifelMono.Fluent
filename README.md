@@ -4,17 +4,10 @@
 
 * FilePath file operations
 * Directory Path directory operations
+* fluent .....
+* Extensions
 
-* Generic Types
-
-* strings ... 
-
-* Helpers
-    * fluent
-        .Enums
-        .Path
-
-        
+for more see the [wiki](https://github.com/EifelMono/EifelMono.Fluent/wiki)         
 
 ##  Requirements
 
