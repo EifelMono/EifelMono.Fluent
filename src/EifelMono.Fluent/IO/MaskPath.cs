@@ -39,16 +39,31 @@ namespace EifelMono.Fluent.IO
             }
             return true;
         }
+     
+        protected static bool IsMaskAllOnly(List<string> searchMasks)
+            => searchMasks.Count == 1 && searchMasks[0] == s_placeholderAll;
+
+        protected bool IsMaskAll(List<string> searchMasks, int position)
+            => searchMasks.Count > position && searchMasks[position] == s_placeholderAll;
 
         // From http://www.codeproject.com/KB/recipes/wildcardtoregex.aspx:
         // So something like foo*.xls? will get transformed to ^foo.*\.xls.$.
-        public string WildcardToRegex(string pattern)
+        protected string WildcardToRegex(string pattern)
             => $"^{Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".")}$";
+
+        protected bool IsMaskMatch(List<string> searchMasks, int position, string directoryName)
+        {
+            if (position >= searchMasks.Count)
+                return false;
+            var match = new Regex(WildcardToRegex(searchMasks[position]));
+            return match.IsMatch(directoryName);
+        }
+
 
         protected List<DirectoryPath> SearchDirectories(bool root, DirectoryPath startDirectory, List<string> searchMasks)
         {
             var result = new List<DirectoryPath>();
-            if (root && searchMasks.Count == 1 && searchMasks[0] == s_placeholderAll)
+            if (root && IsMaskAllOnly(searchMasks))
                 result.Add(startDirectory);
 
             var directories = Directory.GetDirectories(startDirectory).Select(d => new DirectoryPath(d)).ToList();
@@ -57,7 +72,7 @@ namespace EifelMono.Fluent.IO
                 var directoryName = directory.SplitValues.Last();
                 if (searchMasks.Count > 0)
                 {
-                    if (searchMasks[0] == s_placeholderAll)
+                    if (IsMaskAll(searchMasks, 0))
                     {
                         if (searchMasks.Count == 1)
                         {
@@ -66,10 +81,9 @@ namespace EifelMono.Fluent.IO
                         }
                         else
                         {
-                            var match = new Regex(WildcardToRegex(searchMasks[1]));
-                            if (match.IsMatch(directoryName))
+                            if (IsMaskMatch(searchMasks, 1, directoryName))
                             {
-                                if (searchMasks.Count > 2 && searchMasks[2] == s_placeholderAll)
+                                if (IsMaskAll(searchMasks, 2))
                                     result.Add(directory);
                                 result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(2).ToList()));
                             }
@@ -77,8 +91,7 @@ namespace EifelMono.Fluent.IO
                     }
                     else
                     {
-                        var match = new Regex(WildcardToRegex(searchMasks[0]));
-                        if (match.IsMatch(directoryName))
+                        if (IsMaskMatch(searchMasks, 0, directoryName))
                         {
                             result.Add(directory);
                             result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(1).ToList()));

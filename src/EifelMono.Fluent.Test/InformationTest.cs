@@ -38,6 +38,9 @@ namespace EifelMono.Fluent.Test
             WriteLine($"  Current {DirectoryPath.OS.Current}");
             WriteLine($"  Data {DirectoryPath.OS.Data}");
             WriteLine($"  Temp {DirectoryPath.OS.Temp}");
+            WriteLine($"  dotnet {DirectoryPath.OS.dotnet}");
+            WriteLine($"  dotnettools {DirectoryPath.OS.dotnettools}");
+            WriteLine($"  nuget {DirectoryPath.OS.nuget}");
 
             WriteLine($"  Current.Value {current.Value}");
             WriteLine($"  Current.NormalizeValue {current.NormalizeValue}");
@@ -81,6 +84,5 @@ namespace EifelMono.Fluent.Test
             WriteLine($"fluent.FluentLib");
             WriteLine(fluent.FluentLib.ToString());
         }
-
     }
 }
