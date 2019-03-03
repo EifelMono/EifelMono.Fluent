@@ -17,8 +17,8 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath(string directoryName) : base(directoryName) { }
 
-        public DirectoryPath Clone()
-            => new DirectoryPath(Value);
+        public DirectoryPath Clone(params string[] appendPaths)
+            => new DirectoryPath(Value).Append(appendPaths);
 
         public static implicit operator DirectoryPath(string path)
             => new DirectoryPath(path);
@@ -56,21 +56,10 @@ namespace EifelMono.Fluent.IO
         public DirectoryPath Parent
             => new DirectoryPath(Directory.GetParent(Value).FullName);
 
-        public DirectoryPath Move(DirectoryPath destinationDirectory, FluentExAction<DirectoryPath, DirectoryPath, bool> fluentExAction = default)
+        public DirectoryPath Move(DirectoryPath destinationDirectory)
         {
-            try
-            {
-                Directory.Move(Value, destinationDirectory);
-            }
-            catch (Exception ex)
-            {
-                if (fluentExAction?.Invoke(ex, this, destinationDirectory) is var result && result.Fixed)
-                    return destinationDirectory;
-                else
-                    return this;
-
-            }
-            return destinationDirectory;
+            Directory.Move(Value, destinationDirectory);
+            return this;
         }
 
         #endregion
@@ -133,19 +122,24 @@ namespace EifelMono.Fluent.IO
 
         #region Actions
 
-        public DirectoryPath EnsureExist(FluentExAction<DirectoryPath> fluentExAction = default)
+        public DirectoryPath EnsureExist()
         {
-            try
-            {
-                if (!Directory.Exists(Value))
-                    Directory.CreateDirectory(Value);
-            }
-            catch (Exception ex)
-            {
-                if (fluentExAction?.Invoke(ex, Value) is var result && result != null && result.Fixed)
-                    return this;
-                throw ex;
-            }
+            if (!Directory.Exists(Value))
+                Directory.CreateDirectory(Value);
+            return this;
+        }
+
+        public DirectoryPath IfNotExist(Action<DirectoryPath> action)
+        {
+            if (!Exists)
+                action?.Invoke(this);
+            return this;
+        }
+
+        public DirectoryPath IfExist(Action<DirectoryPath> action)
+        {
+            if (Exists)
+                action?.Invoke(this);
             return this;
         }
 
@@ -156,12 +150,17 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public async Task<DirectoryPath> CleanAsync(string searchMask)
+        public async Task<DirectoryPath> CleanAsync(string searchMask = "**\\*")
         {
             foreach (var filePath in await GetFilesAsync(searchMask))
                 filePath.Delete();
             return this;
         }
+        public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchMask)
+            => await new MaskPath(searchMask).GetDirectoriesAsync(Value);
+
+        public List<DirectoryPath> GetDirectories(string searchMask)
+            => Task.Run(async () => await GetDirectoriesAsync(searchMask).ConfigureAwait(false)).Result;
 
         public async Task<List<FilePath>> GetFilesAsync(string searchMask)
             => await new MaskPath(searchMask).GetFilesAsync(Value);
@@ -169,13 +168,18 @@ namespace EifelMono.Fluent.IO
         public List<FilePath> GetFiles(string searchMask)
             => Task.Run(async () => await GetFilesAsync(searchMask).ConfigureAwait(false)).Result;
 
-        public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchMask)
-            => await new MaskPath(searchMask).GetDirectoriesAsync(Value);
+        public async Task<DirectoryPath> DeleteFilesAsync(string searchMask)
+        {
+            foreach (var filePath in await GetFilesAsync(searchMask))
+                filePath.Delete();
+            return this;
+        }
 
-        public List<DirectoryPath> GetDirectories(string searchMask)
-            => Task.Run(async () => await GetDirectoriesAsync(searchMask).ConfigureAwait(false)).Result;
+        public DirectoryPath DeleteFiles(string searchMask)
+            => Task.Run(async () => await DeleteFilesAsync(searchMask).ConfigureAwait(false)).Result;
 
         #endregion
+
         #region OS Directories
 
         public static class OS
@@ -193,17 +197,17 @@ namespace EifelMono.Fluent.IO
 #pragma warning disable IDE1006 // Naming Styles
             public static DirectoryPath dotnet
 #pragma warning restore IDE1006 // Naming Styles
-                => SpezialDirectory.UserProfile.Append(".dotnet");
+                => SpezialDirectory.UserProfile.Clone(".dotnet");
 
 #pragma warning disable IDE1006 // Naming Styles
             public static DirectoryPath dotnettools
 #pragma warning restore IDE1006 // Naming Styles
-                => SpezialDirectory.UserProfile.Append(".dotnet", "tools");
+                => SpezialDirectory.UserProfile.Clone(".dotnet", "tools");
 
 #pragma warning disable IDE1006 // Naming Styles
             public static DirectoryPath nuget
 #pragma warning restore IDE1006 // Naming Styles
-                => SpezialDirectory.UserProfile.Append(".nuget");
+                => SpezialDirectory.UserProfile.Clone(".nuget");
 
             public static DirectoryPath SpecialFolderPath(Environment.SpecialFolder specialFolder)
                 => new DirectoryPath(Environment.GetFolderPath(specialFolder));

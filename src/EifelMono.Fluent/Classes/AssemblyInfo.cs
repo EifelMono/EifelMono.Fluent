@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
 using EifelMono.Fluent.Extensions;
@@ -9,12 +11,18 @@ namespace EifelMono.Fluent.Classes
 {
     public class AssemblyInfo
     {
+        public class AttributeItem
+        {
+            public string Name { get; set; }
+            public object Value { get; set; }
+        }
         protected Assembly _Assembly;
 
         public AssemblyInfo(Assembly assembly)
         {
             _Assembly = assembly;
         }
+
         public T CustomAttribute<T>() where T : Attribute
         {
             try
@@ -25,6 +33,16 @@ namespace EifelMono.Fluent.Classes
             {
                 return null;
             }
+        }
+
+        public List<AttributeItem> GetAllInfos()
+        {
+            var result = new List<AttributeItem>
+            {
+                new AttributeItem { Name = nameof(Location), Value = Location }
+            };
+            result.AddRange(_Assembly.GetCustomAttributes().Select(a => new AttributeItem { Name = a.GetType().Name, Value = a }));
+            return result;
         }
 
         private FilePath _location;

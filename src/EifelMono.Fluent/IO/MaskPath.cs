@@ -39,12 +39,20 @@ namespace EifelMono.Fluent.IO
             }
             return true;
         }
-     
+
         protected static bool IsMaskAllOnly(List<string> searchMasks)
             => searchMasks.Count == 1 && searchMasks[0] == s_placeholderAll;
 
         protected bool IsMaskAll(List<string> searchMasks, int position)
             => searchMasks.Count > position && searchMasks[position] == s_placeholderAll;
+
+        protected bool IsMaskMulti(List<string> searchMasks, int position)
+            => searchMasks.Count > position && searchMasks[position] == s_placeholderMulti;
+        protected bool IsMaskSingle(List<string> searchMasks, int position)
+            => searchMasks.Count > position && searchMasks[position] == s_placeholderSingle;
+
+        protected bool IsMaskMultiOrSingle(List<string> searchMasks, int position)
+            => IsMaskMulti(searchMasks, position) || IsMaskSingle(searchMasks, position);
 
         // From http://www.codeproject.com/KB/recipes/wildcardtoregex.aspx:
         // So something like foo*.xls? will get transformed to ^foo.*\.xls.$.
@@ -59,6 +67,8 @@ namespace EifelMono.Fluent.IO
             return match.IsMatch(directoryName);
         }
 
+        protected bool IsMaskLast(List<string> searchMasks)
+            => searchMasks.Count == 1;
 
         protected List<DirectoryPath> SearchDirectories(bool root, DirectoryPath startDirectory, List<string> searchMasks)
         {
@@ -83,9 +93,13 @@ namespace EifelMono.Fluent.IO
                         {
                             if (IsMaskMatch(searchMasks, 1, directoryName))
                             {
-                                if (IsMaskAll(searchMasks, 2))
+                                if (!IsMaskMultiOrSingle(searchMasks, 2))
                                     result.Add(directory);
                                 result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(2).ToList()));
+                            }
+                            else
+                            {
+                                result.AddRange(SearchDirectories(false, directory, searchMasks));
                             }
                         }
                     }

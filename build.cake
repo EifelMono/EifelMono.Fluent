@@ -137,7 +137,7 @@ Task("DirTestF")
     // ListDirs("./src/**/EifelMono.Fluent.*/*", true);
     // 11
     // ListDirs("./src/**/*Test/**");
-    ListDirs("./src/**/net*");
+    ListDirs("./src/**/**/net*");
 });
 
 

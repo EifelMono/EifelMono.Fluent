@@ -30,11 +30,5 @@ namespace EifelMono.Fluent
             get => s_fluentLib ?? (s_fluentLib = new AssemblyInfo(typeof(fluent).GetTypeInfo().Assembly));
 #endif
         }
-
-
-
-
-
-
     }
 }

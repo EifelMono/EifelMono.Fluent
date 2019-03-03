@@ -80,23 +80,26 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public FilePath Write(string content)
-        {
-            AppendAllText(content);
-            return this;
-        }
 
-        public FilePath WriteLine(string content)
-        {
-            Write($"{content}{Environment.NewLine}");
-            return this;
-        }
         #endregion
 
         #region Actions, Copy, Move, Delete, etc...
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Exists
             => File.Exists(Value);
+
+        public FilePath IfExist(Action<FilePath> action)
+        {
+            if (Exists)
+                action?.Invoke(this);
+            return this;
+        }
+        public FilePath IfNotExist(Action<FilePath> action)
+        {
+            if (!Exists)
+                action?.Invoke(this);
+            return this;
+        }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool DirectoryExists
@@ -376,30 +379,71 @@ namespace EifelMono.Fluent.IO
             => File.ReadLines(Value);
         public IEnumerable<string> ReadLines(Encoding encoding)
             => File.ReadLines(Value, encoding);
-
-        public void WriteAllBytes(byte[] bytes)
-            => File.WriteAllBytes(Value, bytes);
-        public void WriteAllLines(IEnumerable<string> contents)
-            => File.WriteAllLines(Value, contents);
-        public void WriteAllLines(IEnumerable<string> contents, Encoding encoding)
-            => File.WriteAllLines(Value, contents, encoding);
-        public void WriteAllLines(string[] contents)
-            => File.WriteAllLines(Value, contents);
-        public void WriteAllLines(string[] contents, Encoding encoding)
-            => File.WriteAllLines(Value, contents, encoding);
-        public void WriteAllText(string contents)
-            => File.WriteAllText(Value, contents);
-        public void WriteAllText(string contents, Encoding encoding)
-            => File.WriteAllText(Value, contents, encoding);
-
-        public void AppendAllLines(IEnumerable<string> contents)
-            => File.AppendAllLines(Value, contents);
-        public void AppendAllLines(IEnumerable<string> contents, Encoding encoding)
-            => File.AppendAllLines(Value, contents, encoding);
-        public void AppendAllText(string contents)
-            => File.AppendAllText(Value, contents);
-        public void AppendAllText(string contents, Encoding encoding)
-            => File.AppendAllText(Value, contents, encoding);
+        public FilePath WriteAllBytes(byte[] bytes)
+        {
+            File.WriteAllBytes(Value, bytes);
+            return this;
+        }
+        public FilePath WriteAllLines(IEnumerable<string> contents)
+        {
+            File.WriteAllLines(Value, contents);
+            return this;
+        }
+        public FilePath WriteAllLines(IEnumerable<string> contents, Encoding encoding)
+        {
+            File.WriteAllLines(Value, contents, encoding);
+            return this;
+        }
+        public FilePath WriteAllLines(string[] contents)
+        {
+            File.WriteAllLines(Value, contents);
+            return this;
+        }
+        public FilePath WriteAllLines(string[] contents, Encoding encoding)
+        {
+            File.WriteAllLines(Value, contents, encoding);
+            return this;
+        }
+        public FilePath WriteAllText(string contents)
+        {
+            File.WriteAllText(Value, contents);
+            return this;
+        }
+        public FilePath WriteAllText(string contents, Encoding encoding)
+        {
+            File.WriteAllText(Value, contents, encoding);
+            return this;
+        }
+        public FilePath AppendAllLines(IEnumerable<string> contents)
+        {
+            File.AppendAllLines(Value, contents);
+            return this;
+        }
+        public FilePath AppendAllLines(IEnumerable<string> contents, Encoding encoding)
+        {
+            File.AppendAllLines(Value, contents, encoding);
+            return this;
+        }
+        public FilePath AppendAllText(string contents)
+        {
+            File.AppendAllText(Value, contents);
+            return this;
+        }
+        public FilePath AppendAllText(string contents, Encoding encoding)
+        {
+            File.AppendAllText(Value, contents, encoding);
+            return this;
+        }
+        public FilePath Write(string content)
+        {
+            AppendAllText(content);
+            return this;
+        }
+        public FilePath WriteLine(string content)
+        {
+            Write($"{content}{Environment.NewLine}");
+            return this;
+        }
         #endregion
 
         #region OS Files

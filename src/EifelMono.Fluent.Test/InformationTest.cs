@@ -81,8 +81,10 @@ namespace EifelMono.Fluent.Test
         {
             WriteLine($"fluent.App");
             WriteLine(fluent.App.ToString());
+            WriteLine(fluent.App.GetAllInfos().ToJson());
             WriteLine($"fluent.FluentLib");
             WriteLine(fluent.FluentLib.ToString());
+            WriteLine(fluent.FluentLib.GetAllInfos().ToJson());
         }
     }
 }
