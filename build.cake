@@ -137,8 +137,27 @@ Task("DirTestF")
     // ListDirs("./src/**/EifelMono.Fluent.*/*", true);
     // 11
     // ListDirs("./src/**/*Test/**");
-    ListDirs("./src/**/**/net*");
+    ListDirs("./src/**/net*");
 });
+
+void ListFiles(string mask, bool output= false)
+{
+    Information(mask);
+    var files= GetFiles(mask);
+    if (output)
+    {
+        foreach(var file in files)
+            Information(file);
+    }
+    Information($"count={files.Count()}");
+}
+
+Task("FileTestA")
+.Does(() => {
+    ListFiles("./src/**/*.cs", true);
+    ListFiles("./src/**/*.dll", true);
+});
+
 
 
 RunTarget(target);

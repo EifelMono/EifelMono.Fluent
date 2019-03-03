@@ -120,17 +120,17 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public FilePath Copy(string fileName)
+        public FilePath Copy(string fileName, bool overwrite = true)
         {
-            File.Copy(this, new FilePath(Directory, fileName));
+            File.Copy(this, new FilePath(Directory, fileName), overwrite);
             return this;
         }
 
-        public FilePath Copy(DirectoryPath directoryPath, string? newFileName = null)
+        public FilePath Copy(DirectoryPath directoryPath, string? newFileName = null, bool overwrite = true)
         {
             if (newFileName == null)
                 newFileName = FileName;
-            Copy(new FilePath(directoryPath, newFileName));
+            Copy(new FilePath(directoryPath, newFileName), overwrite);
             return this;
         }
 
@@ -156,9 +156,12 @@ namespace EifelMono.Fluent.IO
 
         public FilePath Delete()
         {
-            File.Delete(this);
+            if (Exists)
+                File.Delete(this);
             return this;
         }
+        public FilePath DeleteIfExist()
+            => Delete();
 
 #if NETSTANDARD2_0
         public FilePath Replace(FilePath destination, FilePath destinationBackup)

@@ -134,23 +134,39 @@ namespace EifelMono.Fluent.IO
             if (!Ok)
                 return new List<FilePath>();
             var files = new List<FilePath>();
-            var fileMask = SplitValues.Last();
+            var matches = SplitValues.Last().Split(',').Select(s => new Regex(WildcardToRegex(s)));
             // multiples file mask seperate by ,
             // *.cs,*.h,*.md
 #if NETSTANDARD2_0
             Parallel.ForEach(SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()),
                 searchDirectory =>
                 {
-                    var localFiles = Directory.GetFiles(directory, fileMask).Select(f => new FilePath(f)).ToList();
+                    var localFiles = Directory.GetFiles(searchDirectory, "*").Select(f => new FilePath(f)).ToList();
+                    var matchFiles = new List<FilePath>();
+                    foreach (var file in localFiles)
+                        foreach (var match in matches)
+                            if (match.IsMatch(file.FileName))
+                            {
+                                matchFiles.Add(file);
+                                break;
+                            }
                     lock (files)
-                        files.AddRange(localFiles);
+                        files.AddRange(matchFiles);
                 });
 #else
             foreach (var searchDirectory in SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()))
             {
-                var localFiles = Directory.GetFiles(directory, fileMask).Select(f => new FilePath(f)).ToList();
-                lock (files)
-                    files.AddRange(localFiles);
+                 var localFiles = Directory.GetFiles(searchDirectory, "*").Select(f => new FilePath(f)).ToList();
+                    var matchFiles = new List<FilePath>();
+                    foreach (var file in localFiles)
+                        foreach (var match in matches)
+                            if (match.IsMatch(file.FileName))
+                            {
+                                matchFiles.Add(file);
+                                break;
+                            }
+                    lock (files)
+                        files.AddRange(matchFiles);
             };
 #endif
             return files;

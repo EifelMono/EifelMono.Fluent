@@ -13,6 +13,6 @@ namespace EifelMono.Fluent.Extensions
             => new AssemblyInfo(thisValue);
 
         public static List<AssemblyInfo.AttributeItem> AssemblyInfos(this Assembly thisValue)
-            => new AssemblyInfo(thisValue).GetAllInfos();
+            => new AssemblyInfo(thisValue).AllInfos();
     }
 }

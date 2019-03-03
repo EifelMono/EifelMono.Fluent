@@ -14,7 +14,7 @@ namespace EifelMono.Fluent.Extensions
             });
         }
 
-        public static T FormJson<T>(this string thisValue)
+        public static T FromJson<T>(this string thisValue)
             => JsonConvert.DeserializeObject<T>(thisValue);
 
         public class JsonEnvelope

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.Versioning;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
+using Newtonsoft.Json;
 
 namespace EifelMono.Fluent.Classes
 {
@@ -15,6 +16,9 @@ namespace EifelMono.Fluent.Classes
         {
             public string Name { get; set; }
             public object Value { get; set; }
+
+            public override string ToString()
+            => $"{Name}={Value?.ToJson()??""}";
         }
         protected Assembly _Assembly;
 
@@ -35,15 +39,7 @@ namespace EifelMono.Fluent.Classes
             }
         }
 
-        public List<AttributeItem> GetAllInfos()
-        {
-            var result = new List<AttributeItem>
-            {
-                new AttributeItem { Name = nameof(Location), Value = Location }
-            };
-            result.AddRange(_Assembly.GetCustomAttributes().Select(a => new AttributeItem { Name = a.GetType().Name, Value = a }));
-            return result;
-        }
+
 
         private FilePath _location;
 
@@ -118,6 +114,19 @@ namespace EifelMono.Fluent.Classes
             => CustomAttribute<TargetFrameworkAttribute>()?.FrameworkDisplayName ?? "";
         [DefaultValue("")]
         public override string ToString()
+            => AllInfo();
+
+        public string AllInfo()
             => this.ToJson(defaults: false);
+
+        public List<AttributeItem> AllInfos()
+        {
+            var result = new List<AttributeItem>
+            {
+                new AttributeItem { Name = nameof(Location), Value = Location }
+            };
+            result.AddRange(_Assembly.GetCustomAttributes().Select(a => new AttributeItem { Name = a.GetType().Name, Value = a }));
+            return result;
+        }
     }
 }
