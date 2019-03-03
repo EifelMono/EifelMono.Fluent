@@ -19,15 +19,14 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath Clone(params string[] appendPaths)
             => new DirectoryPath(Value).Append(appendPaths);
+        public FilePath CloneToFilePath(string fileName)
+            => new FilePath(Value, fileName);
 
         public static implicit operator DirectoryPath(string path)
             => new DirectoryPath(path);
         #endregion
 
         #region Actions, ...
-        public FilePath MakeFilePath(string fileName)
-            => new FilePath(Value, fileName);
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool Exists
         {
@@ -61,7 +60,6 @@ namespace EifelMono.Fluent.IO
             Directory.Move(Value, destinationDirectory);
             return this;
         }
-
         #endregion
 
         #region Values changes
@@ -174,7 +172,6 @@ namespace EifelMono.Fluent.IO
                 filePath.Delete();
             return this;
         }
-
         public DirectoryPath DeleteFiles(string searchMask)
             => Task.Run(async () => await DeleteFilesAsync(searchMask).ConfigureAwait(false)).Result;
 

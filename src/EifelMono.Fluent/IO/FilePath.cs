@@ -18,14 +18,19 @@ namespace EifelMono.Fluent.IO
 
         public FilePath(string directoryName, string fileName) : base(Path.Combine(directoryName, fileName)) { }
 
-        public FilePath Clone()
-            => new FilePath(Value);
+        public FilePath Clone(string newFileName = "")
+        {
+            if (string.IsNullOrEmpty(newFileName))
+                return new FilePath(Value);
+            else
+                return new FilePath(DirectoryName, newFileName);
+        }
 
         public static implicit operator FilePath(string path)
             => new FilePath(path);
         #endregion
 
-        #region Actions, Properties, ...
+        #region Properties, ...
         public string FileName
             => Path.GetFileName(Value);
 
@@ -79,8 +84,6 @@ namespace EifelMono.Fluent.IO
             Value = Path.Combine(Directory.Append(directoryName), FileName);
             return this;
         }
-
-
         #endregion
 
         #region Actions, Copy, Move, Delete, etc...
