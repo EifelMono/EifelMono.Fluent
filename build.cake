@@ -128,14 +128,16 @@ Task("DirTestF")
     // 38
     // ListDirs("./src/**", false);
     // 37
-    ListDirs("./src/**/*/**", true);
-    // ListDirs("./src/**/EifelMono.Fluent/**", true);
+    // ListDirs("./src/**/*/**", true);
+    // 19
+    //ListDirs("./src/**/EifelMono.Fluent/**", true);
     // 6
     // ListDirs("./src/**/EifelMono.Fluent/*", true);
     // 4
     // ListDirs("./src/**/EifelMono.Fluent.*/*", true);
+    // 11
     // ListDirs("./src/**/*Test/**");
-    // ListDirs("./src/**/*Hallo*");
+    ListDirs("./src/**/net*");
 });
 
 

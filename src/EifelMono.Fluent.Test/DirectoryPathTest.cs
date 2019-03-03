@@ -51,15 +51,13 @@ namespace EifelMono.Fluent.Test
         {
             try
             {
-                // 38
-                // SearchDirectory("**");
-                // 37 /34 ???
+                SearchDirectory("**", 38);
                 SearchDirectory("**/*/**", 37);
-                // SearchDirectory("**/EifelMono.Fluent/**");
-                // 6
-                // SearchDirectory("**/EifelMono.Fluent/*");
-                // 4
-                // SearchDirectory("**/EifelMono.Fluent.*/*");
+                SearchDirectory("**/EifelMono.Fluent/**", 19);
+                SearchDirectory("**/EifelMono.Fluent/*", 6);
+                SearchDirectory("**/EifelMono.Fluent.*/*", 4);
+                SearchDirectory("**/*Test/**", 11);
+                SearchDirectory("**/net*", -1);
             }
             catch (Exception ex)
             {

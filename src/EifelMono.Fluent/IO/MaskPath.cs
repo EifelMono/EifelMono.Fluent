@@ -69,7 +69,7 @@ namespace EifelMono.Fluent.IO
                             var match = new Regex(WildcardToRegex(searchMasks[1]));
                             if (match.IsMatch(directoryName))
                             {
-                                if (searchMasks.Count == 2)
+                                if (searchMasks.Count > 2 && searchMasks[2] == s_placeholderAll)
                                     result.Add(directory);
                                 result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(2).ToList()));
                             }
@@ -80,8 +80,7 @@ namespace EifelMono.Fluent.IO
                         var match = new Regex(WildcardToRegex(searchMasks[0]));
                         if (match.IsMatch(directoryName))
                         {
-                            if (searchMasks.Count == 1)
-                                result.Add(directory);
+                            result.Add(directory);
                             result.AddRange(SearchDirectories(false, directory, searchMasks.Skip(1).ToList()));
                         }
                     }

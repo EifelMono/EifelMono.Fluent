@@ -24,7 +24,7 @@ namespace EifelMono.Fluent
             public static T Parse<T>(string value, bool ignoreCase) where T : System.Enum
                 => (T)System.Enum.Parse(typeof(T), value, ignoreCase);
 
-            public static (bool Ok, T Data) TryParse<T>(string value) where T : System.Enum
+            public static (bool Ok, T Data) SafeTryParse<T>(string value) where T : System.Enum
             {
                 // T data = default(T);
                 // var ok = System.Enum.TryParse<T>(value, out data);
@@ -38,8 +38,10 @@ namespace EifelMono.Fluent
                     return (false, default);
                 }
             }
+            public static T TryParse<T>(string value) where T : System.Enum
+                => SafeTryParse<T>(value).Data;
 
-            public static (bool Ok, T Data) TryParse<T>(string value, bool ignoreCase) where T : System.Enum
+            public static (bool Ok, T Data) SafeTryParse<T>(string value, bool ignoreCase) where T : System.Enum
             {
                 // T data = default(T);
                 // var ok = System.Enum.TryParse<T>(value, ignoreCase, out data);

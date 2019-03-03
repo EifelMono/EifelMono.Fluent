@@ -48,8 +48,11 @@ namespace EifelMono.Fluent.Test
         [Fact]
         public void DirectoryPath_Os_SpecialFolderPath()
         {
-            foreach (var value in fluent.Enum.Values<Environment.SpecialFolder>())
-                WriteLine($"{value}{Environment.NewLine}  {DirectoryPath.OS.SpecialFolderPath(value)}");
+            foreach (var name in fluent.Enum.Names<Environment.SpecialFolder>())
+            {
+                var value = fluent.Enum.TryParse<Environment.SpecialFolder>(name);
+                WriteLine($"{name}{" ".Repeat(2)} => [{value}\\{(int)value}]{Environment.NewLine}  {DirectoryPath.OS.SpecialFolderPath(value)}");
+            }
         }
 
         [Fact]
