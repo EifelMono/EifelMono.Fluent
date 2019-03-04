@@ -13,7 +13,18 @@ var testFile = new FilePath(@"C:\temp\src\test.txt")
     .DeleteIfExist(); // if file exist
 testFile.WriteLine("Line 1");
 testFile.WriteLine("Line 2");
+
 testFile.Copy("test.bak");
+
+Console.WriteLine(testFile.FullPath);
+Console.WriteLine(testFile.FileName);
+Console.WriteLine(testFile.FileNameWithoutExtension);
+Console.WriteLine(testFile.Extension);
+Console.WriteLine(testFile.DirectoryName);
+Console.WriteLine(testFile.CreationTime);
+Console.WriteLine(testFile.CreationTimeUtc);
+Console.WriteLine(testFile.LastAccessTime);
+Console.WriteLine(testFile.LastWriteTime);
 
 foreach (var file in testFile.Directory.GetFiles(@"**\*.txt,*.bak"))
     Console.WriteLine(file);
