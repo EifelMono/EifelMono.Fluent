@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.Versioning;
+using EifelMono.Fluent.Attributes;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 

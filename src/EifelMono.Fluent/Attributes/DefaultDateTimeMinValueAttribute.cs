@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
 
-namespace EifelMono.Fluent.Classes
+namespace EifelMono.Fluent.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class DefaultDateTimeMinValueAttribute : DefaultValueAttribute

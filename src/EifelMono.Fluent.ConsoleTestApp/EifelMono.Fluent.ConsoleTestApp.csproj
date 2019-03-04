@@ -12,10 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AssemblyAttribute Include="EifelMono.Fluent.Classes.BuildTimeStampUtcAttribute">
+    <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildTimeStampUtcAttribute">
       <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
     </AssemblyAttribute>
-    <AssemblyAttribute Include="EifelMono.Fluent.Classes.BuildMachineNameAttribute">
+    <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildMachineNameAttribute">
       <_Parameter1>$([System.Environment]::MachineName)</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>

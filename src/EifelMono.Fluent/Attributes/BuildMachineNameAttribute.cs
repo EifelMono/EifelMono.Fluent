@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EifelMono.Fluent.Classes
+namespace EifelMono.Fluent.Attributes
 {
     [AttributeUsage(AttributeTargets.Assembly)]
     public class BuildMachineNameAttribute : Attribute
@@ -10,7 +10,6 @@ namespace EifelMono.Fluent.Classes
         public BuildMachineNameAttribute(string value)
         {
             MachineName = value;
-            
         }
 
         public string MachineName { get; }

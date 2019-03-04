@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace EifelMono.Fluent.Classes
+namespace EifelMono.Fluent.Attributes
 {
     [AttributeUsage(AttributeTargets.Assembly)]
     public class BuildTimeStampUtcAttribute : Attribute
