@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.IO
 {
@@ -156,17 +154,17 @@ namespace EifelMono.Fluent.IO
 #else
             foreach (var searchDirectory in SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()))
             {
-                 var localFiles = Directory.GetFiles(searchDirectory, "*").Select(f => new FilePath(f)).ToList();
-                    var matchFiles = new List<FilePath>();
-                    foreach (var file in localFiles)
-                        foreach (var match in matches)
-                            if (match.IsMatch(file.FileName))
-                            {
-                                matchFiles.Add(file);
-                                break;
-                            }
-                    lock (files)
-                        files.AddRange(matchFiles);
+                var localFiles = Directory.GetFiles(searchDirectory, "*").Select(f => new FilePath(f)).ToList();
+                var matchFiles = new List<FilePath>();
+                foreach (var file in localFiles)
+                    foreach (var match in matches)
+                        if (match.IsMatch(file.FileName))
+                        {
+                            matchFiles.Add(file);
+                            break;
+                        }
+                lock (files)
+                    files.AddRange(matchFiles);
             };
 #endif
             return files;

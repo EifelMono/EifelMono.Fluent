@@ -13,11 +13,22 @@ namespace EifelMono.Fluent.ConsoleTestApp
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"EifelMono.Fluent FilePath, DirectoryPath, ....");
             Console.ForegroundColor = ConsoleColor.White;
-            var testFile = new FilePath(@"C:\temp\src", "test.txt")
+            // var testFile = new FilePath(@"C:\temp\src", "test.txt")
+            var testFile = new FilePath(@"C:\temp\src\test.txt")
                 .EnsureDirectoryExist()
                 .DeleteIfExist(); // if file exist
             testFile.WriteLine("Line 1");
             testFile.WriteLine("Line 2");
+
+            Console.WriteLine(testFile.FullPath);
+            Console.WriteLine(testFile.FileName);
+            Console.WriteLine(testFile.FileNameWithoutExtension);
+            Console.WriteLine(testFile.Extension);
+            Console.WriteLine(testFile.DirectoryName);
+            Console.WriteLine(testFile.CreationTime);
+            Console.WriteLine(testFile.CreationTimeUtc);
+            Console.WriteLine(testFile.LastAccessTime);
+            Console.WriteLine(testFile.LastWriteTime);
 
             testFile.Copy("test.bak");
 
