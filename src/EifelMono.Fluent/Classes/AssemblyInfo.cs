@@ -1,25 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
-using Newtonsoft.Json;
 
 namespace EifelMono.Fluent.Classes
 {
     public class AssemblyInfo
     {
-        public class AttributeItem
-        {
-            public string Name { get; set; }
-            public object Value { get; set; }
-
-            public override string ToString()
-            => $"{Name}={Value?.ToJson()??""}";
-        }
         protected Assembly _Assembly;
 
         public AssemblyInfo(Assembly assembly)
@@ -52,6 +41,10 @@ namespace EifelMono.Fluent.Classes
         [DefaultDateTimeMinValue()]
         public DateTime BuildTimeStampUtc
             => CustomAttribute<BuildTimeStampUtcAttribute>()?.DateTime ?? DateTime.MinValue;
+
+        [DefaultValue("")]
+        public string BuildMachineName
+        => CustomAttribute<BuildMachineNameAttribute>()?.MachineName ?? "";
 
         // <Version> 1.0.1 </Version>
         [DefaultValue("")]
@@ -112,21 +105,11 @@ namespace EifelMono.Fluent.Classes
         [DefaultValue("")]
         public string TargetFrameworkDisplayName
             => CustomAttribute<TargetFrameworkAttribute>()?.FrameworkDisplayName ?? "";
-        [DefaultValue("")]
-        public override string ToString()
-            => AllInfo();
 
-        public string AllInfo()
+        public string ToJson()
             => this.ToJson(defaults: false);
 
-        public List<AttributeItem> AllInfos()
-        {
-            var result = new List<AttributeItem>
-            {
-                new AttributeItem { Name = nameof(Location), Value = Location }
-            };
-            result.AddRange(_Assembly.GetCustomAttributes().Select(a => new AttributeItem { Name = a.GetType().Name, Value = a }));
-            return result;
-        }
+        public string CustomAttributesAsJson()
+            => _Assembly.GetCustomAttributes().ToJson();
     }
 }

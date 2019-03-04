@@ -15,6 +15,9 @@
     <AssemblyAttribute Include="EifelMono.Fluent.Classes.BuildTimeStampUtcAttribute">
       <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
     </AssemblyAttribute>
+    <AssemblyAttribute Include="EifelMono.Fluent.Classes.BuildMachineNameAttribute">
+      <_Parameter1>$([System.Environment]::MachineName)</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
   <ItemGroup>

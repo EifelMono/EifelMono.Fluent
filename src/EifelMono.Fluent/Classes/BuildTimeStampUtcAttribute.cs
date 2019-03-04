@@ -5,9 +5,6 @@ using System.Text;
 
 namespace EifelMono.Fluent.Classes
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [AttributeUsage(AttributeTargets.Assembly)]
     public class BuildTimeStampUtcAttribute : Attribute
     {

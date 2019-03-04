@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.Versioning;
-using System.Text;
+﻿using System.Reflection;
 using EifelMono.Fluent.Classes;
 
 namespace EifelMono.Fluent.Extensions
@@ -12,7 +8,7 @@ namespace EifelMono.Fluent.Extensions
         public static AssemblyInfo AssemblyInfo(this Assembly thisValue)
             => new AssemblyInfo(thisValue);
 
-        public static List<AssemblyInfo.AttributeItem> AssemblyInfos(this Assembly thisValue)
-            => new AssemblyInfo(thisValue).AllInfos();
+        public static string CustomAttributesAsJson(this Assembly thisValue)
+            => new AssemblyInfo(thisValue).CustomAttributesAsJson();
     }
 }

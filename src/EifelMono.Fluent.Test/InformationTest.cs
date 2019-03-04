@@ -80,11 +80,11 @@ namespace EifelMono.Fluent.Test
 #pragma warning restore IDE1006 // Naming Styles
         {
             WriteLine($"fluent.App");
-            WriteLine(fluent.App.ToString());
-            WriteLine(fluent.App.AllInfos().ToJson());
+            WriteLine(fluent.App.ToJson());
+            WriteLine(fluent.App.CustomAttributesAsJson());
             WriteLine($"fluent.FluentLib");
-            WriteLine(fluent.FluentLib.ToString());
-            WriteLine(fluent.FluentLib.AllInfos().ToJson());
+            WriteLine(fluent.FluentLib.ToJson());
+            WriteLine(fluent.FluentLib.CustomAttributesAsJson());
         }
     }
 }
