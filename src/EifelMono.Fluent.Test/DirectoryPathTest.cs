@@ -40,8 +40,8 @@ namespace EifelMono.Fluent.Test
             var startDirectory = s_srcFolder.MakeAbsolute();
             WriteLine($"Directory={startDirectory}");
             var foundDirectories = startDirectory.GetDirectories(searchMask);
-            foreach (var directory in foundDirectories)
-                WriteLine(directory);
+            //foreach (var directory in foundDirectories)
+            //    WriteLine(directory);
             WriteLine($"Count={foundDirectories.Count}");
             if (count != -1)
                 Assert.Equal(count, foundDirectories.Count);
@@ -51,13 +51,13 @@ namespace EifelMono.Fluent.Test
         {
             try
             {
-                SearchDirectory("**", 38);
-                SearchDirectory("**/*/**", 37);
-                SearchDirectory("**/EifelMono.Fluent/**", 19);
-                SearchDirectory("**/EifelMono.Fluent/*", 6);
+                SearchDirectory("**", 39);
+                SearchDirectory("**/*/**", 38);
+                SearchDirectory("**/EifelMono.Fluent/**", 20);
+                SearchDirectory("**/EifelMono.Fluent/*", 7);
                 SearchDirectory("**/EifelMono.Fluent.*/*", 4);
                 SearchDirectory("**/*Test/**", 11);
-                SearchDirectory("**/net*", -1);
+                SearchDirectory("**/net*");
             }
             catch (Exception ex)
             {

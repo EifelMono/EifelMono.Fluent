@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EifelMono.Fluent.Extensions
+{
+    public static class FloatExtensions
+    {
+        public static float ToFloat(this string thisValue)
+                => float.Parse(thisValue);
+        public static (bool Ok, float Value) ToSafeFloat(this string thisValue)
+            => float.TryParse(thisValue, out var value) ? (true, value) : (false, default);
+        public static float ToTryFloat(this string thisValue, float defaultValue = default)
+            => float.TryParse(thisValue, out var value) ? value : defaultValue;
+
+        public static float Abs(this float thisValue)
+            => Math.Abs(thisValue);
+        public static float Min(this float thisValue, float value)
+            => Math.Min(thisValue, value);
+        public static float Max(this float thisValue, float value)
+            => Math.Max(thisValue, value);
+        public static bool InRangeOffset(this float thisValue, float value, float offset)
+            => thisValue.InRange(value - offset, value + offset);
+    }
+}

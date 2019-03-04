@@ -163,7 +163,7 @@ namespace EifelMono.Fluent.IO
         public FilePath DeleteIfExist()
             => Delete();
 
-#if NETSTANDARD2_0
+#if !NETSTANDARD1_6
         public FilePath Replace(FilePath destination, FilePath destinationBackup)
         {
             File.Replace(this, destination, destinationBackup);

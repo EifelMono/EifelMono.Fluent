@@ -135,7 +135,22 @@ namespace EifelMono.Fluent.IO
             var matches = SplitValues.Last().Split(',').Select(s => new Regex(WildcardToRegex(s)));
             // multiples file mask seperate by ,
             // *.cs,*.h,*.md
-#if NETSTANDARD2_0
+#if NETSTANDARD1_6
+            foreach (var searchDirectory in SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()))
+            {
+                var localFiles = Directory.GetFiles(searchDirectory, "*").Select(f => new FilePath(f)).ToList();
+                var matchFiles = new List<FilePath>();
+                foreach (var file in localFiles)
+                    foreach (var match in matches)
+                        if (match.IsMatch(file.FileName))
+                        {
+                            matchFiles.Add(file);
+                            break;
+                        }
+                lock (files)
+                    files.AddRange(matchFiles);
+            };
+#else
             Parallel.ForEach(SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()),
                 searchDirectory =>
                 {
@@ -151,21 +166,6 @@ namespace EifelMono.Fluent.IO
                     lock (files)
                         files.AddRange(matchFiles);
                 });
-#else
-            foreach (var searchDirectory in SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()))
-            {
-                var localFiles = Directory.GetFiles(searchDirectory, "*").Select(f => new FilePath(f)).ToList();
-                var matchFiles = new List<FilePath>();
-                foreach (var file in localFiles)
-                    foreach (var match in matches)
-                        if (match.IsMatch(file.FileName))
-                        {
-                            matchFiles.Add(file);
-                            break;
-                        }
-                lock (files)
-                    files.AddRange(matchFiles);
-            };
 #endif
             return files;
         }

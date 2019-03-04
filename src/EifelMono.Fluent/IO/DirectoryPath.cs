@@ -47,7 +47,7 @@ namespace EifelMono.Fluent.IO
         public string DirectoryRoot
             => Directory.GetDirectoryRoot(Value);
 
-#if NETSTANDARD2_0
+#if !NETSTANDARD1_6
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public List<string> LogicalDrives
             => Directory.GetLogicalDrives().ToList();
@@ -187,7 +187,7 @@ namespace EifelMono.Fluent.IO
             public static DirectoryPath Temp
                 => new DirectoryPath(Path.GetTempPath());
 
-#if NETSTANDARD2_0
+#if ! NETSTANDARD1_6
             public static DirectoryPath Data
                 => SpezialDirectory.CommonApplicationData;
 

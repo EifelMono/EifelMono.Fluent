@@ -2,14 +2,13 @@
 
 namespace EifelMono.Fluent.Extensions
 {
-    public static class PipeExtensions
+    public static partial class GenericExtensions
     {
         public static T Pipe<T>(this T thisValue, Action<T> action)
         {
             action(thisValue);
             return thisValue;
         }
-
         public static T Pipe<T>(this T thisValue, Func<T, T> action)
             => action(thisValue);
 

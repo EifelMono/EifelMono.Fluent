@@ -19,29 +19,10 @@ namespace EifelMono.Fluent
             public static bool IsDefined<T>(object value) where T : System.Enum
                 => System.Enum.IsDefined(typeof(T), value);
 
-            public static T Parse<T>(string value) where T : System.Enum
-                => (T)System.Enum.Parse(typeof(T), value);
-            public static T Parse<T>(string value, bool ignoreCase) where T : System.Enum
+            public static T Parse<T>(string value, bool ignoreCase = false) where T : System.Enum
                 => (T)System.Enum.Parse(typeof(T), value, ignoreCase);
 
-            public static (bool Ok, T Data) SafeTryParse<T>(string value) where T : System.Enum
-            {
-                // T data = default(T);
-                // var ok = System.Enum.TryParse<T>(value, out data);
-                // return (ok, data);
-                try
-                {
-                    return (true, Parse<T>(value));
-                }
-                catch
-                {
-                    return (false, default);
-                }
-            }
-            public static T TryParse<T>(string value) where T : System.Enum
-                => SafeTryParse<T>(value).Data;
-
-            public static (bool Ok, T Data) SafeTryParse<T>(string value, bool ignoreCase) where T : System.Enum
+            public static (bool Ok, T Value) SafeParse<T>(string value, bool ignoreCase = false, T defaultValue = default) where T : System.Enum
             {
                 // T data = default(T);
                 // var ok = System.Enum.TryParse<T>(value, ignoreCase, out data);
@@ -52,9 +33,12 @@ namespace EifelMono.Fluent
                 }
                 catch
                 {
-                    return (false, default);
+                    return (false, defaultValue);
                 }
             }
+
+            public static T TryParse<T>(string value, bool ignoreCase = false, T defaultValue = default) where T : System.Enum
+                => SafeParse<T>(value, ignoreCase, defaultValue).Value;
         }
     }
 }

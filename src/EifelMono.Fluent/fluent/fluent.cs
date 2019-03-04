@@ -19,13 +19,10 @@ namespace EifelMono.Fluent
 
         private static AssemblyInfo s_fluentLib = null;
         public static AssemblyInfo FluentLib
-#if NETSTANDARD2_0
-            => s_fluentLib ?? (s_fluentLib = new AssemblyInfo(typeof(fluent).Assembly));
-#endif
 #if NETSTANDARD1_6
             => s_fluentLib ?? (s_fluentLib = new AssemblyInfo(typeof(fluent).GetTypeInfo().Assembly));
+#else
+            => s_fluentLib ?? (s_fluentLib = new AssemblyInfo(typeof(fluent).Assembly));
 #endif
-
-
     }
 }
