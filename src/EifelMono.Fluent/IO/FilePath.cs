@@ -67,6 +67,12 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
+        public FilePath ChangeFileNameWithoutExtension(string fileNameWithoutExtension)
+        {
+            Value = Path.Combine(DirectoryName, $"{fileNameWithoutExtension}{Extension}");
+            return this;
+        }
+
         public FilePath RemoveExtension()
         {
             Value = Path.Combine(DirectoryName, FileNameWithoutExtension);

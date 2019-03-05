@@ -4,7 +4,7 @@ namespace EifelMono.Fluent.IO
 {
     public static class ValuePathExtensions
     {
-        public static T NormalizePath<T>(this T thisValue) where T : ValuePath
+        public static T MakeNormalizePath<T>(this T thisValue) where T : ValuePath
         {
             thisValue.Value = thisValue.Value.NormalizePath();
             return thisValue;
@@ -15,5 +15,15 @@ namespace EifelMono.Fluent.IO
             thisValue.Value = thisValue.FullPath;
             return thisValue;
         }
+
+        public static T IfEndsWithPathThenRemove<T>(this T thisValue) where T : ValuePath
+        {
+            thisValue.Value = thisValue.Value.IfEndsWithRemove(ValuePath.PathSeparatorChar.ToString());
+            return thisValue;
+        }
+
+        public static bool EndsWithPath<T>(this T thisValue) where T : ValuePath
+            => thisValue.Value.EndsWith(ValuePath.PathSeparatorChar.ToString());
+
     }
 }

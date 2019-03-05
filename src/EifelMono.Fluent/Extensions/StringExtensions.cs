@@ -14,5 +14,9 @@ namespace EifelMono.Fluent.Extensions
             => string.Concat(thisValue, string.Concat(Enumerable.Repeat(repeatString, count)));
         public static string NewLine(this string thisValue)
             => string.Concat(thisValue, Environment.NewLine);
+        public static string IfEndsWithRemove(this string thisValue, string text)
+            => thisValue.EndsWith(text)
+                ? thisValue.Substring(0, thisValue.Length - text.Length)
+                : thisValue;
     }
 }

@@ -11,10 +11,18 @@ namespace EifelMono.Fluent.Test
         public FilePathTest(ITestOutputHelper output) : base(output) { }
 
         [Fact]
-        public void OperationTestType()
+        public void TypeTest()
         {
-            var filePath = new FilePath("./src", "Karl.test");
+            var filePath = new FilePath(DirectoryPath.OS.Temp, "Test.txt");
             Assert.Equal(typeof(FilePath), filePath.GetType());
+
+            var safeFilePath = filePath;
+            Assert.Equal(filePath, safeFilePath);
+
+            {
+                string v = filePath;
+                Assert.Equal(typeof(string), v.GetType());
+            }
 
             {
                 var v = filePath;
@@ -34,7 +42,7 @@ namespace EifelMono.Fluent.Test
             }
 
             {
-                string v = "./src/Karl.Test".AsFilePath();
+                string v = "./src/Test.txt".AsFilePath();
                 Assert.Equal(typeof(string), v.GetType());
             }
         }
@@ -42,17 +50,36 @@ namespace EifelMono.Fluent.Test
         [Fact]
         public void PropertyTest()
         {
-            var filePath = new FilePath("./src", "Hugo.test");
-            if (filePath.Exists)
-                Console.WriteLine("x");
-            Assert.Equal("./src".NormalizePath(), filePath.DirectoryName);
-            Assert.Equal("Hugo.test", filePath.FileName);
-            Assert.Equal("Hugo", filePath.FileNameWithoutExtension);
-            Assert.Equal(".test", filePath.Extension);
+            var filePath = new FilePath(DirectoryPath.OS.Temp, "Test.txt");
+
+            Assert.Equal("Test.txt", filePath.FileName);
+            Assert.Equal("Test", filePath.FileNameWithoutExtension);
+            Assert.Equal(".txt", filePath.Extension);
+            Assert.Equal(DirectoryPath.OS.Temp.IfEndsWithPathThenRemove(), filePath.DirectoryName);
+
+            filePath.ChangeFileName("Hallo.xxx");
+            Assert.Equal("Hallo.xxx", filePath.FileName);
+            Assert.Equal("Hallo", filePath.FileNameWithoutExtension);
+            Assert.Equal(".xxx", filePath.Extension);
+            Assert.Equal(DirectoryPath.OS.Temp.IfEndsWithPathThenRemove(), filePath.DirectoryName);
+
+            filePath.ChangeExtension(".json");
+            Assert.Equal("Hallo.json", filePath.FileName);
+            Assert.Equal("Hallo", filePath.FileNameWithoutExtension);
+            Assert.Equal(".json", filePath.Extension);
+            Assert.Equal(DirectoryPath.OS.Temp.IfEndsWithPathThenRemove(), filePath.DirectoryName);
+
+            filePath.ChangeFileNameWithoutExtension("Test");
+            Assert.Equal("Test.json", filePath.FileName);
+            Assert.Equal("Test", filePath.FileNameWithoutExtension);
+            Assert.Equal(".json", filePath.Extension);
+            Assert.Equal(DirectoryPath.OS.Temp.IfEndsWithPathThenRemove(), filePath.DirectoryName);
+
             filePath.RemoveExtension();
-            Assert.Equal("Hugo", filePath.FileName);
-            Assert.Equal("Hugo", filePath.FileNameWithoutExtension);
+            Assert.Equal("Test", filePath.FileName);
+            Assert.Equal("Test", filePath.FileNameWithoutExtension);
             Assert.Equal("", filePath.Extension);
+            Assert.Equal(DirectoryPath.OS.Temp.IfEndsWithPathThenRemove(), filePath.DirectoryName);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
+using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.Test
 {
@@ -14,6 +15,8 @@ namespace EifelMono.Fluent.Test
             var valueNames = fluent.Enum.Values<Environment.SpecialFolder>()
                 .Select(v => v.ToString()).ToList();
             var names = fluent.Enum.Names<Environment.SpecialFolder>().ToList();
+            WriteLine(valueNames.ToJson());
+            WriteLine(names.ToJson());
             Assert.Equal(valueNames.Count, names.Count);
         }
     }

@@ -46,6 +46,8 @@ namespace EifelMono.Fluent.IO
         public string FullPath
             => Path.GetFullPath(Value);
 
+        public static char PathSeparatorChar => Path.DirectorySeparatorChar;
+
         public string NormalizeValue { get => Value.NormalizePath(); }
 
         public IEnumerable<string> SpiltValue { get => NormalizeValue.SplitPath(); }

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net461;net462;net471;net472;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EifelMono.Fluent" Version="0.0.1" />
+  </ItemGroup>
+
+  <Import Project="..\ConsoleApp_Shared\ConsoleApp_Shared.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildTimeStampUtcAttribute">
+      <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildMachineNameAttribute">
+      <_Parameter1>$([System.Environment]::MachineName)</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>
