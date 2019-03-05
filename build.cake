@@ -33,11 +33,13 @@ Task("Build")
 
 Task("CleanNuget")
 .Does(()=> {
+     EnsureDirectoryExists($"./nuget");
      CleanDirectories($"./nuget");
 });
 
 Task("CopyNuget")
 .Does(()=> {
+    EnsureDirectoryExists($"./nuget");
     foreach(var file in GetFiles($"./src/**/bin/{configuration}/*.nupkg"))
         CopyFile(file, $"./nuget/{file.GetFilename()}");
 });
