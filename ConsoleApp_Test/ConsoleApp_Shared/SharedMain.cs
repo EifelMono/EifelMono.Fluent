@@ -24,10 +24,10 @@ namespace ConsoleApp_Shared
             Console.WriteLine(f.ReadAllText());
 
             Console.WriteLine($"fluent.App");
-            Console.WriteLine(fluent.App.ToString());
+            Console.WriteLine(fluent.App.ToJson());
 
             Console.WriteLine($"fluent.FluentLib");
-            Console.WriteLine(fluent.FluentLib.ToString());
+            Console.WriteLine(fluent.FluentLib.ToJson());
 
             Console.ReadLine();
         }
