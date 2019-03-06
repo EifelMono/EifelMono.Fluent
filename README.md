@@ -3,7 +3,7 @@
 [![NuGet][main-nuget-badge]][main-nuget]
 
 [main-nuget]: https://www.nuget.org/packages/EifelMono.Fluent/
-[main-nuget-badge]: https://img.shields.io/nuget/v/dotnet-code.svg?style=flat-square&label=nuget
+[main-nuget-badge]: https://img.shields.io/nuget/v/EifelMono.Fluent.svg?style=flat-square&label=nuget
 
 ## Fluent handling for files and directories
 
