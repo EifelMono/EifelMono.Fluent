@@ -1,6 +1,6 @@
 # EifelMono.Fluent
 
-## Fluent reading/writing for files and directories
+## Fluent handling for files and directories
 
 * [FilePath](https://github.com/EifelMono/EifelMono.Fluent/wiki/FilePath) file operations
 * [DirectoryPath](https://github.com/EifelMono/EifelMono.Fluent/wiki/DirectoryPath) directory operations
