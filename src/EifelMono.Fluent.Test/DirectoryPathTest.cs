@@ -14,29 +14,9 @@ namespace EifelMono.Fluent.Test
         public static DirectoryPath s_TestFluentPath = DirectoryPath.OS.Temp.Clone("TestFluent")
             .EnsureExist();
 
-        void CreateTestFluent(int max = 2)
-        {
-            var aName = "ABCDEF";
-            for (int a = 1; a <= max; a++)
-            {
-                var aDirectory = s_TestFluentPath.Clone(aName.Repeat(a)).EnsureExist();
-                for (int b = 1; b <= max; b++)
-                {
-                    var bDirectory = aDirectory.Clone(aName.Repeat(b)).EnsureExist();
-                    for (int c = 1; c <= max; c++)
-                    {
-                        var cDirectory = bDirectory.Clone(aName.Repeat(c)).EnsureExist();
-                    }
-                }
-            }
-        }
-        async Task DeleteTestFluentAsync()
-        {
-            await s_TestFluentPath.CleanAsync().ConfigureAwait(false);
-            s_TestFluentPath.Delete();
-            // The release delete needs time
-            // await Task.Delay(100).ConfigureAwait(false);
-        }
+        public static int DirMax = 2;
+        public static string DirName1 = "ABCDEF";
+        public static string DirName2 = "GHIJKL";
 
         public DirectoryPathTest(ITestOutputHelper output) : base(output) { }
         [Fact]
@@ -66,30 +46,95 @@ namespace EifelMono.Fluent.Test
             }
         }
 
-        [Fact]
-        public void CreateTestDir_Test()
+        async Task CreateTestDirectoriesAsync(int dirMax, string dirName)
         {
-            var max = 5;
+            await Task.Delay(1);
+            WriteLine($"{s_TestFluentPath} {dirMax} {dirName}");
+            for (int a = 1; a <= dirMax; a++)
+            {
+                var aDirectory = s_TestFluentPath.Clone(dirName.Repeat(a)).EnsureExist();
+                for (int b = 1; b <= dirMax; b++)
+                {
+                    var bDirectory = aDirectory.Clone(dirName.Repeat(b)).EnsureExist();
+                    for (int c = 1; c <= dirMax; c++)
+                    {
+                        var cDirectory = bDirectory.Clone(dirName.Repeat(c)).EnsureExist();
+                    }
+                }
+            }
+        }
+        async Task DeleteTestDirectoriesAsync()
+        {
+            await s_TestFluentPath.CleanAsync().ConfigureAwait(false);
+            await s_TestFluentPath.DeleteAsync();
+        }
+
+
+        [Theory(Skip ="Only single Test")]
+        // [Theory]
+        [InlineData(1, "ABCDEF")]
+
+        public async void TestCreateDirectories(int dirMax, string dirName)
+        {
+            using var xlock= await new XlockDirectory().WaitAsync(s_TestFluentPath);
             WriteLine(s_TestFluentPath);
-            CreateTestFluent(max);
+            await CreateTestDirectoriesAsync(dirMax, dirName);
             var dirs = s_TestFluentPath.GetDirectories("**");
             WriteLine($"dirs={dirs.Count}");
             foreach (var dir in dirs)
                 WriteLine(dir);
-            Assert.Equal(1 + (max + max * max + max * max * max), dirs.Count);
+            Assert.Equal(1 + (dirMax + dirMax * dirMax + dirMax * dirMax * dirMax), dirs.Count);
         }
 
         [Fact]
-        public async void DeleteTestDir_Test()
+        public async void TestDeleteDirectories()
         {
+            using var xlock = await new XlockDirectory().WaitAsync(s_TestFluentPath);
             WriteLine(s_TestFluentPath);
-            await DeleteTestFluentAsync();
+            await DeleteTestDirectoriesAsync();
             var dirs = s_TestFluentPath.GetDirectories("**");
             WriteLine($"dirs={dirs.Count}");
             foreach (var dir in dirs)
                 WriteLine(dir);
-          
             Assert.Empty(dirs);
+        }
+
+        [Theory]
+        [InlineData(1, "ABCDEF")]
+        [InlineData(3, "ABCDEF")]
+        [InlineData(5, "ABCDEF")]
+        [InlineData(2, "ABCDEF")]
+
+        public async void TestCreateAndDeleteDirectories(int dirMax, string dirName)
+        {
+            using var xlock = await new XlockDirectory().WaitAsync(s_TestFluentPath);
+            await DeleteTestDirectoriesAsync();
+            var dirs = s_TestFluentPath.GetDirectories("**");
+            foreach (var dir in dirs)
+                WriteLine(dir);
+            Assert.Empty(dirs);
+            await CreateTestDirectoriesAsync(dirMax, dirName);
+            dirs = s_TestFluentPath.GetDirectories("**");
+            WriteLine($"dirs={dirs.Count}");
+            foreach (var dir in dirs)
+                WriteLine(dir);
+            Assert.Equal(1 + (dirMax + dirMax * dirMax + dirMax * dirMax * dirMax), dirs.Count);
+            dirs = s_TestFluentPath.GetDirectories("**/A*");
+            WriteLine($"dirs={dirs.Count}");
+            foreach (var dir in dirs)
+                WriteLine(dir);
+            Assert.Equal(dirMax, dirs.Count);
+            dirs = s_TestFluentPath.GetDirectories("**/*A*");
+            WriteLine($"dirs={dirs.Count}");
+            Assert.Equal(dirMax, dirs.Count);
+            dirs = s_TestFluentPath.GetDirectories("**/*B*");
+            WriteLine($"dirs={dirs.Count}");
+            Assert.Equal(dirMax, dirs.Count);
+            dirs = s_TestFluentPath.GetDirectories("**/A*/**");
+            WriteLine($"dirs={dirs.Count}");
+            foreach (var dir in dirs)
+                WriteLine(dir);
+            Assert.Equal(dirMax + dirMax * dirMax + dirMax * dirMax * dirMax, dirs.Count);
         }
         private void SearchDirectory(string searchMask, int count = -1)
         {
@@ -97,14 +142,14 @@ namespace EifelMono.Fluent.Test
             var startDirectory = s_srcPath.MakeAbsolute();
             WriteLine($"Directory={startDirectory}");
             var foundDirectories = startDirectory.GetDirectories(searchMask);
-            //foreach (var directory in foundDirectories)
-            //    WriteLine(directory);
+            foreach (var directory in foundDirectories)
+                WriteLine(directory);
             WriteLine($"Count={foundDirectories.Count} expected={count}");
             //if (count != -1)
             //    Assert.Equal(count, foundDirectories.Count);
         }
         [Fact]
-        public void GetDir1Async()
+        public void SrcCsSearchWithoutCheck()
         {
             try
             {
