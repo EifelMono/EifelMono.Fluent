@@ -1,5 +1,3 @@
-#addin nuget:?package=EifelMono.Fluent&version=0.0.1
-
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var sln= new FilePath("EifelMono.Fluent.sln");
@@ -47,11 +45,5 @@ Task("Default")
 .IsDependentOn("CopyNuget")
 .Does(() => {
 });
-Task("EifelMono")
-.Does(()=> {
-    var globaljson= new EifelMono.Fluent.FilePath("global.json");
-    var src= new EifelMono.Fluent.DirectoryPath("./src");
-    foreach(var d in src.GetFiles("**/*.cs"))
-        Information(d);
-});
+
 RunTarget(target);
