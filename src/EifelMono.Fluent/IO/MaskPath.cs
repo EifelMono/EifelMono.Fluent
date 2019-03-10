@@ -71,8 +71,13 @@ namespace EifelMono.Fluent.IO
         protected List<DirectoryPath> SearchDirectories(bool root, DirectoryPath startDirectory, List<string> searchMasks)
         {
             var result = new List<DirectoryPath>();
-            if (root && IsMaskAllOnly(searchMasks))
-                result.Add(startDirectory);
+            if (root)
+            {
+                if (!startDirectory.Exists)
+                    return result;
+                if (IsMaskAllOnly(searchMasks))
+                    result.Add(startDirectory);
+            }
 
             var directories = Directory.GetDirectories(startDirectory).Select(d => new DirectoryPath(d)).ToList();
             foreach (var directory in directories)
@@ -120,7 +125,7 @@ namespace EifelMono.Fluent.IO
             var startDirectory = directory.Clone().MakeAbsolute();
             if (!startDirectory.Exists)
                 return new List<DirectoryPath>();
-            if (!Ok)
+            if (!IsValueOk)
                 return new List<DirectoryPath>();
             return SearchDirectories(true, startDirectory, SplitValues);
         }
@@ -129,14 +134,19 @@ namespace EifelMono.Fluent.IO
         {
             await Task.Delay(1);
             var startDirectory = directory.Clone().MakeAbsolute();
-            if (!Ok)
+            if (!IsValueOk)
                 return new List<FilePath>();
             var files = new List<FilePath>();
             var matches = SplitValues.Last().Split(',').Select(s => new Regex(WildcardToRegex(s)));
             // multiples file mask seperate by ,
             // *.cs,*.h,*.md
+            var searchDirectories = new List<DirectoryPath>();
+            if (SplitValues.Count > 1)
+                searchDirectories = SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList());
+            else
+                searchDirectories.Add(startDirectory);
 #if NETSTANDARD1_6
-            foreach (var searchDirectory in SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()))
+            foreach (var searchDirectory in searchDirectories)
             {
                 var localFiles = Directory.GetFiles(searchDirectory, "*").Select(f => new FilePath(f)).ToList();
                 var matchFiles = new List<FilePath>();
@@ -151,8 +161,7 @@ namespace EifelMono.Fluent.IO
                     files.AddRange(matchFiles);
             };
 #else
-            Parallel.ForEach(SearchDirectories(true, startDirectory, SplitValues.Take(SplitValues.Count() - 1).ToList()),
-                searchDirectory =>
+            Parallel.ForEach(searchDirectories, searchDirectory =>
                 {
                     var localFiles = Directory.GetFiles(searchDirectory, "*").Select(f => new FilePath(f)).ToList();
                     var matchFiles = new List<FilePath>();

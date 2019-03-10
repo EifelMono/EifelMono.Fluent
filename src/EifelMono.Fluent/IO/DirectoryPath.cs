@@ -66,7 +66,8 @@ namespace EifelMono.Fluent.IO
 
         public DirectoryPath Append(params string[] paths)
         {
-            Value = Path.Combine(new string[] { Value }.Concat(paths).ToArray());
+            if (paths.Length > 0)
+                Value = Path.Combine(new string[] { Value }.Concat(paths).ToArray());
             return this;
         }
 
@@ -143,32 +144,39 @@ namespace EifelMono.Fluent.IO
 
         public async Task<DirectoryPath> DeleteAsync(string searchMask = "**")
         {
-            foreach (var directory in (await GetDirectoriesAsync(searchMask)).Pipe(d => d.Reverse()))
+            foreach (var directory in (await GetDirectoriesAsync(searchMask).ConfigureAwait(false)).Pipe(d => d.Reverse()))
                 Directory.Delete(directory);
             return this;
         }
 
+        public DirectoryPath Delete(string searchMask = "**")
+            => Task.Run(async () => await DeleteAsync(searchMask).ConfigureAwait(false)).Result;
+
         public async Task<DirectoryPath> CleanAsync(string searchMask = "**\\*")
         {
-            foreach (var filePath in await GetFilesAsync(searchMask))
+            foreach (var filePath in await GetFilesAsync(searchMask).ConfigureAwait(false))
                 filePath.Delete();
             return this;
         }
+
+        public DirectoryPath Clean(string searchMask = "**\\*")
+         => Task.Run(async () => await CleanAsync(searchMask).ConfigureAwait(false)).Result;
+
         public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchMask)
-            => await new MaskPath(searchMask).GetDirectoriesAsync(Value);
+            => await new MaskPath(searchMask).GetDirectoriesAsync(Value).ConfigureAwait(false);
 
         public List<DirectoryPath> GetDirectories(string searchMask)
             => Task.Run(async () => await GetDirectoriesAsync(searchMask).ConfigureAwait(false)).Result;
 
         public async Task<List<FilePath>> GetFilesAsync(string searchMask)
-            => await new MaskPath(searchMask).GetFilesAsync(Value);
+            => await new MaskPath(searchMask).GetFilesAsync(Value).ConfigureAwait(false);
 
         public List<FilePath> GetFiles(string searchMask)
             => Task.Run(async () => await GetFilesAsync(searchMask).ConfigureAwait(false)).Result;
 
         public async Task<DirectoryPath> DeleteFilesAsync(string searchMask)
         {
-            foreach (var filePath in await GetFilesAsync(searchMask))
+            foreach (var filePath in await GetFilesAsync(searchMask).ConfigureAwait(false))
                 filePath.Delete();
             return this;
         }

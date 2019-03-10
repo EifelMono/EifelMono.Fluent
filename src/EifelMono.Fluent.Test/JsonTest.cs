@@ -1,4 +1,5 @@
-﻿using EifelMono.Fluent.Extensions;
+﻿using System.Linq;
+using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 using Xunit;
 using Xunit.Abstractions;
@@ -13,7 +14,7 @@ namespace EifelMono.Fluent.Test
         public void SerializeFilePath()
         {
             var directoryName = "directoryName";
-            var fileName = "filenName";
+            var fileName = "fileName";
             var x = new
             {
                 A = new FilePath(fileName),
@@ -27,16 +28,10 @@ namespace EifelMono.Fluent.Test
             Assert.Equal(x.B.FileName, fileName);
             Assert.Equal(x.C.FileName, fileName);
 
-            Assert.Equal(x.B.DirectoryName, directoryName);
-            Assert.Equal(x.C.DirectoryName, directoryName);
-            Assert.Equal(x.D, directoryName);
-            Assert.Equal(x.E, directoryName);
-
-            Assert.Equal(x.A.NormalizeValue, $"{fileName}".NormalizePath());
-            Assert.Equal(x.B.NormalizeValue, $"{directoryName}/{fileName}".NormalizePath());
-            Assert.Equal(x.C.NormalizeValue, $"{directoryName}/{fileName}".NormalizePath());
-            Assert.Equal(x.D.NormalizeValue, $"{directoryName}".NormalizePath());
-            Assert.Equal(x.E.NormalizeValue, $"{directoryName}".NormalizePath());
+            Assert.Equal(x.B.Directory.SplitValuesLast, directoryName);
+            Assert.Equal(x.C.Directory.SplitValuesLast, directoryName);
+            Assert.Equal(x.D.SplitValuesLast, directoryName);
+            Assert.Equal(x.E.SplitValuesLast, directoryName);
 
             var json = x.ToJson();
             var jsonEnvelope = x.ToJsonEnvelope();

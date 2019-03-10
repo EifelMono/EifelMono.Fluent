@@ -23,24 +23,28 @@ namespace EifelMono.Fluent.IO
                 if (value != _value)
                 {
                     _value = value;
-                    SplitValues = SpiltValue.ToList();
-                    Ok = CheckValue();
+                    SplitValues = NormalizeValue.SplitPath().ToList();
+                    IsValueOk = CheckValue();
                 }
             }
         }
 
-        public bool Ok { get; set; } = true;
+        public bool IsValueOk { get; set; } = true;
 
         protected virtual bool CheckValue()
             => true;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public List<string> SplitValues { get; private set; } = new List<string>();
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public string SplitValuesLast { get => SplitValues.Last(); }
 
         public override string ToString()
             => $"{Value}";
 
         public static implicit operator string(ValuePath path)
-            => path.Value;
+            => path.FullPath;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string FullPath
@@ -48,8 +52,7 @@ namespace EifelMono.Fluent.IO
 
         public static char PathSeparatorChar => Path.DirectorySeparatorChar;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string NormalizeValue { get => Value.NormalizePath(); }
-
-        public IEnumerable<string> SpiltValue { get => NormalizeValue.SplitPath(); }
     }
 }
