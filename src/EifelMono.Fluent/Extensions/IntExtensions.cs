@@ -6,9 +6,9 @@ namespace EifelMono.Fluent.Extensions
     {
         public static int ToInt(this string thisValue)
             => int.Parse(thisValue);
-        public static (bool Ok, int Value) ToSafeInt(this string thisValue)
+        public static (bool Ok, int Value) ToIntSafe(this string thisValue)
             => int.TryParse(thisValue, out var value) ? (true, value) : (false, default);
-        public static int ToTryInt(this string thisValue, int defaultValue = default)
+        public static int ToIntTry(this string thisValue, int defaultValue = default)
             => int.TryParse(thisValue, out var value) ? value : defaultValue;
 
         public static int Abs(this int thisValue)

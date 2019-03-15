@@ -6,9 +6,9 @@ namespace EifelMono.Fluent.Extensions
     {
         public static double ToDouble(this string thisValue)
                 => double.Parse(thisValue);
-        public static (bool Ok, double Value) ToSafeDouble(this string thisValue)
+        public static (bool Ok, double Value) ToDoubleSafe(this string thisValue)
             => double.TryParse(thisValue, out var value) ? (true, value) : (false, default);
-        public static double ToTryDouble(this string thisValue, double defaultValue = default)
+        public static double ToDoubleTry(this string thisValue, double defaultValue = default)
             => double.TryParse(thisValue, out var value) ? value : defaultValue;
 
         public static double Abs(this double thisValue)

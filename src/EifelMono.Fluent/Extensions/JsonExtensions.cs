@@ -1,4 +1,5 @@
-﻿using EifelMono.Fluent.IO;
+﻿using System;
+using EifelMono.Fluent.IO;
 using Newtonsoft.Json;
 
 namespace EifelMono.Fluent.Extensions
@@ -33,7 +34,18 @@ namespace EifelMono.Fluent.Extensions
         public static FilePath WriteJson(this FilePath thisValue, object value)
             => thisValue.WriteAllText(value.ToJson());
 
-        public static T ReadJson<T>(this FilePath thisValue)
-            => thisValue.ReadAllText().FromJson<T>();
+        public static T ReadJson<T>(this FilePath thisValue, Func<FilePath, Exception, T> onError)
+        {
+            if (!thisValue.Exists)
+                return onError != null ? onError.Invoke(thisValue, null) : default;
+            try
+            {
+                return thisValue.ReadAllText().FromJson<T>();
+            }
+            catch (Exception ex)
+            {
+                return onError != null ? onError.Invoke(thisValue, ex) : default;
+            }
+        }
     }
 }

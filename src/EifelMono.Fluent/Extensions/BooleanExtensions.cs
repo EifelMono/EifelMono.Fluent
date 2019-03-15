@@ -4,9 +4,9 @@
     {
         public static bool ToBool(this string thisValue)
                 => bool.Parse(thisValue);
-        public static (bool Ok, bool Value) ToSafeBool(this string thisValue)
+        public static (bool Ok, bool Value) ToBoolSafe(this string thisValue)
             => bool.TryParse(thisValue, out var value) ? (true, value) : (false, default);
-        public static bool ToTryBool(this string thisValue, bool defaultValue = default)
+        public static bool ToBoolTry(this string thisValue, bool defaultValue = default)
             => bool.TryParse(thisValue, out var value) ? value : defaultValue;
     }
 }
