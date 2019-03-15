@@ -83,7 +83,7 @@ namespace EifelMono.Fluent.Classes
             #endregion
         }
 
-        protected async Task<(bool Ok, T Data, Exception Exception)> WaitDataInternalAsync(T waitData, bool wait, CancellationToken cancellationToken = default)
+        protected async ValueTask<(bool Ok, T Data, Exception Exception)> WaitDataInternalAsync(T waitData, bool wait, CancellationToken cancellationToken = default)
         {
             if (wait && waitData is null)
                 return (false, default, new ArgumentNullException());
@@ -112,10 +112,10 @@ namespace EifelMono.Fluent.Classes
             return (true, data, null);
         }
 
-        public async Task<(bool Ok, T Data, Exception Exception)> WaitDataAsync(CancellationToken cancellationToken = default)
+        public async ValueTask<(bool Ok, T Data, Exception Exception)> WaitDataAsync(CancellationToken cancellationToken = default)
             => await WaitDataInternalAsync(default, false, cancellationToken).ConfigureAwait(false);
 
-        public async Task<(bool Ok, T Data, Exception Exception)> WaitDataAsync(T waitData, CancellationToken cancellationToken = default)
+        public async ValueTask<(bool Ok, T Data, Exception Exception)> WaitDataAsync(T waitData, CancellationToken cancellationToken = default)
             => await WaitDataInternalAsync(waitData, true, cancellationToken).ConfigureAwait(false);
 
     }

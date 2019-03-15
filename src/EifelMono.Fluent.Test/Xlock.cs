@@ -40,7 +40,7 @@ namespace EifelMono.Fluent.Test
         }
         private List<T> StartItems { get; set; }
 
-        public async Task<Xlock<T>> WaitAsync(params T[] startItems)
+        public async ValueTask<Xlock<T>> WaitAsync(params T[] startItems)
         {
             StartItems = startItems.ToList();
             var signal = new TaskCompletionSourceQueued<bool>();

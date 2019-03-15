@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using EifelMono.Fluent.IO;
+using Newtonsoft.Json;
 
 namespace EifelMono.Fluent.Extensions
 {
@@ -28,5 +29,11 @@ namespace EifelMono.Fluent.Extensions
             => JsonEnvelope.Create(thisValue).ToJson(indented, defaults);
         public static T FormJsonEnvelope<T>(this string thisValue)
             => (T)JsonConvert.DeserializeObject<JsonEnvelope>(thisValue).Data;
+
+        public static FilePath WriteJson(this FilePath thisValue, object value)
+            => thisValue.WriteAllText(value.ToJson());
+
+        public static T ReadJson<T>(this FilePath thisValue)
+            => thisValue.ReadAllText().FromJson<T>();
     }
 }

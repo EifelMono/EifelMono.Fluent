@@ -446,6 +446,7 @@ namespace EifelMono.Fluent.IO
             File.AppendAllText(Value, contents, encoding);
             return this;
         }
+
         public FilePath Write(string content)
         {
             AppendAllText(content);
