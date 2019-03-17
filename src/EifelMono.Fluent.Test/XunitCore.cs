@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Xunit.Abstractions;
+using EifelMono.Fluent.Extensions;
 
 // us this in Main assemblies for internal things to the test
 [assembly: InternalsVisibleTo("EifelMono.Fluent.Test")]
@@ -17,9 +18,9 @@ namespace EifelMono.Fluent.Test
 
         public void WriteLine(object @object) => Output.WriteLine(@object?.ToString() ?? "");
 
-        public void Line(int count = 80) => Output.WriteLine(new string('-', count));
+        public void Line(int count = 80) => Output.WriteLine("-".Repeat(count));
 
-        public void DoubleLine(int count = 80) => Output.WriteLine(new string('=', count));
+        public void DoubleLine(int count = 80) => Output.WriteLine("=".Repeat(count));
 
         public void Dump(object dump, string title = default)
         {

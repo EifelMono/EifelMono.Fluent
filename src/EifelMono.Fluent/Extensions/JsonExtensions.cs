@@ -34,7 +34,7 @@ namespace EifelMono.Fluent.Extensions
         public static FilePath WriteJson(this FilePath thisValue, object value)
             => thisValue.WriteAllText(value.ToJson());
 
-        public static T ReadJson<T>(this FilePath thisValue, Func<FilePath, Exception, T> onError)
+        public static T ReadJson<T>(this FilePath thisValue, Func<FilePath, Exception, T> onError = null)
         {
             if (!thisValue.Exists)
                 return onError != null ? onError.Invoke(thisValue, null) : default;

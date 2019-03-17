@@ -34,9 +34,7 @@ namespace EifelMono.Fluent.Test
 
     public class Xlock<T> : Xlock
     {
-        public Xlock(List<T> lockList)
-        {
-            _items = lockList;
+        public Xlock(List<T> lockList) { _items = lockList;
         }
         private List<T> StartItems { get; set; }
 
@@ -98,28 +96,19 @@ namespace EifelMono.Fluent.Test
 
     public class XlockInt : Xlock<int>
     {
-        public XlockInt() : base(s_items)
-        {
-
-        }
+        public XlockInt() : base(s_items) { }
         static readonly List<int> s_items = new List<int>();
     }
 
     public class XlockPort : Xlock<int>
     {
-        public XlockPort() : base(s_items)
-        {
-
-        }
+        public XlockPort() : base(s_items) { }
         static readonly List<int> s_items = new List<int>();
     }
 
     public class XlockDirectory : Xlock<string>
     {
-        public XlockDirectory() : base(s_items)
-        {
-
-        }
+        public XlockDirectory() : base(s_items) { }
         static readonly List<string> s_items = new List<string>();
     }
 }

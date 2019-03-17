@@ -16,7 +16,7 @@ namespace EifelMono.Fluent.ConsoleTestApp
             // var testFile = new FilePath(@"C:\temp\src", "test.txt")
             var testFile = new FilePath(@"C:\temp\src\test.txt")
                 .EnsureDirectoryExist()
-                .DeleteIfExist(); // if file exist
+                .IfExists.Delete(); // if file exist
             testFile.WriteLine("Line 1");
             testFile.WriteLine("Line 2");
 
@@ -58,7 +58,7 @@ namespace EifelMono.Fluent.ConsoleTestApp
                 Console.WriteLine(file);
 
             var jsonFile = new FilePath(testFile.Directory, "test.json")
-                .DeleteIfExist();
+                .IfExists.Delete();
 
             var spezialFolders = fluent.Enum.Values<Environment.SpecialFolder>()
                 .Select(f=> DirectoryPath.OS.SpecialFolderPath(f)).ToList();

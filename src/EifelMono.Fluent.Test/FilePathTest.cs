@@ -112,5 +112,75 @@ namespace EifelMono.Fluent.Test
                 Assert.Equal(".cln", CloneTestTextPath.Extension);
             }
         }
+
+        [Fact]
+        public void FilePath_Infos_From_TestFile()
+        {
+            var testFile = DirectoryPath.OS.Temp.CloneToFilePath($"{nameof(FilePath_Infos_From_TestFile)}.json");
+            testFile.IfExists.ClearAttributes();
+            testFile.IfExists.Do(f =>
+            {
+            });
+            // testFile.RemoveAttributesIfExist().DeleteIfExist();
+            testFile.IfExists.Delete();
+
+            Assert.False(testFile.Exists);
+
+            testFile.WriteJson("Hello");
+
+            Assert.True(testFile.Exists);
+            var hello = testFile.ReadJson<string>();
+            var a = testFile.ReadAllBytes();
+            Assert.NotNull(a);
+            var b = testFile.ReadAllLines();
+            Assert.NotNull(b);
+            var c = testFile.ReadAllText();
+            Assert.NotNull(c);
+            var d = testFile.ReadLines();
+            Assert.NotNull(d);
+
+
+            Assert.Equal("Hello", hello);
+
+            WriteLine($"FilePath");
+
+            WriteLine($"  Current {testFile}");
+
+            WriteLine($"  Current.AttributeArchive {testFile.AttributeArchive}");
+            WriteLine($"  Current.AttributeCompressed {testFile.AttributeCompressed}");
+            WriteLine($"  Current.AttributeDevice {testFile.AttributeDevice}");
+            WriteLine($"  Current.AttributeDirectory {testFile.AttributeDirectory}");
+            WriteLine($"  Current.AttributeEncrypted {testFile.AttributeEncrypted}");
+            WriteLine($"  Current.AttributeHidden {testFile.AttributeHidden}");
+            WriteLine($"  Current.AttributeIntegrityStream {testFile.AttributeIntegrityStream}");
+            WriteLine($"  Current.AttributeNormal {testFile.AttributeNormal}");
+            WriteLine($"  Current.AttributeNoScrubData {testFile.AttributeNoScrubData}");
+            WriteLine($"  Current.AttributeNotContentIndexed {testFile.AttributeNotContentIndexed}");
+            WriteLine($"  Current.AttributeOffline {testFile.AttributeOffline}");
+            WriteLine($"  Current.AttributeReadOnly {testFile.AttributeReadOnly}");
+            WriteLine($"  Current.AttributeReparsePoint {testFile.AttributeReparsePoint}");
+            WriteLine($"  Current.AttributeSparseFile {testFile.AttributeSparseFile}");
+            WriteLine($"  Current.AttributeSystem {testFile.AttributeSystem}");
+            WriteLine($"  Current.AttributeTemporary {testFile.AttributeTemporary}");
+
+            WriteLine($"  Current.CreationTime {testFile.CreationTime}");
+            WriteLine($"  Current.CreationTimeUtc {testFile.CreationTimeUtc}");
+            WriteLine($"  Current.LastAccessTime {testFile.LastAccessTime}");
+            WriteLine($"  Current.LastAccessTimeUtc {testFile.LastAccessTimeUtc}");
+            WriteLine($"  Current.LastWriteTime {testFile.LastWriteTime}");
+            WriteLine($"  Current.LastWriteTimeUtc {testFile.LastWriteTimeUtc}");
+
+            Assert.False(testFile.AttributeHidden);
+            testFile.AttributeHidden = true;
+            Assert.True(testFile.AttributeHidden);
+            testFile.AttributeHidden = false;
+            Assert.False(testFile.AttributeHidden);
+
+            testFile.AttributeHidden = true;
+            Assert.True(testFile.AttributeHidden);
+            testFile.AttributeHidden = false;
+            Assert.False(testFile.AttributeHidden);
+
+        }
     }
 }

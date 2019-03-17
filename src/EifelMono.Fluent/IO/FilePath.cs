@@ -3,13 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using EifelMono.Fluent.Classes;
+using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.IO
 {
     [DataContract]
-    public class FilePath : ValuePath
+    public partial class FilePath : ValuePath, IExist
     {
         #region Core things
         public FilePath() : base() { }
@@ -97,19 +100,6 @@ namespace EifelMono.Fluent.IO
         public bool Exists
             => File.Exists(Value);
 
-        public FilePath IfExist(Action<FilePath> action)
-        {
-            if (Exists)
-                action?.Invoke(this);
-            return this;
-        }
-        public FilePath IfNotExist(Action<FilePath> action)
-        {
-            if (!Exists)
-                action?.Invoke(this);
-            return this;
-        }
-
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public bool DirectoryExists
             => Directory.Exists;
@@ -162,12 +152,10 @@ namespace EifelMono.Fluent.IO
 
         public FilePath Delete()
         {
-            if (Exists)
-                File.Delete(this);
+            File.Delete(this);
             return this;
         }
-        public FilePath DeleteIfExist()
-            => Delete();
+
 
 #if !NETSTANDARD1_6
         public FilePath Replace(FilePath destination, FilePath destinationBackup)
@@ -245,6 +233,12 @@ namespace EifelMono.Fluent.IO
         public bool IsAttributes(FileAttributes fileAttributes)
             => (Attributes & fileAttributes) > 0;
 
+        public FilePath ClearAttributes()
+        {
+            File.SetAttributes(Value, 0);
+            return this;
+        }
+
         public FilePath SetAttributes(FileAttributes fileAttributes)
         {
             File.SetAttributes(Value, Attributes | fileAttributes);
@@ -252,7 +246,16 @@ namespace EifelMono.Fluent.IO
         }
 
         public FilePath RemoveAttributes(FileAttributes fileAttributes)
-            => SetAttributes(~fileAttributes);
+        {
+            File.SetAttributes(Value, Attributes & ~fileAttributes);
+            return this;
+        }
+
+        public FilePath RemoveAttributes()
+        {
+            fluent.Enum.Values<FileAttributes>().ForEach((a) => RemoveAttributes(a));
+            return this;
+        }
 
         public FilePath ChangeAttributes(FileAttributes fileAttributes, bool on)
         {

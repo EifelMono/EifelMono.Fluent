@@ -5,12 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using EifelMono.Fluent.Classes;
 using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.IO
 {
     [DataContract]
-    public class DirectoryPath : ValuePath
+    public class DirectoryPath : ValuePath, IExist
     {
         #region Core things
         public DirectoryPath() : base() { }
