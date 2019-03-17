@@ -63,7 +63,7 @@ namespace EifelMono.Fluent.Test
         public void fluent_OS()
 #pragma warning restore IDE1006 // Naming Styles
         {
-            WriteLine($"fluent.OS");
+            WriteLine($"fluent.OS".NewLine());
             WriteLine($"CurrentPlatform {fluent.OS.CurrentPlatform}");
             WriteLine($"IsWindows {fluent.OS.IsWindows}");
             WriteLine($"IsOSX {fluent.OS.IsOSX}");
@@ -79,7 +79,7 @@ namespace EifelMono.Fluent.Test
         public void fluent_App()
 #pragma warning restore IDE1006 // Naming Styles
         {
-            WriteLine($"fluent.App");
+            WriteLine($"fluent.App".NewLine());
             WriteLine(fluent.Executable);
             WriteLine(fluent.Executable);
 

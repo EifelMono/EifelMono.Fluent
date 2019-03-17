@@ -20,10 +20,10 @@ namespace EifelMono.Fluent.Extensions
         public static T Clamp<T>(this T thisValue, T minValue, T maxValue) where T : IComparable<T>
             => thisValue.CompareTo(minValue) < 0 ? minValue : thisValue.CompareTo(maxValue) > 0 ? maxValue : thisValue;
 
-        public static T MinValue<T>(this T thisValue, T minValue) where T : IComparable<T>
+        public static T Min<T>(this T thisValue, T minValue) where T : IComparable<T>
             => thisValue.CompareTo(minValue) < 0 ? thisValue : minValue;
 
-        public static T MaxValue<T>(this T thisValue, T maxValue) where T : IComparable<T>
+        public static T Max<T>(this T thisValue, T maxValue) where T : IComparable<T>
             => thisValue.CompareTo(maxValue) > 0 ? thisValue : maxValue;
     }
 }

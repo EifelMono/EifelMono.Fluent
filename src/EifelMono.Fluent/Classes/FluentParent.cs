@@ -1,27 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using EifelMono.Fluent.Log;
 
 namespace EifelMono.Fluent.Classes
 {
-    public class ParentExist
+    public class FluentParent
     {
         public object ParentThis { get; protected set; }
-    }
-
-    public class ParentExist<T> : ParentExist where T : IExist
-    {
-        public new T ParentThis { get => (T)base.ParentThis; protected set => base.ParentThis = value; }
-
-        public ParentExist(T parentThis)
+        public FluentParent(object parentThis)
         {
             ParentThis = parentThis;
         }
+    }
+
+    public class FluentParent<T> : FluentParent where T : object
+    {
+        public new T ParentThis { get => (T)base.ParentThis; protected set => base.ParentThis = value; }
+
+        public FluentParent(T parentThis) : base(parentThis) { }
+    }
+
+    public abstract class FluentParentCondition<T> : FluentParent<T> where T : object
+    {
+        protected Func<bool> ConditionFunc { get; set; }
+        public FluentParentCondition(T parentThis, Func<bool> conditionFunc) : base(parentThis)
+        {
+            ConditionFunc = conditionFunc;
+        }
+
+        public bool Condition => ConditionFunc();
 
         public T Do(Action<T> action)
         {
-            if (ParentThis.Exists)
+            if (Condition)
                 action?.Invoke(ParentThis);
             return ParentThis;
         }
@@ -30,7 +40,7 @@ namespace EifelMono.Fluent.Classes
         {
             try
             {
-                if (ParentThis.Exists)
+                if (Condition)
                     action?.Invoke(ParentThis);
             }
             catch (Exception ex)

@@ -12,7 +12,7 @@ using EifelMono.Fluent.Extensions;
 namespace EifelMono.Fluent.IO
 {
     [DataContract]
-    public partial class FilePath : ValuePath, IExist
+    public partial class FilePath : ValuePath, IFluentExists
     {
         #region Core things
         public FilePath() : base() { }

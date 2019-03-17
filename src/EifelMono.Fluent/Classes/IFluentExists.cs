@@ -1,6 +1,6 @@
 ﻿namespace EifelMono.Fluent.Classes
 {
-    public interface IExist
+    public interface IFluentExists
     {
         bool Exists { get; }
     }

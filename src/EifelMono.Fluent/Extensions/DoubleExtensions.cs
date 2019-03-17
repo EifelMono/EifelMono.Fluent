@@ -13,10 +13,6 @@ namespace EifelMono.Fluent.Extensions
 
         public static double Abs(this double thisValue)
             => Math.Abs(thisValue);
-        public static double Min(this double thisValue, double value)
-            => Math.Min(thisValue, value);
-        public static double Max(this double thisValue, double value)
-            => Math.Max(thisValue, value);
         public static bool InRangeOffset(this double thisValue, double value, double offset)
             => thisValue.InRange(value - offset, value + offset);
     }

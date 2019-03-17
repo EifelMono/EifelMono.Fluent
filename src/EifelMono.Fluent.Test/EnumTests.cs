@@ -10,6 +10,7 @@ namespace EifelMono.Fluent.Test
     {
 
         public EnumTest(ITestOutputHelper output) : base(output) { }
+
         [Fact]
         public void Fluent_Enum_Values_SpecialFolderOutputNames()
         {
@@ -19,7 +20,6 @@ namespace EifelMono.Fluent.Test
             WriteLine(valueNames.ToJson());
             WriteLine(names.ToJson());
             Assert.Equal(valueNames.Count, names.Count);
-
         }
 
         enum TestEnumA

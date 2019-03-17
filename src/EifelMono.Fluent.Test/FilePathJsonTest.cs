@@ -6,9 +6,9 @@ using Xunit.Abstractions;
 
 namespace EifelMono.Fluent.Test
 {
-    public class JsonTest : XunitCore
+    public class FilePathJsonTest : XunitCore
     {
-        public JsonTest(ITestOutputHelper output) : base(output) { }
+        public FilePathJsonTest(ITestOutputHelper output) : base(output) { }
 
         [Fact]
         public void SerializeFilePath()

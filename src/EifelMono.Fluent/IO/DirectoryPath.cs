@@ -11,7 +11,7 @@ using EifelMono.Fluent.Extensions;
 namespace EifelMono.Fluent.IO
 {
     [DataContract]
-    public class DirectoryPath : ValuePath, IExist
+    public partial class DirectoryPath : ValuePath, IFluentExists
     {
         #region Core things
         public DirectoryPath() : base() { }
