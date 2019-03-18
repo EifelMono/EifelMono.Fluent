@@ -19,12 +19,12 @@ namespace EifelMono.Fluent.Extensions
             return thisValue;
         }
 #endif
-        public static async ValueTask<T> WaitAsync<T>(this T thisValue, TimeSpan timespane)
+        public static async Task<T> WaitAsync<T>(this T thisValue, TimeSpan timespane)
         {
             await Task.Delay(timespane).ConfigureAwait(false);
             return thisValue;
         }
-        public static async ValueTask<T> WaitAsync<T>(this T thisValue, int msec)
+        public static async Task<T> WaitAsync<T>(this T thisValue, int msec)
         {
             await Task.Delay(msec).ConfigureAwait(false);
             return thisValue;

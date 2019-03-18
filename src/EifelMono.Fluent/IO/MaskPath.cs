@@ -119,7 +119,7 @@ namespace EifelMono.Fluent.IO
             return result;
         }
 
-        public async ValueTask<List<DirectoryPath>> GetDirectoriesAsync(DirectoryPath directory)
+        public async Task<List<DirectoryPath>> GetDirectoriesAsync(DirectoryPath directory)
         {
             await Task.Delay(1);
             var startDirectory = directory.Clone().MakeAbsolute();
@@ -130,7 +130,7 @@ namespace EifelMono.Fluent.IO
             return SearchDirectories(true, startDirectory, SplitValues);
         }
 
-        public async ValueTask<List<FilePath>> GetFilesAsync(DirectoryPath directory)
+        public async Task<List<FilePath>> GetFilesAsync(DirectoryPath directory)
         {
             await Task.Delay(1);
             var startDirectory = directory.Clone().MakeAbsolute();

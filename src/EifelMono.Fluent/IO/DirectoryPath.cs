@@ -143,7 +143,7 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public async ValueTask<DirectoryPath> DeleteAsync(string searchMask = "**")
+        public async Task<DirectoryPath> DeleteAsync(string searchMask = "**")
         {
             foreach (var directory in (await GetDirectoriesAsync(searchMask).ConfigureAwait(false)).Pipe(d => d.Reverse()))
                 Directory.Delete(directory);
@@ -153,7 +153,7 @@ namespace EifelMono.Fluent.IO
         public DirectoryPath Delete(string searchMask = "**")
             => Task.Run(async () => await DeleteAsync(searchMask).ConfigureAwait(false)).Result;
 
-        public async ValueTask<DirectoryPath> CleanAsync(string searchMask = "**\\*")
+        public async Task<DirectoryPath> CleanAsync(string searchMask = "**\\*")
         {
             foreach (var filePath in await GetFilesAsync(searchMask).ConfigureAwait(false))
                 filePath.Delete();
@@ -163,19 +163,19 @@ namespace EifelMono.Fluent.IO
         public DirectoryPath Clean(string searchMask = "**\\*")
          => Task.Run(async () => await CleanAsync(searchMask).ConfigureAwait(false)).Result;
 
-        public async ValueTask<List<DirectoryPath>> GetDirectoriesAsync(string searchMask)
+        public async Task<List<DirectoryPath>> GetDirectoriesAsync(string searchMask)
             => await new MaskPath(searchMask).GetDirectoriesAsync(Value).ConfigureAwait(false);
 
         public List<DirectoryPath> GetDirectories(string searchMask)
             => Task.Run(async () => await GetDirectoriesAsync(searchMask).ConfigureAwait(false)).Result;
 
-        public async ValueTask<List<FilePath>> GetFilesAsync(string searchMask)
+        public async Task<List<FilePath>> GetFilesAsync(string searchMask)
             => await new MaskPath(searchMask).GetFilesAsync(Value).ConfigureAwait(false);
 
         public List<FilePath> GetFiles(string searchMask)
             => Task.Run(async () => await GetFilesAsync(searchMask).ConfigureAwait(false)).Result;
 
-        public async ValueTask<DirectoryPath> DeleteFilesAsync(string searchMask)
+        public async Task<DirectoryPath> DeleteFilesAsync(string searchMask)
         {
             foreach (var filePath in await GetFilesAsync(searchMask).ConfigureAwait(false))
                 filePath.Delete();
