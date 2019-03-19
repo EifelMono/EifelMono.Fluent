@@ -1,5 +1,7 @@
 # EifelMono.Fluent
 
+[![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=3&branchName=master)
+
 [![NuGet][main-nuget-badge]][main-nuget]
 
 [main-nuget]: https://www.nuget.org/packages/EifelMono.Fluent/
@@ -12,7 +14,6 @@
 * [fluent](https://github.com/EifelMono/EifelMono.Fluent/wiki/fluent) App, Lib, OS, ...
 * [Extensions](https://github.com/EifelMono/EifelMono.Fluent/wiki/Extensions) generics, string, ...
 
-[![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=3&branchName=master)
 
 ```csharp
 var testFile = new FilePath(@"C:\temp\src\test.txt")
