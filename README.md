@@ -9,7 +9,10 @@
 
 ## Nuget
 
-[![NuGet][main-nuget-badge]][main-nuget]
+| OS | Status badge |
+|:--|:--|
+| [nuget.org](https://nuget.org)| [![NuGet][main-nuget-badge]][main-nuget] |
+
 
 [main-nuget]: https://www.nuget.org/packages/EifelMono.Fluent/
 [main-nuget-badge]: https://img.shields.io/nuget/v/EifelMono.Fluent.svg?style=flat-square&label=nuget
