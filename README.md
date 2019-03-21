@@ -1,6 +1,11 @@
 # EifelMono.Fluent
 
-[![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=3&branchName=master)
+## Build Status
+| OS |  |
+|:--|:--|
+| Ubuntu | [![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI%20Ubuntu?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=3&branchName=master)|
+| Mac OS | |
+| Windows | |
 
 [![NuGet][main-nuget-badge]][main-nuget]
 
