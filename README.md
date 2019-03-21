@@ -9,9 +9,9 @@
 
 ## Nuget
 
-| OS | Status badge |
+| OS | Status badge | |
 |:--|:--|
-| [nuget.org](https://nuget.org)| [![NuGet][main-nuget-badge]][main-nuget] |
+| [nuget.org](https://nuget.org)| [![NuGet][main-nuget-badge]][main-nuget] | [fuget.org](https://www.fuget.org/packages/EifelMono.Fluent)|
 
 
 [main-nuget]: https://www.nuget.org/packages/EifelMono.Fluent/
