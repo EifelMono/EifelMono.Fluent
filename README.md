@@ -5,13 +5,13 @@
 |:--|:--|
 | Ubuntu | [![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI%20Ubuntu?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=3&branchName=master)|
 | Mac OS | [![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI%20Mac%20OS?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=4&branchName=master)|
-| Windows | [![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI%20Windows?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=5&branchName=master)|
+| Windows | [![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI%20Windows?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=5&branchName=master) |
 
 ## Nuget
 
 | OS | Status badge | |
 |:--|:--|
-| [nuget.org](https://nuget.org)| [![NuGet][main-nuget-badge]][main-nuget] | [fuget.org](https://www.fuget.org/packages/EifelMono.Fluent)|
+| [nuget.org](https://nuget.org) | [![NuGet][main-nuget-badge]][main-nuget] | [fuget.org](https://www.fuget.org/packages/EifelMono.Fluent) |
 
 
 [main-nuget]: https://www.nuget.org/packages/EifelMono.Fluent/
