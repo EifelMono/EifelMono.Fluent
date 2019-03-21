@@ -51,6 +51,6 @@ for more see the
 
 ##  Requirements
 
-* Visual Studio 2019 preview
-*  
+* Visual Studio 2019 RC/preview
+* dotnet core 3.0 Roslyn c# 8.0 
 
