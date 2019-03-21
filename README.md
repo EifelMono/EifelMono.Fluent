@@ -13,7 +13,7 @@
 |:--|:--|
 | [nuget.org](https://nuget.org) | [![NuGet][main-nuget-badge]][main-nuget] |
 
-## Fuget documentation
+## Fuget Documentation 😜
 
 * [fuget.org](https://www.fuget.org/packages/EifelMono.Fluent)
 
