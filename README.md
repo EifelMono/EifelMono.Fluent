@@ -1,6 +1,22 @@
 # EifelMono.Fluent
 
-[![NuGet][main-nuget-badge]][main-nuget]
+## Build Status
+| OS | Status badge |
+|:--|:--|
+| Ubuntu | [![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI%20Ubuntu?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=3&branchName=master)|
+| macOS | [![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI%20macOS?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=4&branchName=master)|
+| Windows | [![Build Status](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_apis/build/status/Eifelmono%20Fluent-CI%20Windows?branchName=master)](https://eifelmono.visualstudio.com/Eifelmono%20Fluent/_build/latest?definitionId=5&branchName=master) |
+
+## Nuget
+
+| Where | Status badge | 
+|:--|:--|
+| [nuget.org](https://nuget.org) | [![NuGet][main-nuget-badge]][main-nuget] |
+
+## Fuget Documentation 😜
+
+* [fuget.org](https://www.fuget.org/packages/EifelMono.Fluent)
+
 
 [main-nuget]: https://www.nuget.org/packages/EifelMono.Fluent/
 [main-nuget-badge]: https://img.shields.io/nuget/v/EifelMono.Fluent.svg?style=flat-square&label=nuget
@@ -11,6 +27,7 @@
 * [DirectoryPath](https://github.com/EifelMono/EifelMono.Fluent/wiki/DirectoryPath) directory operations
 * [fluent](https://github.com/EifelMono/EifelMono.Fluent/wiki/fluent) App, Lib, OS, ...
 * [Extensions](https://github.com/EifelMono/EifelMono.Fluent/wiki/Extensions) generics, string, ...
+
 
 ```csharp
 var testFile = new FilePath(@"C:\temp\src\test.txt")
@@ -41,6 +58,6 @@ for more see the
 
 ##  Requirements
 
-* Visual Studio 2019 preview
-*  
+* Visual Studio 2019 RC/preview
+* dotnet core 3.0 Roslyn c# 8.0 
 
