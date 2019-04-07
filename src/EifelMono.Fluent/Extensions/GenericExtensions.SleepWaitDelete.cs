@@ -1,5 +1,7 @@
 ﻿using System;
+#if (!NETSTANDARD1_6)
 using System.Threading;
+#endif
 using System.Threading.Tasks;
 
 namespace EifelMono.Fluent.Extensions
@@ -24,9 +26,9 @@ namespace EifelMono.Fluent.Extensions
             await Task.Delay(timespane).ConfigureAwait(false);
             return thisValue;
         }
-        public static async Task<T> WaitAsync<T>(this T thisValue, int msec)
+        public static async Task<T> WaitAsync<T>(this T thisValue, int millisecondsDelay)
         {
-            await Task.Delay(msec).ConfigureAwait(false);
+            await Task.Delay(millisecondsDelay).ConfigureAwait(false);
             return thisValue;
         }
     }

@@ -41,7 +41,14 @@ namespace EifelMono.Fluent
                 // T data = default(T);
                 // var ok = System.Enum.TryParse<T>(value, ignoreCase, out data);
                 // return (ok, data);
-                return TrySafe(() => Parse<T>(value, ignoreCase));
+                try
+                {
+                    return (true, Parse<T>(value, ignoreCase));
+                }
+                catch
+                {
+                    return (false, defaultValue);
+                }
             }
 
             public static T TryParse<T>(string value, bool ignoreCase = false, T defaultValue = default) where T : System.Enum

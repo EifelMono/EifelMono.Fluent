@@ -82,12 +82,12 @@ namespace EifelMono.Fluent.Test
                 }
 
                 {
-                    var result = json.FormJsonEnvelopeAsEnvelop<TestObject>();
-                    Assert.Equal(typeof(TestObject).Name, typeof(TestObject).Name);
-                    Assert.Equal(typeof(TestObject).Name, result.Data.GetType().Name);
-                    Assert.Equal(test.Name, result.Data.Name);
-                    Assert.Equal(test.Age, result.Data.Age);
-                    Assert.Equal(test.Weight, result.Data.Weight);
+                    var (Name, Data) = json.FormJsonEnvelopeAsEnvelop<TestObject>();
+                    Assert.Equal(Name, typeof(TestObject).Name);
+                    Assert.Equal(typeof(TestObject).Name, Data.GetType().Name);
+                    Assert.Equal(test.Name, Data.Name);
+                    Assert.Equal(test.Age, Data.Age);
+                    Assert.Equal(test.Weight, Data.Weight);
                 }
             }
 

@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Xunit.Abstractions;
 using EifelMono.Fluent.Extensions;
+using Xunit;
 
 // us this in Main assemblies for internal things to the test
 [assembly: InternalsVisibleTo("EifelMono.Fluent.Test")]
@@ -45,7 +46,13 @@ namespace EifelMono.Fluent.Test
             }
         }
 
-        public static void Fail(string message)
+        public static void AssertFail(string message = "")
            => throw new Xunit.Sdk.XunitException(message);
+
+        public static void AssertSomethingWentWrong()
+           => AssertFail("Something went wrong 😢");
+
+        public static void AssertOk()
+           => Assert.True(true);
     }
 }

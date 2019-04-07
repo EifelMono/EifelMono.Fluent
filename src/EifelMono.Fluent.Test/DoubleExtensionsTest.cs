@@ -32,9 +32,9 @@ namespace EifelMono.Fluent.Test
             }
             if (doSafeConvert)
             {
-                var result = textValue.ToDoubleSafe();
-                Assert.Equal(safeOk, result.Ok);
-                Assert.Equal(convertValue, result.Value);
+                var (Ok, Value) = textValue.ToDoubleSafe();
+                Assert.Equal(safeOk, Ok);
+                Assert.Equal(convertValue, Value);
             }
         }
 
