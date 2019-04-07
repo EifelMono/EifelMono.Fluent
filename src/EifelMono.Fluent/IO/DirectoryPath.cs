@@ -200,21 +200,6 @@ namespace EifelMono.Fluent.IO
             public static DirectoryPath Data
                 => SpezialDirectory.CommonApplicationData;
 
-#pragma warning disable IDE1006 // Naming Styles
-            public static DirectoryPath dotnet
-#pragma warning restore IDE1006 // Naming Styles
-                => SpezialDirectory.UserProfile.Clone(".dotnet");
-
-#pragma warning disable IDE1006 // Naming Styles
-            public static DirectoryPath dotnettools
-#pragma warning restore IDE1006 // Naming Styles
-                => SpezialDirectory.UserProfile.Clone(".dotnet", "tools");
-
-#pragma warning disable IDE1006 // Naming Styles
-            public static DirectoryPath nuget
-#pragma warning restore IDE1006 // Naming Styles
-                => SpezialDirectory.UserProfile.Clone(".nuget");
-
             public static DirectoryPath SpecialFolderPath(Environment.SpecialFolder specialFolder)
                 => new DirectoryPath(Environment.GetFolderPath(specialFolder));
 

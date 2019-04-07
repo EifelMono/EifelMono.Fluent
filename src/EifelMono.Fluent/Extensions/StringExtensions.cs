@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace EifelMono.Fluent.Extensions
 {
@@ -16,5 +17,7 @@ namespace EifelMono.Fluent.Extensions
             => thisValue.EndsWith(text)
                 ? thisValue.Substring(0, thisValue.Length - text.Length)
                 : thisValue;
+        public static bool FirstCharIsNumber(this string thisValue)
+            => Regex.IsMatch(thisValue ?? "", @"^\d");
     }
 }

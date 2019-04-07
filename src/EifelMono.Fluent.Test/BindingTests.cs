@@ -107,8 +107,6 @@ namespace EifelMono.Fluent.Test
             Assert.Equal(1, testClass.Command1Count);
             testClass.Command2.Execute("");
             Assert.Equal("1", testClass.Command2Count);
-
-
         }
     }
 }

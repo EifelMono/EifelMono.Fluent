@@ -15,6 +15,11 @@ namespace EifelMono.Fluent.IO
             thisValue.Value = thisValue.FullPath;
             return thisValue;
         }
+        public static T MakeFullPath<T>(this T thisValue) where T : ValuePath
+        {
+            thisValue.Value = thisValue.FullPath;
+            return thisValue;
+        }
 
         public static T IfEndsWithPathThenRemove<T>(this T thisValue) where T : ValuePath
         {
@@ -24,6 +29,5 @@ namespace EifelMono.Fluent.IO
 
         public static bool EndsWithPath<T>(this T thisValue) where T : ValuePath
             => thisValue.Value.EndsWith(ValuePath.PathSeparatorChar.ToString());
-
     }
 }

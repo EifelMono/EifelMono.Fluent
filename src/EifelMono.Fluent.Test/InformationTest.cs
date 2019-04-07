@@ -1,4 +1,5 @@
 ﻿using System;
+using EifelMono.DotNet;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 using Xunit;
@@ -6,6 +7,7 @@ using Xunit.Abstractions;
 
 namespace EifelMono.Fluent.Test
 {
+#pragma warning disable IDE1006 // Naming Styles
     public class InformationTest : XunitCore
     {
         public InformationTest(ITestOutputHelper output) : base(output) { }
@@ -38,9 +40,7 @@ namespace EifelMono.Fluent.Test
             WriteLine($"  Current {DirectoryPath.OS.Current}");
             WriteLine($"  Data {DirectoryPath.OS.Data}");
             WriteLine($"  Temp {DirectoryPath.OS.Temp}");
-            WriteLine($"  dotnet {DirectoryPath.OS.dotnet}");
-            WriteLine($"  dotnettools {DirectoryPath.OS.dotnettools}");
-            WriteLine($"  nuget {DirectoryPath.OS.nuget}");
+
 
             WriteLine($"  Current.Value {current.Value}");
             WriteLine($"  Current.NormalizeValue {current.NormalizeValue}");
@@ -59,9 +59,8 @@ namespace EifelMono.Fluent.Test
         }
 
         [Fact]
-#pragma warning disable IDE1006 // Naming Styles
         public void fluent_OS()
-#pragma warning restore IDE1006 // Naming Styles
+
         {
             WriteLine($"fluent.OS".NewLine());
             WriteLine($"CurrentPlatform {fluent.OS.CurrentPlatform}");
@@ -75,9 +74,8 @@ namespace EifelMono.Fluent.Test
         }
 
         [Fact]
-#pragma warning disable IDE1006 // Naming Styles
+
         public void fluent_App()
-#pragma warning restore IDE1006 // Naming Styles
         {
             WriteLine($"fluent.App".NewLine());
             WriteLine(fluent.Executable);
@@ -89,5 +87,30 @@ namespace EifelMono.Fluent.Test
             WriteLine(fluent.FluentLib.ToJson());
             WriteLine(fluent.FluentLib.CustomAttributesAsJson());
         }
+
+        [Fact]
+        public void dotnet_OS()
+        {
+            WriteLine($"dotnet.OS");
+            WriteLine($"  dotdotnet {dotnet.OS.dotdotnet}");
+            WriteLine($"  dotnuget {dotnet.OS.dotnuget}");
+            WriteLine($"  tools {dotnet.OS.tools}");
+            WriteLine($"  dotnet {dotnet.OS.dotnet}");
+            WriteLine($"  sdks {dotnet.OS.sdks}");
+            WriteLine($"  runtimes {dotnet.OS.runtimes}");
+        }
+
+        [Fact]
+        public void dotnet_Infos()
+        {
+            WriteLine($"dotnet");
+            WriteLine($"  Sdks");
+            dotnet.Sdks.ForEach(item => WriteLine($"    {item}"));
+            WriteLine($"  SdksNames");
+            dotnet.SdkNames.ForEach(item => WriteLine($"    {item}"));
+            WriteLine($"  Runtimes");
+            dotnet.Runtimes.ForEach(item => WriteLine($"    {item}"));
+        }
     }
+#pragma warning restore IDE1006 // Naming Styles
 }
