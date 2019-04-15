@@ -21,16 +21,16 @@ namespace EifelMono.Fluent.Bindings
         public static T PropertyGet<T>(this IOnPropertyChanged thisValue, ref T backingField, [CallerMemberName]string propertyName = "")
             => backingField;
 
-        public static T PropertySet<T>(this IOnPropertyChanged thisValue, ref T backingField, T newValue, [CallerMemberName]string propertyName = "", params string[] additionalPropertyNames)
+        public static (bool IsEqual, T Value) PropertySet<T>(this IOnPropertyChanged thisValue, ref T backingField, T newValue, [CallerMemberName]string propertyName = "", params string[] additionalPropertyNames)
         {
-            if (!EqualityComparer<T>.Default.Equals(backingField, newValue))
-            {
-                backingField = newValue;
-                thisValue.OnPropertyChanged(propertyName);
-                foreach (var additionalPropertyName in additionalPropertyNames)
-                    thisValue.OnPropertyChanged(additionalPropertyName);
-            }
-            return backingField;
+            if (Equals(thisValue, newValue))
+                return (true, backingField);
+
+            backingField = newValue;
+            thisValue.OnPropertyChanged(propertyName);
+            foreach (var additionalPropertyName in additionalPropertyNames)
+                thisValue.OnPropertyChanged(additionalPropertyName);
+            return (false, backingField);
         }
 
 

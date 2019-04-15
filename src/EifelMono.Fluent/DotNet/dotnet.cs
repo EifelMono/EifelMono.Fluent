@@ -10,11 +10,11 @@ namespace EifelMono.DotNet
     public static partial class dotnet
     {
         public static IEnumerable<DirectoryPath> Sdks
-            => OS.sdks.GetDirectories("*").Where(d => d.SplitValuesLast.FirstCharIsNumber()).Select(d => d.MakeAbsolute());
+            => OS.sdks.GetDirectories("*").Where(d => d.SplitValuesLast.StartsWithDigit()).Select(d => d.MakeAbsolute());
         public static IEnumerable<string> SdkNames
             => Sdks.Select(d => d.SplitValuesLast);
         public static IEnumerable<DirectoryPath> Runtimes
-            => OS.runtimes.GetDirectories("*/*").Where(d => d.SplitValuesLast.FirstCharIsNumber()).Select(d => d.MakeAbsolute());
+            => OS.runtimes.GetDirectories("*/*").Where(d => d.SplitValuesLast.StartsWithDigit()).Select(d => d.MakeAbsolute());
 
         public static class OS
         {

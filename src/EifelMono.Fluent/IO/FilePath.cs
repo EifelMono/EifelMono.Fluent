@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using EifelMono.Fluent.Classes;
@@ -22,12 +21,7 @@ namespace EifelMono.Fluent.IO
         public FilePath(string directoryName, string fileName) : base(Path.Combine(directoryName, fileName)) { }
 
         public FilePath Clone(string newFileName = "")
-        {
-            if (string.IsNullOrEmpty(newFileName))
-                return new FilePath(Value);
-            else
-                return new FilePath(DirectoryName, newFileName);
-        }
+            => newFileName.IsNullOrEmpty() ? new FilePath(Value) : new FilePath(DirectoryName, newFileName);
 
         public static implicit operator FilePath(string path)
             => new FilePath(path);

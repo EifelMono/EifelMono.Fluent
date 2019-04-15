@@ -88,28 +88,58 @@ namespace EifelMono.Fluent.Test
         [Fact]
         public void CloneTest()
         {
-            var TestTextPath = new FilePath(DirectoryPath.OS.Temp, "Test.txt");
+            var filePath = new FilePath(DirectoryPath.OS.Temp, "Test.txt");
             {
-                var CloneTestTextPath = TestTextPath.Clone();
-                Assert.Equal(TestTextPath.Value, CloneTestTextPath.Value);
-                Assert.Equal(TestTextPath.Extension, CloneTestTextPath.Extension);
-                Assert.Equal(TestTextPath.FileName, CloneTestTextPath.FileName);
-                Assert.Equal(TestTextPath.FileNameWithoutExtension, CloneTestTextPath.FileNameWithoutExtension);
-                Assert.Equal(TestTextPath.FullPath, CloneTestTextPath.FullPath);
-                Assert.Equal(TestTextPath.HasExtension, CloneTestTextPath.HasExtension);
-                Assert.Equal((string)TestTextPath, (string)CloneTestTextPath);
+                var cloneFilePath = filePath.Clone();
+                Assert.Equal(filePath.Value, cloneFilePath.Value);
+                Assert.Equal(filePath.Extension, cloneFilePath.Extension);
+                Assert.Equal(filePath.FileName, cloneFilePath.FileName);
+                Assert.Equal(filePath.FileNameWithoutExtension, cloneFilePath.FileNameWithoutExtension);
+                Assert.Equal(filePath.FullPath, cloneFilePath.FullPath);
+                Assert.Equal(filePath.HasExtension, cloneFilePath.HasExtension);
+                Assert.Equal((string)filePath, (string)cloneFilePath);
             }
             {
-                var CloneTestTextPath = TestTextPath.Clone("Clone.cln");
-                Assert.Equal(TestTextPath.DirectoryName, CloneTestTextPath.DirectoryName);
-                Assert.Equal((string)TestTextPath.Directory, (string)CloneTestTextPath.Directory);
-                Assert.Equal((string)DirectoryPath.OS.Temp.IfEndsWithPathThenRemove(), TestTextPath.DirectoryName);
-                Assert.Equal("Test.txt", TestTextPath.FileName);
-                Assert.Equal("Test", TestTextPath.FileNameWithoutExtension);
-                Assert.Equal(".txt", TestTextPath.Extension);
-                Assert.Equal("Clone.cln", CloneTestTextPath.FileName);
-                Assert.Equal("Clone", CloneTestTextPath.FileNameWithoutExtension);
-                Assert.Equal(".cln", CloneTestTextPath.Extension);
+                var cloneFilePath = filePath.Clone("Clone.cln");
+                Assert.Equal(filePath.DirectoryName, cloneFilePath.DirectoryName);
+                Assert.Equal((string)filePath.Directory, (string)cloneFilePath.Directory);
+                Assert.Equal((string)DirectoryPath.OS.Temp.IfEndsWithPathThenRemove(), filePath.DirectoryName);
+                Assert.Equal("Test.txt", filePath.FileName);
+                Assert.Equal("Test", filePath.FileNameWithoutExtension);
+                Assert.Equal(".txt", filePath.Extension);
+                Assert.Equal("Clone.cln", cloneFilePath.FileName);
+                Assert.Equal("Clone", cloneFilePath.FileNameWithoutExtension);
+                Assert.Equal(".cln", cloneFilePath.Extension);
+            }
+        }
+
+        [Fact]
+        public void CloneTestDateTime()
+        {
+            var TestTextFilePath = new FilePath(DirectoryPath.OS.Temp, "Test.txt");
+            {
+                {
+                    var cloneFilePath = TestTextFilePath.Clone().ChangeFileNameWithoutExtensionAppend(FilePath.DateTimeFormat.yyyyMMdd);
+                    if (cloneFilePath.FileWileNameWithoutExtensionLastAsDateTime() is var result && result.Ok)
+                        Assert.Equal(DateTime.Now.Date, result.Value.Date);
+                    else
+                        AssertFail();
+                }
+                {
+                    var cloneFilePath = TestTextFilePath.Clone().ChangeFileNameWithoutExtensionAppend(FilePath.DateTimeFormat.HHmmss);
+                    if (cloneFilePath.FileWileNameWithoutExtensionLastAsDateTime() is var result && result.Ok)
+                        Assert.True((DateTime.Now.TimeOfDay - result.Value.TimeOfDay).TotalSeconds < 1);
+                    else
+                        AssertFail();
+                }
+
+                {
+                    var cloneFilePath = TestTextFilePath.Clone().ChangeFileNameWithoutExtensionAppend(FilePath.DateTimeFormat.yyyyMMddHHmmss);
+                    if (cloneFilePath.FileWileNameWithoutExtensionLastAsDateTime() is var result && result.Ok)
+                        Assert.True((DateTime.Now - result.Value).TotalSeconds < 1);
+                    else
+                        AssertFail();
+                }
             }
         }
 
@@ -118,9 +148,7 @@ namespace EifelMono.Fluent.Test
         {
             var testFile = DirectoryPath.OS.Temp.CloneToFilePath($"{nameof(FilePath_Infos_From_TestFile)}.json");
             testFile.IfExists.ClearAttributes();
-            testFile.IfExists.Do(f =>
-            {
-            });
+            testFile.IfExists.Do(f => { });
             // testFile.RemoveAttributesIfExist().DeleteIfExist();
             testFile.IfExists.Delete();
 

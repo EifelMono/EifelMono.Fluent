@@ -96,17 +96,33 @@ namespace EifelMono.Fluent.Test
                     "2"
                 }
             };
-
             Assert.Equal(2, testClass.Collection1.Count);
+            Assert.Equal(2, testClass.Collection1.BadgeAdded);
+            Assert.Equal(0, testClass.Collection1.BadgeRemoved);
+
             testClass.Collection1
                 .AddItems(new List<string> { "3", "4" })
                 .AddItems(new List<string> { "5", "6" });
             Assert.Equal(6, testClass.Collection1.Count);
+            Assert.Equal(6, testClass.Collection1.BadgeAdded);
+            Assert.Equal(0, testClass.Collection1.BadgeRemoved);
             testClass.Command1.Execute("");
             Assert.True(testClass.Command1.CanExecute(""));
             Assert.Equal(1, testClass.Command1Count);
             testClass.Command2.Execute("");
             Assert.Equal("1", testClass.Command2Count);
+            testClass.Collection1.BadgeReset();
+            Assert.Equal(6, testClass.Collection1.Count);
+            Assert.Equal(0, testClass.Collection1.BadgeAdded);
+            Assert.Equal(0, testClass.Collection1.BadgeRemoved);
+            testClass.Collection1.Remove("3");
+            Assert.Equal(5, testClass.Collection1.Count);
+            Assert.Equal(0, testClass.Collection1.BadgeAdded);
+            Assert.Equal(1, testClass.Collection1.BadgeRemoved);
+            testClass.Collection1.BadgeReset();
+            Assert.Equal(5, testClass.Collection1.Count);
+            Assert.Equal(0, testClass.Collection1.BadgeAdded);
+            Assert.Equal(0, testClass.Collection1.BadgeRemoved);
         }
     }
 }

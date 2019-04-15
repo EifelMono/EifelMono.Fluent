@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace EifelMono.Fluent.Extensions
 {
     public static partial class StringExtensions
     {
+        public static bool IsNullOrEmpty(this string thisValue)
+            => string.IsNullOrEmpty(thisValue);
+        public static bool IsLengthGreater(this string thisValue, int value)
+            => thisValue is null ? false : thisValue.Length > value;
+
         public static string ToJoinString(this List<string> thisValue, string joinChar)
             => string.Join(joinChar, thisValue);
         public static string Repeat(this string thisValue, int count)
@@ -17,7 +21,10 @@ namespace EifelMono.Fluent.Extensions
             => thisValue.EndsWith(text)
                 ? thisValue.Substring(0, thisValue.Length - text.Length)
                 : thisValue;
-        public static bool FirstCharIsNumber(this string thisValue)
-            => Regex.IsMatch(thisValue ?? "", @"^\d");
+        public static bool StartsWithDigit(this string thisValue)
+            => thisValue.IsLengthGreater(1) ? thisValue[0].IsDigit() : false;
+
+        public static bool AreDigits(this string thisValue)
+            => thisValue.All(char.IsDigit);
     }
 }
