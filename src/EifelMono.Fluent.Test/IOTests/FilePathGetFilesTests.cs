@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using EifelMono.Fluent.IO;
+using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.IOTests
 {
-    public class FilePathGetFilesTest : XunitCore
+    public class FilePathGetFilesTests : XunitCore
     {
         public static DirectoryPath s_srcFolder = new DirectoryPath(@".\..\..\..\..\..\src");
-        public FilePathGetFilesTest(ITestOutputHelper output) : base(output) { }
+        public FilePathGetFilesTests(ITestOutputHelper output) : base(output) { }
 
 
         private void SearchFiles(string searchMask, int count = -1)

@@ -1,14 +1,15 @@
 ﻿using System;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
+using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.IOTests
 {
-    public class FilePathTest : XunitCore
+    public class FilePathTests : XunitCore
     {
-        public FilePathTest(ITestOutputHelper output) : base(output) { }
+        public FilePathTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
         public void TypeTest()

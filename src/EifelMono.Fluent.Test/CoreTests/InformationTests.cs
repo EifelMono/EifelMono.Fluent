@@ -2,15 +2,16 @@
 using EifelMono.DotNet;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
+using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.CoreTests
 {
 #pragma warning disable IDE1006 // Naming Styles
-    public class InformationTest : XunitCore
+    public class InformationTests : XunitCore
     {
-        public InformationTest(ITestOutputHelper output) : base(output) { }
+        public InformationTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
         public void FilePath_Infos()

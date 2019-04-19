@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EifelMono.Fluent.Extensions
+namespace EifelMono.Fluent.Flow
 {
     public static class TaskExtensions
     {

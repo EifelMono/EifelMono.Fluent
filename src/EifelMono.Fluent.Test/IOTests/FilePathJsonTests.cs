@@ -1,14 +1,15 @@
 ﻿using System.Linq;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
+using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.IOTests
 {
-    public class FilePathJsonTest : XunitCore
+    public class FilePathJsonTests : XunitCore
     {
-        public FilePathJsonTest(ITestOutputHelper output) : base(output) { }
+        public FilePathJsonTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
         public void SerializeFilePath()

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EifelMono.Fluent.Classes;
+using EifelMono.Fluent.Flow;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.XunitTests
 {
     public class Xlock : IDisposable
     {
@@ -41,7 +42,7 @@ namespace EifelMono.Fluent.Test
         public async Task<Xlock<T>> WaitAsync(params T[] startItems)
         {
             StartItems = startItems.ToList();
-            var signal = new TaskCompletionSourceQueued<bool>();
+            var signal = new TaskCompletionQueuedSource<bool>();
             void s_items_OnRemove()
             {
                 lock (_items)
@@ -63,7 +64,7 @@ namespace EifelMono.Fluent.Test
                 lock (_items)
                     s_OnRemove += s_items_OnRemove;
                 s_items_OnRemove();
-                while (!(await signal.WaitDataAsync() is var result && result.Ok && result.Data))
+                while (!(await signal.WaitValueAsync() is var result && result.Ok && result.Value))
                 { }
             }
             finally

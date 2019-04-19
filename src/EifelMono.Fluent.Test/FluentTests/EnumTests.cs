@@ -3,8 +3,9 @@ using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 using EifelMono.Fluent.Extensions;
+using EifelMono.Fluent.Test.XunitTests;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.FluentTests
 {
     public class EnumTest : XunitCore
     {

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EifelMono.Fluent.Extensions;
+using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;
-using EifelMono.Fluent.Extensions;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.ExtensionsTests
 {
-    public class BoolExtensionsTest : XunitCore
+    public class BoolExtensionsTests : XunitCore
     {
-        public BoolExtensionsTest(ITestOutputHelper output) : base(output) { }
+        public BoolExtensionsTests(ITestOutputHelper output) : base(output) { }
 
 
         [Theory]

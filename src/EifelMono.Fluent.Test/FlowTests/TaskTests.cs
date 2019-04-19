@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using EifelMono.Fluent.Flow;
+using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;
-using EifelMono.Fluent.Extensions;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.FlowTests
 {
-    public class TaskTest : XunitCore
+    public class TaskTests : XunitCore
     {
-        public TaskTest(ITestOutputHelper output) : base(output) { }
+        public TaskTests(ITestOutputHelper output) : base(output) { }
 
         public async Task<DateTime> WorkAsync(TimeSpan timeSpan, bool failAfterDelay, CancellationToken cancellationToken = default)
         {

@@ -4,12 +4,13 @@ using System.Text;
 using Xunit;
 using Xunit.Abstractions;
 using EifelMono.Fluent.Extensions;
+using EifelMono.Fluent.Test.XunitTests;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.ExtensionsTests
 {
-    public class JsonExtensionsTest : XunitCore
+    public class JsonExtensionsTests : XunitCore
     {
-        public JsonExtensionsTest(ITestOutputHelper output) : base(output) { }
+        public JsonExtensionsTests(ITestOutputHelper output) : base(output) { }
 
         class TestObject
         {

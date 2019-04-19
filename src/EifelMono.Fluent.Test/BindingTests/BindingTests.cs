@@ -4,10 +4,11 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using EifelMono.Fluent.Bindings;
 using EifelMono.Fluent.Extensions;
+using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EifelMono.Fluent.Test
+namespace EifelMono.Fluent.Test.BindingTests
 {
     public class BindingCommandTests : XunitCore
     {
