@@ -157,7 +157,7 @@ namespace EifelMono.Fluent.Flow
         public async Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(params CancellationToken[] cancellationTokens)
             => await WaitValueAsync(default, false, cancellationTokens).ConfigureAwait(false);
 
-        public async Task<(bool Ok, T Value, Exception Exception)> WaitAsync(T waitData, params CancellationToken[] cancellationTokens)
+        public async Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T waitData, params CancellationToken[] cancellationTokens)
             => await WaitValueAsync(waitData, true, cancellationTokens).ConfigureAwait(false);
     }
 }
