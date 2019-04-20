@@ -12,6 +12,7 @@ namespace EifelMono.Fluent
         {
             public static IEnumerable<T> Values<T>() where T : System.Enum
                => System.Enum.GetValues(typeof(T)).Cast<T>();
+
             public static IEnumerable<string> Names<T>() where T : System.Enum
                => System.Enum.GetNames(typeof(T)).Cast<string>();
 

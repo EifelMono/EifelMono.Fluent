@@ -30,7 +30,6 @@ namespace EifelMono.Fluent.Test.XunitTests
             Dispose(true);
         }
         #endregion
-
     }
 
     public class Xlock<T> : Xlock

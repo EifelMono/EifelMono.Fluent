@@ -12,6 +12,16 @@ namespace EifelMono.Fluent.Test.IOTests
         public FilePathTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
+        public void OperatorTest()
+        {
+            FilePath f = @"C:\test.txt";
+            Assert.Equal(typeof(FilePath), f.GetType());
+
+            string s = f;
+            Assert.Equal(@"C:\test.txt", s);
+            Assert.Equal(@"C:\test.txt", f.Value);
+        }
+        [Fact]
         public void TypeTest()
         {
             var filePath = new FilePath(DirectoryPath.OS.Temp, "Test.txt");

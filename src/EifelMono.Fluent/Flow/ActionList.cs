@@ -28,6 +28,12 @@ namespace EifelMono.Fluent.Flow
             return item;
         }
 
+        public bool Contains(object item)
+        {
+            lock (Items)
+                return (Items.Contains(item));
+        }
+
         public void Clear()
         {
             lock (Items)
@@ -48,6 +54,9 @@ namespace EifelMono.Fluent.Flow
             lock (Items)
                 return Items.Select(item => item).ToList();
         }
+
+        protected object this[int index]
+            => Clone()[index];
 
         protected (int Calls, int Errors) Invoke(Action<object> action)
         {
@@ -124,6 +133,9 @@ namespace EifelMono.Fluent.Flow
             base.Remove(action);
             return action;
         }
+        
+        public bool Contains(Action action) => base.Contains(action);
+        public new Action this[int index] => base[index] as Action;
 
         public (int Calls, int Errors) Invoke()
             => Invoke(item => (item as Action)?.Invoke());
@@ -145,6 +157,9 @@ namespace EifelMono.Fluent.Flow
             return action;
         }
 
+        public bool Contains(Action<T1> action) => base.Contains(action);
+        public new Action<T1> this[int index] => base[index] as Action<T1>;
+
         public (int Calls, int Errors) Invoke(T1 arg1)
             => Invoke(item => (item as Action<T1>)?.Invoke(arg1));
         public (int Calls, int Errors) InvokeParallel(T1 arg1)
@@ -164,6 +179,8 @@ namespace EifelMono.Fluent.Flow
             base.Remove(action);
             return action;
         }
+        public bool Contains(Action<T1, T2> action) => base.Contains(action);
+        public new Action<T1, T2> this[int index] => base[index] as Action<T1, T2>;
 
         public (int Calls, int Errors) Invoke(T1 arg1, T2 arg2)
             => Invoke(item => (item as Action<T1, T2>)?.Invoke(arg1, arg2));
@@ -185,6 +202,9 @@ namespace EifelMono.Fluent.Flow
             return action;
         }
 
+        public bool Contains(Action<T1, T2, T3> action) => base.Contains(action);
+        public new Action<T1, T2, T3> this[int index] => base[index] as Action<T1, T2, T3>;
+
         public (int Calls, int Errors) Invoke(T1 arg1, T2 arg2, T3 arg3)
             => Invoke(item => (item as Action<T1, T2, T3>)?.Invoke(arg1, arg2, arg3));
         public (int Calls, int Errors) InvokeParallel(T1 arg1, T2 arg2, T3 arg3)
@@ -205,6 +225,9 @@ namespace EifelMono.Fluent.Flow
             return action;
         }
 
+        public bool Contains(Action<T1, T2, T3, T4> action) => base.Contains(action);
+        public new Action<T1, T2, T3, T4> this[int index] => base[index] as Action<T1, T2, T3, T4>;
+
         public (int Calls, int Errors) Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
             => Invoke(item => (item as Action<T1, T2, T3, T4>)?.Invoke(arg1, arg2, arg3, arg4));
         public (int Calls, int Errors) InvokeParallel(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
@@ -224,6 +247,8 @@ namespace EifelMono.Fluent.Flow
             base.Remove(action);
             return action;
         }
+        public bool Contains(Action<T1, T2, T3, T4, T5> action) => base.Contains(action);
+        public new Action<T1, T2, T3, T4, T5> this[int index] => base[index] as Action<T1, T2, T3, T4, T5>;
 
         public (int Calls, int Errors) Invoke(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
             => Invoke(item => (item as Action<T1, T2, T3, T4, T5>)?.Invoke(arg1, arg2, arg3, arg4, arg5));

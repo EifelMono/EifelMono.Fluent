@@ -20,6 +20,17 @@ namespace EifelMono.Fluent.Test.IOTests
         public static string s_dirName2 = "GHIJKL";
 
         public DirectoryPathTests(ITestOutputHelper output) : base(output) { }
+
+        [Fact]
+        public void OperatorTest()
+        {
+            DirectoryPath f = @"C:\";
+            Assert.Equal(typeof(DirectoryPath), f.GetType());
+
+            string s = f;
+            Assert.Equal(@"C:\", s);
+            Assert.Equal(@"C:\", f.Value);
+        }
         [Fact]
         public void TypeTest()
         {
@@ -74,15 +85,15 @@ namespace EifelMono.Fluent.Test.IOTests
 
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Theory(Skip ="Only single Test")]
+        [Theory(Skip = "Only single Test")]
 #pragma warning restore xUnit1004 // Test methods should not be skipped
-                                 // [Theory]
+        // [Theory]
         [InlineData(1, "ABCDEF")]
 
         public async void TestCreateDirectories(int dirMax, string dirName)
         {
 #pragma warning disable IDE0059 // Value assigned to symbol is never used
-            using var xlock= await new XlockDirectory().WaitAsync(s_testFluentPath);
+            using var xlock = await new XlockDirectory().WaitAsync(s_testFluentPath);
 #pragma warning restore IDE0059 // Value assigned to symbol is never used
             WriteLine(s_testFluentPath);
             await CreateTestDirectoriesAsync(dirMax, dirName);

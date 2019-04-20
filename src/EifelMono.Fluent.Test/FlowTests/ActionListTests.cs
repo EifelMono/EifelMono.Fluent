@@ -29,6 +29,8 @@ namespace EifelMono.Fluent.Test.FlowTests
                     lock (sync)
                         count++;
                 });
+            for (int i = 0; i < countMax; i++)
+                Assert.True(list.Contains(list[i]));
             Assert.Equal(countMax, list.Count);
 
             count = 0;
@@ -87,6 +89,9 @@ namespace EifelMono.Fluent.Test.FlowTests
                 Assert.Equal(0, Errors);
                 Assert.Equal(countMax, count);
             }
+
+            list.Clear();
+            Assert.Equal(0, list.Count);
         }
 
         [Theory]
@@ -208,6 +213,9 @@ namespace EifelMono.Fluent.Test.FlowTests
                          count++;
                      Assert.Equal(a1, arg1);
                  });
+                for (int i = 0; i < l1.Count; i++)
+                    Assert.True(l1.Contains(l1[i]));
+                Assert.True(l1.Contains(c1));
                 l1.Invoke(a1);
                 l1.InvokeParallel(a1);
 
@@ -219,6 +227,9 @@ namespace EifelMono.Fluent.Test.FlowTests
                     Assert.Equal(a1, arg1);
                     Assert.Equal(a2, arg2);
                 });
+                for (int i = 0; i < l2.Count; i++)
+                    Assert.True(l2.Contains(l2[i]));
+                Assert.True(l2.Contains(c2));
                 l2.Invoke(a1, a2);
                 l2.InvokeParallel(a1, a2);
 
@@ -231,6 +242,9 @@ namespace EifelMono.Fluent.Test.FlowTests
                     Assert.Equal(a2, arg2);
                     Assert.Equal(a3, arg3);
                 });
+                for (int i = 0; i < l3.Count; i++)
+                    Assert.True(l3.Contains(l3[i]));
+                Assert.True(l3.Contains(c3));
                 l3.Invoke(a1, a2, a3);
                 l3.InvokeParallel(a1, a2, a3);
 
@@ -244,6 +258,9 @@ namespace EifelMono.Fluent.Test.FlowTests
                     Assert.Equal(a3, arg3);
                     Assert.Equal(a4, arg4);
                 });
+                for (int i = 0; i < l4.Count; i++)
+                    Assert.True(l4.Contains(l4[i]));
+                Assert.True(l4.Contains(c4));
                 l4.Invoke(a1, a2, a3, a4);
                 l4.InvokeParallel(a1, a2, a3, a4);
 
@@ -258,16 +275,24 @@ namespace EifelMono.Fluent.Test.FlowTests
                     Assert.Equal(a4, arg4);
                     Assert.Equal(a5, arg5);
                 });
+                for (int i = 0; i < l5.Count; i++)
+                    Assert.True(l5.Contains(l5[i]));
+                Assert.True(l5.Contains(c5));
                 l5.Invoke(a1, a2, a3, a4, a5);
                 l5.InvokeParallel(a1, a2, a3, a4, a5);
 
                 Assert.Equal(10, count);
 
                 l1.Remove(c1);
+                Assert.False(l1.Contains(c1));
                 l2.Remove(c2);
+                Assert.False(l2.Contains(c2));
                 l3.Remove(c3);
+                Assert.False(l3.Contains(c3));
                 l4.Remove(c4);
+                Assert.False(l4.Contains(c4));
                 l5.Remove(c5);
+                Assert.False(l5.Contains(c5));
 
                 l1.Invoke(a1);
                 l1.InvokeParallel(a1);

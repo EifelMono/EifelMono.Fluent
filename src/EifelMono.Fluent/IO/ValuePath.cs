@@ -45,6 +45,8 @@ namespace EifelMono.Fluent.IO
 
         public static implicit operator string(ValuePath path)
             => path.FullPath;
+        public static implicit operator ValuePath(string value)
+            => new ValuePath(value);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public string FullPath

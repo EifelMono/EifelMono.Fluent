@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.Flow;
 using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
@@ -10,6 +11,90 @@ namespace EifelMono.Fluent.Test.FlowTests
     public class WaitValueTests : XunitCore
     {
         public WaitValueTests(ITestOutputHelper output) : base(output) { }
+
+        private enum TestEnums
+        {
+            A,
+            B,
+            C,
+            D,
+            AA,
+            BB,
+            CC,
+            DD
+        }
+
+        [Fact]
+        public void WaitValueJsonTest()
+        {
+            {
+                var v = new WaitValue<int>();
+                WriteLine(v.ToJson());
+            }
+
+            {
+                var v = new WaitValue<int>(1);
+                WriteLine(v.ToJson());
+            }
+
+            {
+                var v = new WaitEnumValue<TestEnums>();
+                WriteLine(v.ToJson());
+            }
+            {
+                var v = new WaitEnumValue<TestEnums>(TestEnums.B);
+                WriteLine(v.ToJson());
+            }
+        }
+
+        [Fact]
+        public async void WaitValueOperatorTest()
+        {
+            {
+                WaitValue<int> v = 1;
+                Assert.Equal(1, v.Value);
+                int v1 = v;
+                Assert.Equal(1, v1);
+
+                v = 4711;
+                Assert.Equal(4711, v.Value);
+                int v2 = v;
+                Assert.Equal(4711, v2);
+            }
+
+            {
+                WaitValue<TestEnums> v = TestEnums.A;
+                Assert.Equal(TestEnums.A, v.Value);
+                TestEnums v1 = v;
+                Assert.Equal(TestEnums.A, v1);
+
+                v = TestEnums.D;
+                Assert.Equal(TestEnums.D, v.Value);
+                TestEnums v2 = v;
+                Assert.Equal(TestEnums.D, v2);
+            }
+
+            {
+                WaitValue<int> v = 1;
+                Assert.Equal(1, v.Value);
+
+                v = 4711;
+                Assert.Equal(4711, v.Value);
+            }
+            {
+                var v = new WaitValue<int>(1);
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    v.Value = 1;
+                });
+
+                int x = v;
+                Assert.Equal(x, v.Value);
+
+                await v.WaitValueAsync(1);
+            }
+        }
 
         [Fact]
         public async void WaitValueIntTest()
@@ -64,18 +149,7 @@ namespace EifelMono.Fluent.Test.FlowTests
             }
         }
 
-        private enum TestEnums
-        {
-            A,
-            B,
-            C,
-            D,
-            AA,
-            BB,
-            CC,
-            DD
 
-        }
         [Fact]
         public async void WaitValueEnumTest()
         {
@@ -135,10 +209,33 @@ namespace EifelMono.Fluent.Test.FlowTests
             var v = new WaitEnumValue<TestEnums>();
             {
                 v.Value = TestEnums.A;
+                Assert.Equal(TestEnums.A, v.Value);
 
                 var b = v.Next();
                 Assert.Equal(TestEnums.B, b);
                 Assert.Equal(TestEnums.B, v.Value);
+
+                var c = v.Previous();
+                Assert.Equal(TestEnums.A, c);
+                Assert.Equal(TestEnums.A, v.Value);
+
+                var d = v.Previous();
+                Assert.Equal(TestEnums.A, d);
+                Assert.Equal(TestEnums.A, v.Value);
+
+                var e = v.Last();
+                Assert.Equal(TestEnums.DD, e);
+                Assert.Equal(TestEnums.DD, v.Value);
+
+                var f = v.Next();
+                Assert.Equal(TestEnums.DD, f);
+                Assert.Equal(TestEnums.DD, v.Value);
+
+                var g = v.First();
+                Assert.Equal(TestEnums.A, g);
+                Assert.Equal(TestEnums.A, v.Value);
+
+
             }
 
             {
