@@ -1,4 +1,6 @@
-# EifelMono.Fluent
+# EifelMono.Fluent  <a href="https://twitter.com/eifelmono">
+	  <img src="https://img.shields.io/badge/twitter-%40eifelmono-55acee.svg?style=flat-square">
+  </a>
 
 ## Build Status
 | OS | Status badge |
@@ -12,9 +14,7 @@
 | Where | Status badge | 
 |:--|:--|
 | [nuget.org](https://nuget.org) | [![NuGet][main-nuget-badge]][main-nuget] |
-  <a href="https://twitter.com/eifelmono">
-	  <img src="https://img.shields.io/badge/twitter-%40eifelmono-55acee.svg?style=flat-square">
-  </a>
+ 
 
 ## Fuget Documentation 😜
 
