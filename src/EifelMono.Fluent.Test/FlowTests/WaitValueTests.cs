@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.Flow;
@@ -11,6 +12,55 @@ namespace EifelMono.Fluent.Test.FlowTests
     public class WaitValueTests : XunitCore
     {
         public WaitValueTests(ITestOutputHelper output) : base(output) { }
+
+        [Fact]
+        public async void WaitValueDocText()
+        {
+            {
+                var v = new WaitValue<int>(0);
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    v.Value = 1;
+                });
+                if (await v.WaitValueAsync(1, TimeSpan.FromSeconds(1)) is var result && result)
+                    Debug.WriteLine("Value Changed to 1");
+                else
+                    Debug.WriteLine("TimeOut");
+            }
+            {
+var v = new WaitEnumValue<DayOfWeek>(DayOfWeek.Friday);
+_ = Task.Run(async () =>
+{
+    await Task.Delay(TimeSpan.FromMilliseconds(100));
+    v.Value = DayOfWeek.Sunday;
+});
+if (await v.WaitValueAsync(DayOfWeek.Sunday, TimeSpan.FromSeconds(1)) is var result && result)
+    Debug.WriteLine("Value Changed to DayOfWeek.Sunday");
+else
+    Debug.WriteLine("TimeOut");
+v.Next();
+if (v== DayOfWeek.Monday)
+    Debug.WriteLine("Next is Ok");
+else
+    Debug.WriteLine("Next error!");
+v.Previous();
+if (v == DayOfWeek.Sunday)
+    Debug.WriteLine("Previous is Ok");
+else
+    Debug.WriteLine("Previous error!");
+v.Last();
+if (v == DayOfWeek.Saturday)
+    Debug.WriteLine("Last is Ok");
+else
+    Debug.WriteLine("Last error!");
+v.First();
+if (v == DayOfWeek.Sunday)
+    Debug.WriteLine("First is Ok");
+else
+    Debug.WriteLine("First error!");
+            }
+        }
 
         private enum TestEnums
         {
@@ -234,8 +284,6 @@ namespace EifelMono.Fluent.Test.FlowTests
                 var g = v.First();
                 Assert.Equal(TestEnums.A, g);
                 Assert.Equal(TestEnums.A, v.Value);
-
-
             }
 
             {

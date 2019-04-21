@@ -16,21 +16,26 @@ namespace EifelMono.Fluent.Flow
             _value = defaultValue;
         }
 
-        private readonly object _onChangeLockObject = new object();
-        public event Action<T> OnChange;
+        public ActionList<T> OnChange { get; protected set; } = new ActionList<T>();
 
+        protected object _valueLockObject = new object();
         private T _value = default;
 
         public T Value
         {
-            get => _value;
+            get
+            {
+                lock (_valueLockObject)
+                    return _value;
+            }
             set
             {
-                if (!Equals(_value, value))
+                var currentValue = Value;
+                if (!Equals(currentValue, value))
                 {
-                    _value = value;
-                    lock (_onChangeLockObject)
-                        OnChange?.Invoke(value);
+                    lock (_valueLockObject)
+                        _value = value;
+                    OnChange.Invoke(value);
                 }
             }
         }
@@ -47,8 +52,7 @@ namespace EifelMono.Fluent.Flow
             void SubscribeOnChange(T newValue) => queue.NewData(newValue);
             try
             {
-                lock (_onChangeLockObject)
-                    OnChange += SubscribeOnChange;
+                OnChange.Add(SubscribeOnChange);
                 if (Equals(Value, value))
                     return true;
                 bool running = true;
@@ -65,8 +69,7 @@ namespace EifelMono.Fluent.Flow
             }
             finally
             {
-                lock (_onChangeLockObject)
-                    OnChange -= SubscribeOnChange;
+                OnChange.Remove(SubscribeOnChange);
             }
         }
 
