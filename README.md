@@ -64,7 +64,4 @@ for more see the
 
 
 ## Social
-| OS | Status badge |
-|:--|:--|
-|   | <a href="https://twitter.com/eifelmono"><img src="https://img.shields.io/badge/twitter-%40eifelmono-55acee.svg?style=flat-square"></a>|
-|   | <a href="https://facebook.com/andreas.klapperich"><img src="https://img.shields.io/badge/facebook-andreas.klapperich-55acee.svg?style=flat-square"></a>|
+<a href="https://twitter.com/eifelmono"><img src="https://img.shields.io/badge/twitter-%40eifelmono-55acee.svg?style=flat-square"></a><a href="https://facebook.com/andreas.klapperich"><img src="https://img.shields.io/badge/facebook-andreas.klapperich-55acee.svg?style=flat-square"></a><a href="https://www.linkedin.com/in/andreas-klapperich-09a05123/"><img src="https://img.shields.io/badge/Linkedin-andreas-klapperich-09a05123-55acee.svg?style=flat-square"></a>
