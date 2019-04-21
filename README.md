@@ -1,6 +1,11 @@
-# EifelMono.Fluent  <a href="https://twitter.com/eifelmono">
+# EifelMono.Fluent  
+
+## Social
+| Where | Status badge | 
+|:--|:--|
+|   | <a href="https://twitter.com/eifelmono">
 	  <img src="https://img.shields.io/badge/twitter-%40eifelmono-55acee.svg?style=flat-square">
-  </a>
+</a>|
 
 ## Build Status
 | OS | Status badge |
