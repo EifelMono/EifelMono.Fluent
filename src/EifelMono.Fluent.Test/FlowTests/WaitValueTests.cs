@@ -292,5 +292,56 @@ namespace EifelMono.Fluent.Test.FlowTests
                 Assert.False(result);
             }
         }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(3)]
+        [InlineData(5)]
+        [InlineData(7)]
+        [InlineData(10)]
+        [InlineData(33)]
+        [InlineData(55)]
+        [InlineData(77)]
+        [InlineData(100)]
+        [InlineData(333)]
+        [InlineData(777)]
+        [InlineData(555)]
+        [InlineData(1000)]
+        public async void TestWaitValue(int msecWaitOnStart)
+        {
+            var dayOfWeek = new WaitEnumValue<DayOfWeek>(DayOfWeek.Sunday);
+
+            WriteLine($"start dayofweek {dayOfWeek.Value}");
+
+            var dayOfWeekMonday = false;
+            _ = Task.Run(async () =>
+            {
+                await dayOfWeek.WaitValueAsync(DayOfWeek.Monday);
+                WriteLine($"wait ready Monday {dayOfWeek.Value}");
+                dayOfWeekMonday = true;
+                dayOfWeek.Value = DayOfWeek.Wednesday;
+            });
+
+            var dayOfWeekWednesday = false;
+            _ = Task.Run(async () =>
+            {
+                await dayOfWeek.WaitValueAsync(DayOfWeek.Wednesday);
+                WriteLine($"wait ready Wednesday {dayOfWeek.Value}");
+                dayOfWeekWednesday = true;
+                dayOfWeek.Value = DayOfWeek.Friday;
+            });
+
+
+            if (msecWaitOnStart > 0)
+                await Task.Delay(TimeSpan.FromMilliseconds(msecWaitOnStart));
+            dayOfWeek.Value = DayOfWeek.Monday;
+
+            await dayOfWeek.WaitValueAsync(DayOfWeek.Friday);
+            WriteLine($"wait ready Friday {dayOfWeek.Value}");
+
+            Assert.True(dayOfWeekMonday);
+            Assert.True(dayOfWeekWednesday);
+        }
     }
 }

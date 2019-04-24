@@ -53,23 +53,26 @@ namespace EifelMono.Fluent.Flow
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="waitValue"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>True=Wait finished, False=Canceled</returns>
-        public async Task<bool> WaitValueAsync(T value, CancellationToken cancellationToken = default)
+        public async Task<bool> WaitValueAsync(T waitValue, CancellationToken cancellationToken = default)
         {
             var queue = new TaskCompletionQueuedSource<T>();
             void SubscribeOnChange(T newValue) => queue.NewData(newValue);
             try
             {
                 OnChange.Add(SubscribeOnChange);
-                if (Equals(Value, value))
+                if (Equals(Value, waitValue))
                     return true;
                 bool running = true;
                 while (running)
                 {
                     if (await queue.WaitValueAsync(cancellationToken).ConfigureAwait(false) is var result && result.Ok)
-                        return true;
+                    {
+                        if (Equals(result.Value, waitValue))
+                            return true;
+                    }
                     else
                         running = false;
                     if (cancellationToken.IsCancellationRequested)
