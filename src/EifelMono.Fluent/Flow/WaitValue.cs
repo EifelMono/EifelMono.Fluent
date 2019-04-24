@@ -1,6 +1,8 @@
-﻿using System;
+﻿#undef WithOperator
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using EifelMono.Fluent.Extensions;
@@ -15,7 +17,7 @@ namespace EifelMono.Fluent.Flow
         {
             _value = defaultValue;
         }
-
+        [JsonIgnore]
         public ActionList<T> OnChange { get; protected set; } = new ActionList<T>();
 
         protected object _valueLockObject = new object();
@@ -30,14 +32,22 @@ namespace EifelMono.Fluent.Flow
             }
             set
             {
-                var currentValue = Value;
-                if (!Equals(currentValue, value))
+                bool changed = false;
+                lock (_valueLockObject)
                 {
-                    lock (_valueLockObject)
-                        _value = value;
-                    OnChange.Invoke(value);
+                    if (changed = !Equals(_value, value))
+                        lock (_valueLockObject)
+                            _value = value;
                 }
+                if (changed)
+                    OnChange.Invoke(value);
             }
+        }
+
+        public T SetValue(T value)
+        {
+            Value = value;
+            return value;
         }
 
         /// <summary>
@@ -79,8 +89,11 @@ namespace EifelMono.Fluent.Flow
         public static implicit operator T(WaitValue<T> value)
             => value.Value;
 
+#if WithOperator
+        // Action List is not copied
         public static implicit operator WaitValue<T>(T value)
             => new WaitValue<T>(value);
+#endif
 
         public override string ToString()
             => $"{Value}";

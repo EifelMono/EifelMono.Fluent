@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.Flow;
@@ -14,7 +15,7 @@ namespace EifelMono.Fluent.Test.FlowTests
         public WaitValueTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
-        public async void WaitValueDocText()
+        public async void WaitValueDocTest()
         {
             {
                 var v = new WaitValue<int>(0);
@@ -29,49 +30,79 @@ namespace EifelMono.Fluent.Test.FlowTests
                     Debug.WriteLine("TimeOut");
             }
             {
-var v = new WaitEnumValue<DayOfWeek>(DayOfWeek.Friday);
-_ = Task.Run(async () =>
-{
-    await Task.Delay(TimeSpan.FromMilliseconds(100));
-    v.Value = DayOfWeek.Sunday;
-});
-if (await v.WaitValueAsync(DayOfWeek.Sunday, TimeSpan.FromSeconds(1)) is var result && result)
-    Debug.WriteLine("Value Changed to DayOfWeek.Sunday");
-else
-    Debug.WriteLine("TimeOut");
-v.Next();
-if (v== DayOfWeek.Monday)
-    Debug.WriteLine("Next is Ok");
-else
-    Debug.WriteLine("Next error!");
-v.Previous();
-if (v == DayOfWeek.Sunday)
-    Debug.WriteLine("Previous is Ok");
-else
-    Debug.WriteLine("Previous error!");
-v.Last();
-if (v == DayOfWeek.Saturday)
-    Debug.WriteLine("Last is Ok");
-else
-    Debug.WriteLine("Last error!");
-v.First();
-if (v == DayOfWeek.Sunday)
-    Debug.WriteLine("First is Ok");
-else
-    Debug.WriteLine("First error!");
+                var v = new WaitEnumValue<DayOfWeek>(DayOfWeek.Friday);
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    v.Value = DayOfWeek.Sunday;
+                });
+                if (await v.WaitValueAsync(DayOfWeek.Sunday, TimeSpan.FromSeconds(1)) is var result && result)
+                    Debug.WriteLine("Value Changed to DayOfWeek.Sunday");
+                else
+                    Debug.WriteLine("TimeOut");
+                v.Next();
+                if (v == DayOfWeek.Monday)
+                    Debug.WriteLine("Next is Ok");
+                else
+                    Debug.WriteLine("Next error!");
+                v.Previous();
+                if (v == DayOfWeek.Sunday)
+                    Debug.WriteLine("Previous is Ok");
+                else
+                    Debug.WriteLine("Previous error!");
+                v.Last();
+                if (v == DayOfWeek.Saturday)
+                    Debug.WriteLine("Last is Ok");
+                else
+                    Debug.WriteLine("Last error!");
+                v.First();
+                if (v == DayOfWeek.Sunday)
+                    Debug.WriteLine("First is Ok");
+                else
+                    Debug.WriteLine("First error!");
             }
         }
 
+        [DataContract]
         private enum TestEnums
         {
+            [DataMember]
             A,
+            [DataMember]
             B,
+            [DataMember]
             C,
+            [DataMember]
             D,
+            [DataMember]
             AA,
+            [DataMember]
             BB,
+            [DataMember]
             CC,
+            [DataMember]
             DD
+        }
+
+        [Fact]
+        public void WaitValueOperatorTest()
+        {
+            var v = new WaitValue<DayOfWeek>(DayOfWeek.Monday);
+            {
+                var x = v;
+                Assert.Equal(DayOfWeek.Monday, x.Value);
+            }
+            {
+#pragma warning disable IDE0007 // Use implicit type
+                WaitValue<DayOfWeek> x = v;
+#pragma warning restore IDE0007 // Use implicit type
+                Assert.Equal(DayOfWeek.Monday, x.Value);
+            }
+            {
+                DayOfWeek x = v;
+                Assert.Equal(DayOfWeek.Monday, x);
+            }
+
         }
 
         [Fact]
@@ -94,55 +125,6 @@ else
             {
                 var v = new WaitEnumValue<TestEnums>(TestEnums.B);
                 WriteLine(v.ToJson());
-            }
-        }
-
-        [Fact]
-        public async void WaitValueOperatorTest()
-        {
-            {
-                WaitValue<int> v = 1;
-                Assert.Equal(1, v.Value);
-                int v1 = v;
-                Assert.Equal(1, v1);
-
-                v = 4711;
-                Assert.Equal(4711, v.Value);
-                int v2 = v;
-                Assert.Equal(4711, v2);
-            }
-
-            {
-                WaitValue<TestEnums> v = TestEnums.A;
-                Assert.Equal(TestEnums.A, v.Value);
-                TestEnums v1 = v;
-                Assert.Equal(TestEnums.A, v1);
-
-                v = TestEnums.D;
-                Assert.Equal(TestEnums.D, v.Value);
-                TestEnums v2 = v;
-                Assert.Equal(TestEnums.D, v2);
-            }
-
-            {
-                WaitValue<int> v = 1;
-                Assert.Equal(1, v.Value);
-
-                v = 4711;
-                Assert.Equal(4711, v.Value);
-            }
-            {
-                var v = new WaitValue<int>(1);
-                _ = Task.Run(async () =>
-                {
-                    await Task.Delay(TimeSpan.FromMilliseconds(100));
-                    v.Value = 1;
-                });
-
-                int x = v;
-                Assert.Equal(x, v.Value);
-
-                await v.WaitValueAsync(1);
             }
         }
 

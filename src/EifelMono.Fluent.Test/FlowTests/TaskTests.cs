@@ -179,7 +179,7 @@ namespace EifelMono.Fluent.Test.FlowTests
             catch (Exception)
             {
                 Assert.False(task.IsCompleted);
-                await Task.Delay(TimeSpan.FromSeconds(4));
+                await Task.Delay(TimeSpan.FromSeconds(5));
                 Assert.True(task.IsCompleted);
                 AssertOk();
             }
