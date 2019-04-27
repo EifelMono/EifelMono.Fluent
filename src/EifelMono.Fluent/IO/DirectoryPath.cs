@@ -72,6 +72,12 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
+        public DirectoryPath SetCurrentDirectory()
+        {
+            Directory.SetCurrentDirectory(Value);
+            return this;
+        }
+
         #endregion
 
         #region DateTime

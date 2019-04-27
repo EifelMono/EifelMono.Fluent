@@ -104,9 +104,15 @@ namespace EifelMono.Fluent.IO
             return this;
         }
 
-        public FilePath Copy(FilePath filePath)
+        public FilePath SetCurrentDirectory()
         {
-            File.Copy(this, filePath);
+            Directory.SetCurrentDirectory();
+            return this;
+        }
+
+        public FilePath Copy(FilePath filePath, bool overwrite = true)
+        {
+            File.Copy(this, filePath, overwrite);
             return this;
         }
 

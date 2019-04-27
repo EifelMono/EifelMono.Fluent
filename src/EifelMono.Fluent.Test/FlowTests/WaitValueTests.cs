@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using EifelMono.Fluent.Extensions;
@@ -14,6 +15,81 @@ namespace EifelMono.Fluent.Test.FlowTests
     {
         public WaitValueTests(ITestOutputHelper output) : base(output) { }
 
+        [Fact]
+        public async void FlowExtensionsTest()
+        {
+            var v = new WaitValue<DayOfWeek>(DayOfWeek.Monday);
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(100));
+                v.Value = DayOfWeek.Friday;
+            });
+            await v.WaitValuesAsync(fluent.@params(DayOfWeek.Monday, DayOfWeek.Friday));
+
+            v.Value = DayOfWeek.Sunday;
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(TimeSpan.FromMilliseconds(100));
+                v.Value = DayOfWeek.Friday;
+            });
+            await v.WaitValueAsync(fluent.@params(DayOfWeek.Monday, DayOfWeek.Friday));
+        }
+
+        [Fact]
+        public async void WaitValueTest()
+        {
+            var v = new WaitValue<DayOfWeek>(DayOfWeek.Sunday);
+            _ = Task.Run(async () =>
+            {
+                foreach (var dayOfWeek in fluent.Enum.Values<DayOfWeek>())
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    v.Value = dayOfWeek;
+                }
+            });
+            Assert.True(await v.WaitValueAsync(DayOfWeek.Monday, TimeSpan.FromSeconds(1)));
+            Assert.True(await v.WaitValueAsync(DayOfWeek.Monday, DayOfWeek.Tuesday, TimeSpan.FromSeconds(1)));
+            Assert.True(await v.WaitValueAsync(DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, TimeSpan.FromSeconds(1)));
+            Assert.True(await v.WaitValueAsync(DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, TimeSpan.FromSeconds(1)));
+            Assert.True(await v.WaitValueAsync(DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, TimeSpan.FromSeconds(1)));
+            Assert.True(await v.WaitValueAsync(fluent.Enum.Values<DayOfWeek>().ToArray(), TimeSpan.FromSeconds(1)));
+        }
+
+        [Fact]
+        public async void WaitValuesTest()
+        {
+            for (var index = 0; index < 6; index++)
+            {
+                var v = new WaitValue<DayOfWeek>(DayOfWeek.Sunday);
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    foreach (var dayOfWeek in fluent.Enum.Values<DayOfWeek>())
+                        v.Value = dayOfWeek;
+                });
+                switch (index)
+                {
+                    case 0:
+                        Assert.True(await v.WaitValuesAsync(DayOfWeek.Monday, TimeSpan.FromSeconds(1)));
+                        break;
+                    case 1:
+                        Assert.True(await v.WaitValuesAsync(DayOfWeek.Monday, DayOfWeek.Tuesday, TimeSpan.FromSeconds(1)));
+                        break;
+                    case 2:
+                        Assert.True(await v.WaitValuesAsync(DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, TimeSpan.FromSeconds(1)));
+                        break;
+                    case 3:
+                        Assert.True(await v.WaitValuesAsync(DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, TimeSpan.FromSeconds(1)));
+                        break;
+                    case 4:
+                        Assert.True(await v.WaitValuesAsync(DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, TimeSpan.FromSeconds(1)));
+                        break;
+                    case 5:
+                        Assert.True(await v.WaitValuesAsync(fluent.Enum.Values<DayOfWeek>().ToArray(), TimeSpan.FromSeconds(1)));
+                        break;
+                }
+            }
+        }
         [Fact]
         public async void WaitValueDocTest()
         {
@@ -181,7 +257,6 @@ namespace EifelMono.Fluent.Test.FlowTests
             }
         }
 
-
         [Fact]
         public async void WaitValueEnumTest()
         {
@@ -308,7 +383,7 @@ namespace EifelMono.Fluent.Test.FlowTests
         [InlineData(777)]
         [InlineData(555)]
         [InlineData(1000)]
-        public async void TestWaitValue(int msecWaitOnStart)
+        public async void WaitValueSingleDataTest(int msecWaitOnStart)
         {
             var dayOfWeek = new WaitEnumValue<DayOfWeek>(DayOfWeek.Sunday);
 
@@ -342,6 +417,72 @@ namespace EifelMono.Fluent.Test.FlowTests
 
             Assert.True(dayOfWeekMonday);
             Assert.True(dayOfWeekWednesday);
+        }
+
+        [Theory]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday },
+            new DayOfWeek[] { DayOfWeek.Monday },
+            true)]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday },
+            new DayOfWeek[] { },
+            false)]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+            new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+            true)]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Wednesday },
+            new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+            false)]
+        public async void WaitValuesDataTest(DayOfWeek[] dayOfWeeksSend, DayOfWeek[] dayOfWeeksWait, bool result)
+        {
+            var test = new WaitEnumValue<DayOfWeek>(DayOfWeek.Sunday);
+
+            WriteLine($"start dayofweek {test.Value}");
+
+            var send = 0;
+            foreach (var value in dayOfWeeksSend)
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(200));
+                    WriteLine($"Set {value}");
+                    send++;
+                    test.Value = value;
+                });
+            Assert.Equal(result, await test.WaitValuesAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).CreateToken()));
+            if (result)
+                Assert.Equal(dayOfWeeksSend.Length, send);
+        }
+
+
+        [Theory]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday },
+           new DayOfWeek[] { DayOfWeek.Monday },
+           true)]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday },
+           new DayOfWeek[] { },
+           false)]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+           new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+           true)]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Wednesday },
+           new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+           true)]
+        public async void WaitValueDataTest(DayOfWeek[] dayOfWeeksSend, DayOfWeek[] dayOfWeeksWait, bool result)
+        {
+            var test = new WaitEnumValue<DayOfWeek>(DayOfWeek.Sunday);
+
+            WriteLine($"start dayofweek {test.Value}");
+
+            var send = 0;
+            foreach (var value in dayOfWeeksSend)
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(200));
+                    send++;
+                    test.Value = value;
+                });
+            Assert.Equal(result, await test.WaitValueAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).CreateToken()));
+            if (result)
+                Assert.Equal(dayOfWeeksSend.Length, send);
         }
     }
 }

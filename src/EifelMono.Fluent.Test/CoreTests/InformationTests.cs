@@ -14,6 +14,20 @@ namespace EifelMono.Fluent.Test.CoreTests
         public InformationTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
+        public void ReadToString()
+        {
+            foreach (var type in typeof(fluent).Assembly.GetTypes())
+            {
+                if (type.IsClass && ! type.IsAbstract)
+                    try
+                    {
+                        var obj = Activator.CreateInstance(type);
+                        obj.ToString();
+                    }
+                    catch { }
+            }
+        }
+        [Fact]
         public void FilePath_Infos()
         {
             var current = FilePath.OS.Current;

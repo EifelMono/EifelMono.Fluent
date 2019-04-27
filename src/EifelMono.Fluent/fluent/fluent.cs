@@ -26,5 +26,7 @@ namespace EifelMono.Fluent
 #else
             => s_fluentLib ?? (s_fluentLib = new AssemblyInfo(typeof(fluent).Assembly));
 #endif
+        public static T[] @params<T>(params T[] values)
+            => values;
     }
 }
