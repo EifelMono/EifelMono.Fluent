@@ -7,8 +7,5 @@ namespace EifelMono.Fluent.Extensions
     {
         public static AssemblyInfo AssemblyInfo(this Assembly thisValue)
             => new AssemblyInfo(thisValue);
-
-        public static string CustomAttributesAsJson(this Assembly thisValue)
-            => new AssemblyInfo(thisValue).CustomAttributesAsJson();
     }
 }

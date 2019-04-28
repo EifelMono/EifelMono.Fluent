@@ -18,7 +18,7 @@ namespace EifelMono.Fluent.Test.CoreTests
         {
             foreach (var type in typeof(fluent).Assembly.GetTypes())
             {
-                if (type.IsClass && ! type.IsAbstract)
+                if (type.IsClass && !type.IsAbstract)
                     try
                     {
                         var obj = Activator.CreateInstance(type);
@@ -56,7 +56,6 @@ namespace EifelMono.Fluent.Test.CoreTests
             WriteLine($"  Data {DirectoryPath.OS.Data}");
             WriteLine($"  Temp {DirectoryPath.OS.Temp}");
 
-
             WriteLine($"  Current.Value {current.Value}");
             WriteLine($"  Current.NormalizeValue {current.NormalizeValue}");
             WriteLine($"  Current.DirectoryRoot {current.DirectoryRoot}");
@@ -69,6 +68,12 @@ namespace EifelMono.Fluent.Test.CoreTests
             foreach (var name in fluent.Enum.Names<Environment.SpecialFolder>())
             {
                 var value = fluent.Enum.TryParse<Environment.SpecialFolder>(name);
+                WriteLine($"{name}{" ".Repeat(2)} => [{value}\\{(int)value}]{Environment.NewLine}  {DirectoryPath.OS.SpecialFolderPath(value)}");
+            }
+
+            foreach (var value in fluent.Enum.Values<Environment.SpecialFolder>())
+            {
+                var name = fluent.Enum.Name(value);
                 WriteLine($"{name}{" ".Repeat(2)} => [{value}\\{(int)value}]{Environment.NewLine}  {DirectoryPath.OS.SpecialFolderPath(value)}");
             }
         }

@@ -12,7 +12,7 @@ namespace EifelMono.Fluent.Extensions
                 action?.Invoke(value);
             return thisValue;
         }
-        public static IEnumerable<T> ForEachIndex<T>(this IEnumerable<T> thisValue, Action<T, int> action)
+        public static IEnumerable<T> ForEachIndexed<T>(this IEnumerable<T> thisValue, Action<T, int> action)
         {
             var index = 0;
             foreach (var value in thisValue)

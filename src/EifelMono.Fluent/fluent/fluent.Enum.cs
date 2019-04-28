@@ -31,8 +31,11 @@ namespace EifelMono.Fluent
                 else
                     return (false, default);
             }
+            public static (bool Ok, string Value) Name<T>(T value) where T : System.Enum
+                => Name<T>(Convert.ToInt32(value));
+
             public static bool IsDefined<T>(object value) where T : System.Enum
-                => System.Enum.IsDefined(typeof(T), value);
+            => System.Enum.IsDefined(typeof(T), value);
 
             public static T Parse<T>(string value, bool ignoreCase = false) where T : System.Enum
                 => (T)System.Enum.Parse(typeof(T), value, ignoreCase);

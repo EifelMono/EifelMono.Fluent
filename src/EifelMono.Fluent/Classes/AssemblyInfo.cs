@@ -17,6 +17,13 @@ namespace EifelMono.Fluent.Classes
             _Assembly = assembly;
         }
 
+        public static AssemblyInfo FromType(Type type)
+#if NETSTANDARD1_6
+            => new AssemblyInfo(type.GetTypeInfo().Assembly);
+#else
+            => new AssemblyInfo(type.Assembly);
+#endif
+
         public T CustomAttribute<T>() where T : Attribute
         {
             try
@@ -28,8 +35,6 @@ namespace EifelMono.Fluent.Classes
                 return null;
             }
         }
-
-
 
         private FilePath _location;
 

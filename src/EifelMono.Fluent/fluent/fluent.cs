@@ -21,11 +21,8 @@ namespace EifelMono.Fluent
 
         private static AssemblyInfo s_fluentLib = null;
         public static AssemblyInfo FluentLib
-#if NETSTANDARD1_6
-            => s_fluentLib ?? (s_fluentLib = new AssemblyInfo(typeof(fluent).GetTypeInfo().Assembly));
-#else
-            => s_fluentLib ?? (s_fluentLib = new AssemblyInfo(typeof(fluent).Assembly));
-#endif
+            => s_fluentLib ?? (s_fluentLib = AssemblyInfo.FromType(typeof(fluent)));
+
         public static T[] @params<T>(params T[] values)
             => values;
     }

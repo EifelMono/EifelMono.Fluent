@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using EifelMono.Fluent.Flow;
+using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;

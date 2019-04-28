@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EifelMono.Fluent.Flow
+namespace EifelMono.Fluent.Extensions
 {
     public static class TaskExtensions
     {
@@ -78,12 +78,6 @@ namespace EifelMono.Fluent.Flow
         /// <returns></returns>
         public static Task WithCancellation(this Task thisValue, long milliSeconds)
             => WithCancellation(thisValue, TimeSpan.FromMilliseconds(milliSeconds));
-        /// <summary>
-        /// Creates a Token for timeout from CancellationTokenSource
-        /// </summary>
-        /// <param name="thisValue"></param>
-        /// <returns></returns>
-        public static CancellationToken CreateToken(this TimeSpan thisValue)
-            => new CancellationTokenSource(thisValue).Token;
+
     }
 }
