@@ -1,5 +1,6 @@
 ﻿using System;
 using EifelMono.Fluent.Classes;
+using EifelMono.Fluent.Interfaces;
 using EifelMono.Fluent.Log;
 
 namespace EifelMono.Fluent.Extensions

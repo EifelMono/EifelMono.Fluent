@@ -8,6 +8,8 @@ namespace EifelMono.Fluent.Extensions
     {
         public static bool IsNullOrEmpty(this string thisValue)
             => string.IsNullOrEmpty(thisValue);
+        public static bool IsNotNullOrEmpty(this string thisValue)
+            => ! thisValue.IsNullOrEmpty();
         public static bool IsLengthGreater(this string thisValue, int value)
             => thisValue is null ? false : thisValue.Length > value;
 

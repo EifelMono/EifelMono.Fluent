@@ -131,17 +131,17 @@ namespace EifelMono.Fluent.Flow
             => WaitValueAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4, waitValue5 }, cancellationToken);
 
         public Task<bool> WaitValueAsync(T[] waitValues, TimeSpan timeSpan)
-          => WaitValueAsync(waitValues, timeSpan.CreateToken());
+          => WaitValueAsync(waitValues, timeSpan.AsToken());
         public Task<bool> WaitValueAsync(T waitValue1, TimeSpan timeSpane)
-            => WaitValueAsync(waitValue1, timeSpane.CreateToken());
+            => WaitValueAsync(waitValue1, timeSpane.AsToken());
         public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, TimeSpan timeSpane)
-            => WaitValueAsync(waitValue1, waitValue2, timeSpane.CreateToken());
+            => WaitValueAsync(waitValue1, waitValue2, timeSpane.AsToken());
         public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, T waitValue3, TimeSpan timeSpane)
-            => WaitValueAsync(waitValue1, waitValue2, waitValue3, timeSpane.CreateToken());
+            => WaitValueAsync(waitValue1, waitValue2, waitValue3, timeSpane.AsToken());
         public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, TimeSpan timeSpane)
-            => WaitValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, timeSpane.CreateToken());
+            => WaitValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, timeSpane.AsToken());
         public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, TimeSpan timeSpane)
-            => WaitValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpane.CreateToken());
+            => WaitValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpane.AsToken());
 
         #endregion
 
@@ -196,17 +196,17 @@ namespace EifelMono.Fluent.Flow
             => WaitValuesAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4, waitValue5 }, cancellationToken);
 
         public Task<bool> WaitValuesAsync(T[] waitValues, TimeSpan timeSpan)
-             => WaitValuesAsync(waitValues, timeSpan.CreateToken());
+             => WaitValuesAsync(waitValues, timeSpan.AsToken());
         public Task<bool> WaitValuesAsync(T waitValue1, TimeSpan timeSpan)
-         => WaitValuesAsync(waitValue1, timeSpan.CreateToken());
+         => WaitValuesAsync(waitValue1, timeSpan.AsToken());
         public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, TimeSpan timeSpan)
-            => WaitValuesAsync(waitValue1, waitValue2, timeSpan.CreateToken());
+            => WaitValuesAsync(waitValue1, waitValue2, timeSpan.AsToken());
         public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, T waitValue3, TimeSpan timeSpan)
-            => WaitValuesAsync(waitValue1, waitValue2, waitValue3, timeSpan.CreateToken());
+            => WaitValuesAsync(waitValue1, waitValue2, waitValue3, timeSpan.AsToken());
         public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, TimeSpan timeSpan)
-            => WaitValuesAsync(waitValue1, waitValue2, waitValue3, waitValue4, timeSpan.CreateToken());
+            => WaitValuesAsync(waitValue1, waitValue2, waitValue3, waitValue4, timeSpan.AsToken());
         public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, TimeSpan timeSpan)
-            => WaitValuesAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpan.CreateToken());
+            => WaitValuesAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpan.AsToken());
         #endregion
 
 

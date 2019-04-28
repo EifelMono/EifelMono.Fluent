@@ -32,7 +32,7 @@ namespace EifelMono.Fluent.Extensions
         /// <param name="timeSpan"></param>
         /// <returns></returns>
         public static Task<T> WithCancellation<T>(this Task<T> task, TimeSpan timeSpan)
-            => WithCancellation(task, timeSpan.CreateToken());
+            => WithCancellation(task, timeSpan.AsToken());
 
         /// <summary>
         /// Attention this does not cancel the original Task!!!!
@@ -68,7 +68,7 @@ namespace EifelMono.Fluent.Extensions
         /// <param name="timeSpan"></param>
         /// <returns></returns>
         public static Task WithCancellation(this Task thisValue, TimeSpan timeSpan)
-            => WithCancellation(thisValue, timeSpan.CreateToken());
+            => WithCancellation(thisValue, timeSpan.AsToken());
 
         /// <summary>
         /// Attention this does not cancel the original Task!!!!

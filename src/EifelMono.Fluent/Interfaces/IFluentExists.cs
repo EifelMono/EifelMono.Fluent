@@ -1,4 +1,4 @@
-﻿namespace EifelMono.Fluent.Classes
+﻿namespace EifelMono.Fluent.Interfaces
 {
     public interface IFluentExists
     {

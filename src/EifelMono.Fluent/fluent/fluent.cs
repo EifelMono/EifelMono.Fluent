@@ -23,7 +23,9 @@ namespace EifelMono.Fluent
         public static AssemblyInfo FluentLib
             => s_fluentLib ?? (s_fluentLib = AssemblyInfo.FromType(typeof(fluent)));
 
+#pragma warning disable IDE1006 // Naming Styles
         public static T[] @params<T>(params T[] values)
+#pragma warning restore IDE1006 // Naming Styles
             => values;
     }
 }

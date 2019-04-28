@@ -1,5 +1,5 @@
 ﻿using System;
-using EifelMono.DotNet;
+using EifelMono.Fluent.DotNet;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 using EifelMono.Fluent.Test.XunitTests;
@@ -106,30 +106,6 @@ namespace EifelMono.Fluent.Test.CoreTests
             WriteLine($"fluent.FluentLib");
             WriteLine(fluent.FluentLib.ToJson());
             WriteLine(fluent.FluentLib.CustomAttributesAsJson());
-        }
-
-        [Fact]
-        public void dotnet_OS()
-        {
-            WriteLine($"dotnet.OS");
-            WriteLine($"  dotdotnet {dotnet.OS.dotdotnet}");
-            WriteLine($"  dotnuget {dotnet.OS.dotnuget}");
-            WriteLine($"  tools {dotnet.OS.tools}");
-            WriteLine($"  dotnet {dotnet.OS.dotnet}");
-            WriteLine($"  sdks {dotnet.OS.sdks}");
-            WriteLine($"  runtimes {dotnet.OS.runtimes}");
-        }
-
-        [Fact]
-        public void dotnet_Infos()
-        {
-            WriteLine($"dotnet");
-            WriteLine($"  Sdks");
-            dotnet.Sdks.ForEach(item => WriteLine($"    {item}"));
-            WriteLine($"  SdksNames");
-            dotnet.SdkNames.ForEach(item => WriteLine($"    {item}"));
-            WriteLine($"  Runtimes");
-            dotnet.Runtimes.ForEach(item => WriteLine($"    {item}"));
         }
     }
 #pragma warning restore IDE1006 // Naming Styles

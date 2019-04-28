@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using EifelMono.Fluent.Classes;
+using EifelMono.Fluent.Interfaces;
 using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.IO

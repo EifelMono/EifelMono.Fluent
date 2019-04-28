@@ -4,7 +4,7 @@ using System.Linq;
 using EifelMono.Fluent.IO;
 using EifelMono.Fluent.Extensions;
 
-namespace EifelMono.DotNet
+namespace EifelMono.Fluent.DotNet
 {
 #pragma warning disable IDE1006 // Naming Styles
     public static partial class dotnet
@@ -13,6 +13,23 @@ namespace EifelMono.DotNet
             => OS.sdks.GetDirectories("*").Where(d => d.SplitValuesLast.StartsWithDigit()).Select(d => d.MakeAbsolute());
         public static IEnumerable<string> SdkNames
             => Sdks.Select(d => d.SplitValuesLast);
+
+        public static IEnumerable<string> SdkReleaseNames
+            => SdkNames.Where(name => !name.Contains("-"));
+        public static IEnumerable<string> SdkBetaNames
+            => SdkNames.Where(name => name.Contains("-"));
+        public static string SdkName
+            => SdkNames.Last() ?? "";
+        public static string SdkReleaseName
+            => SdkReleaseNames.Last() ?? "";
+        public static string SdkBetaName
+            => SdkBetaNames.Last() ?? "";
+
+
+        public static string MajorReleaseVersion => SdkReleaseNames.Last() ?? "";
+
+        public static string MajorBetaVersion => SdkBetaNames.Last() ?? "";
+
         public static IEnumerable<DirectoryPath> Runtimes
             => OS.runtimes.GetDirectories("*/*").Where(d => d.SplitValuesLast.StartsWithDigit()).Select(d => d.MakeAbsolute());
 

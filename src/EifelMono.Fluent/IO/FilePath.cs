@@ -5,8 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using EifelMono.Fluent.Classes;
 using EifelMono.Fluent.Extensions;
+using EifelMono.Fluent.Interfaces;
 
 namespace EifelMono.Fluent.IO
 {

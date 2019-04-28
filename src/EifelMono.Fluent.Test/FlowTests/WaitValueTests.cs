@@ -447,7 +447,7 @@ namespace EifelMono.Fluent.Test.FlowTests
                     send++;
                     test.Value = value;
                 });
-            Assert.Equal(result, await test.WaitValuesAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).CreateToken()));
+            Assert.Equal(result, await test.WaitValuesAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).AsToken()));
             if (result)
                 Assert.Equal(dayOfWeeksSend.Length, send);
         }
@@ -480,7 +480,7 @@ namespace EifelMono.Fluent.Test.FlowTests
                     send++;
                     test.Value = value;
                 });
-            Assert.Equal(result, await test.WaitValueAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).CreateToken()));
+            Assert.Equal(result, await test.WaitValueAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).AsToken()));
             if (result)
                 Assert.Equal(dayOfWeeksSend.Length, send);
         }

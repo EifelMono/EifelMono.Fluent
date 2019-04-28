@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using EifelMono.Fluent.Classes;
+using EifelMono.Fluent.Interfaces;
 using EifelMono.Fluent.Extensions;
 
 namespace EifelMono.Fluent.IO
