@@ -25,7 +25,6 @@ namespace EifelMono.Fluent.DotNet
         public static string SdkBetaName
             => SdkBetaNames.Last() ?? "";
 
-
         public static string MajorReleaseVersion => SdkReleaseNames.Last() ?? "";
 
         public static string MajorBetaVersion => SdkBetaNames.Last() ?? "";

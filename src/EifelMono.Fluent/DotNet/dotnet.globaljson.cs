@@ -1,8 +1,8 @@
 ﻿#if ! NETSTANDARD1_6
 using System.Collections.Generic;
 using System.Linq;
-using EifelMono.Fluent.IO;
 using EifelMono.Fluent.Extensions;
+using EifelMono.Fluent.IO;
 
 namespace EifelMono.Fluent.DotNet
 {
@@ -11,7 +11,7 @@ namespace EifelMono.Fluent.DotNet
     {
         public static class GlobalJson
         {
-            public static FilePath FileName 
+            public static FilePath FileName
                 => DirectoryPath.OS.Current.CloneToFilePath(Classes.GlobalJson.FileName);
             public static bool Exists
                 => FileName.Exists;
