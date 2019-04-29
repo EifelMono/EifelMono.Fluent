@@ -9,7 +9,9 @@ using Flurl.Http;
 
 namespace EifelMono.Fluent.Nuget
 {
+#pragma warning disable IDE1006 // Naming Styles
     public static class nuget
+#pragma warning restore IDE1006 // Naming Styles
     {
         public static string NugetOrg { get; private set; } = "https://nuget.org";
         public static Task<(bool Ok, List<string> Value)> GetPackageVersionsAsync(string url, string packageName, bool preRelease = false, CancellationToken cancelationToken = default)
