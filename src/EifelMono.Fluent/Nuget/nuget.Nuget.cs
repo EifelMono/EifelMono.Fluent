@@ -7,20 +7,19 @@ using EifelMono.Fluent.IO;
 using EifelMono.Fluent.Log;
 using Flurl.Http;
 
-namespace EifelMono.Fluent.Nuget
+namespace EifelMono.Fluent.NuGet
 {
 #pragma warning disable IDE1006 // Naming Styles
-    public static partial class nuget
+        public static partial class nuget
 #pragma warning restore IDE1006 // Naming Styles
     {
-
-        public class Nuget
+        public class NuGet
         {
             public static readonly string s_apiSearch = "api-v2v3search-0";
             public Uri Uri { get; }
             public string ServerProtocol { get; }
             public string ServerName { get; }
-            public Nuget(string uri)
+            public NuGet(string uri)
             {
                 Uri = new Uri(uri);
             }
@@ -69,15 +68,15 @@ namespace EifelMono.Fluent.Nuget
                 catch (Exception ex)
                 {
                     ex.LogException();
-                    return (false, fileName);
                 }
+                return (false, fileName);
             }
         }
 
-        public class NugetPackage : Nuget
+        public class NuGetPackage : NuGet
         {
             public string PackageName { get; private set; }
-            public NugetPackage(string uri, string packageName) : base(uri)
+            public NuGetPackage(string uri, string packageName) : base(uri)
             {
                 PackageName = packageName;
             }

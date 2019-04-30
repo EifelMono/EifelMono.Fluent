@@ -438,20 +438,19 @@ namespace EifelMono.Fluent.Test.FlowTests
 
             WriteLine($"start dayofweek {test.Value}");
 
+            var waitTask = test.WaitValuesAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).AsToken());
             var send = 0;
             foreach (var value in dayOfWeeksSend)
-                _ = Task.Run(async () =>
+                _ = Task.Run(() =>
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(200));
                     WriteLine($"Set {value}");
                     send++;
                     test.Value = value;
                 });
-            Assert.Equal(result, await test.WaitValuesAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).AsToken()));
+            Assert.Equal(result, await waitTask);
             if (result)
                 Assert.Equal(dayOfWeeksSend.Length, send);
         }
-
 
         [Theory]
         [InlineData(new DayOfWeek[] { DayOfWeek.Monday },
@@ -472,15 +471,15 @@ namespace EifelMono.Fluent.Test.FlowTests
 
             WriteLine($"start dayofweek {test.Value}");
 
+            var waitTask = test.WaitValueAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).AsToken());
             var send = 0;
             foreach (var value in dayOfWeeksSend)
-                _ = Task.Run(async () =>
+                _ = Task.Run(() =>
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(200));
                     send++;
                     test.Value = value;
                 });
-            Assert.Equal(result, await test.WaitValueAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).AsToken()));
+            Assert.Equal(result, await waitTask);
             if (result)
                 Assert.Equal(dayOfWeeksSend.Length, send);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace EifelMono.Fluent.Nuget.Classes
+namespace EifelMono.Fluent.NuGet.Classes
 {
     public class AutoCompleteContext
     {
