@@ -17,9 +17,10 @@ namespace EifelMono.Fluent.Test.ExtensionsTests
         [Fact]
         public void ListTests()
         {
-            var list = new List<string>();
-
-            list.Add("a");
+            var list = new List<string>
+            {
+                "a"
+            };
             Assert.Contains("a", list);
             var b = "b";
             Assert.Equal(b, list.AddValueReturnValue(b));

@@ -34,7 +34,7 @@ namespace EifelMono.Fluent.Extensions
         }
 
         public static IEnumerable<T> AddValuesReturnValues<T>(this List<T> thisValue, params T[] addValues)
-            => thisValue.AddValuesReturnValues((IEnumerable<T>)addValues);
+            => thisValue.AddValuesReturnValues(addValues as IEnumerable<T>);
 
         public static IEnumerable<T> AddValuesReturnList<T>(this List<T> thisValue, IEnumerable<T> addValues)
         {
@@ -43,7 +43,7 @@ namespace EifelMono.Fluent.Extensions
         }
 
         public static IEnumerable<T> AddValuesReturnList<T>(this List<T> thisValue, params T[] addValues)
-            => thisValue.AddValuesReturnList((IEnumerable<T>)addValues);
+            => thisValue.AddValuesReturnList(addValues as IEnumerable<T>);
 
         public static void RemoveRange<T>(this List<T> thisValue, IEnumerable<T> removeValues)
         {
@@ -58,7 +58,7 @@ namespace EifelMono.Fluent.Extensions
         }
 
         public static IEnumerable<T> RemoveValuesReturnValues<T>(this List<T> thisValue, params T[] removeValues)
-            => thisValue.RemoveValuesReturnValues((IEnumerable<T>)removeValues);
+            => thisValue.RemoveValuesReturnValues(removeValues as IEnumerable<T>);
 
         public static IEnumerable<T> RemoveValuesReturnList<T>(this List<T> thisValue, IEnumerable<T> removeValues)
         {
@@ -67,6 +67,6 @@ namespace EifelMono.Fluent.Extensions
         }
 
         public static IEnumerable<T> RemoveValuesReturnList<T>(this List<T> thisValue, params T[] values)
-            => thisValue.RemoveValuesReturnList((IEnumerable<T>)values);
+            => thisValue.RemoveValuesReturnList(values as IEnumerable<T>);
     }
 }
