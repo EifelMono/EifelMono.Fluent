@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace EifelMono.Fluent.Extensions
 {
     public static class TimeSpanExtensions
-    {   
+    {
         /// <summary>
         /// Creates a Token with timeout from CancellationTokenSource
         /// </summary>
