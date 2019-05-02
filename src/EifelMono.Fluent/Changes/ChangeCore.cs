@@ -1,13 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using EifelMono.Fluent.Flow;
 
 namespace EifelMono.Fluent.Changes
 {
+#if NETSTANDARD1_6
+    public static class NetStandard16Exentsions
+    {
+        public static bool IsSubclassOf(this Type thisValue, Type inheritedType)
+            => inheritedType.IsAssignableFrom(thisValue);
+    }
+#endif
+
     public class ChangeCore
     {
-#if !NETSTANDARD1_6
+
         public string Name { get; set; }
 
         private string _FullName = null;
@@ -96,6 +105,5 @@ namespace EifelMono.Fluent.Changes
         }
         public override string ToString()
             => $"{Prefix}:{FullName}";
-#endif
-    }
+        }
 }
