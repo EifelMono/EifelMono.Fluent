@@ -471,7 +471,7 @@ namespace EifelMono.Fluent.Test.FlowTests
 
             WriteLine($"start dayofweek {test.Value}");
 
-            var waitTask = test.WaitValueAsync(dayOfWeeksWait, TimeSpan.FromSeconds(1).AsToken());
+            var waitTask = test.WaitValueAsync(dayOfWeeksWait, TimeSpan.FromSeconds(2).AsToken());
             var send = 0;
             foreach (var value in dayOfWeeksSend)
                 _ = Task.Run(() =>
