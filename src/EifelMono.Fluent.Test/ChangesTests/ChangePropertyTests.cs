@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using EifelMono.Fluent.Changes;
 using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
@@ -51,6 +49,11 @@ namespace EifelMono.Fluent.Tests.ChangesTests
 
             Assert.Single(root.ChangedProperties().Where(i => i.TimeStamp != DateTime.MinValue));
 
+            foreach(var item in root.ChangedProperties())
+            {
+                WriteLine(item.ToChangeString(false));
+                WriteLine(item.ToChangeString(true));
+            }
         }
     }
 }

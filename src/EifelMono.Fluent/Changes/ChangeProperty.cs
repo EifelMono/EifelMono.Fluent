@@ -4,7 +4,6 @@ namespace EifelMono.Fluent.Changes
 {
     public class ChangeProperty : ChangeCore
     {
-#if !NETSTANDARD1_6
         protected object LockObject = new object();
         public DateTime TimeStamp { get; set; } = DateTime.MinValue;
         protected object _Value;
@@ -78,6 +77,5 @@ namespace EifelMono.Fluent.Changes
         public new T Value { get => (T)base.Value; set => base.Value = value; }
 
         public new T LastValue { get => (T)base.LastValue; set => base.LastValue = value; }
-#endif
     }
 }
