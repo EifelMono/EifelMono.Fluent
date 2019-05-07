@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using EifelMono.Fluent.Flow;
+using Newtonsoft.Json;
 
 namespace EifelMono.Fluent.Changes
 {
@@ -14,14 +15,21 @@ namespace EifelMono.Fluent.Changes
     }
 #endif
 
-    public class ChangeCore
+    public abstract class ChangeCore
     {
+        [JsonIgnore]
+        public string _TypeName = null;
+        public string TypeName
+        {
+            get => _TypeName ?? (_TypeName = GetType().Name);
+            set => _TypeName = value;
+        }
 
         public string Name { get; set; }
 
-        private string _FullName = null;
+        private string _fullName = null;
 
-        public string FullName { get => _FullName ?? (_FullName = GetFullName()); }
+        public string FullName { get => _fullName ?? (_fullName = GetFullName()); }
 
         protected string GetFullName()
         {
@@ -72,6 +80,7 @@ namespace EifelMono.Fluent.Changes
                 rootParent?.OnNotify?.Invoke(changedProperty);
         }
 
+        [JsonIgnore]
         public ActionList<ChangeProperty> OnNotify { get; set; } = new ActionList<ChangeProperty>();
 
         protected List<ChangeProperty> GetChangedProperties(ChangeCore parent)
@@ -91,7 +100,7 @@ namespace EifelMono.Fluent.Changes
         public List<ChangeProperty> ChangedProperties()
             => GetChangedProperties(this);
 
-        protected string Prefix
+        protected virtual string Prefix
         {
             get
             {
@@ -105,5 +114,5 @@ namespace EifelMono.Fluent.Changes
         }
         public override string ToString()
             => $"{Prefix}:{FullName}";
-        }
+    }
 }

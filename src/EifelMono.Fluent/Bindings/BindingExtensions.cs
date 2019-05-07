@@ -20,7 +20,6 @@ namespace EifelMono.Fluent.Bindings
             => thisValue.OnPropertyChanged(string.Empty);
         public static T PropertyGet<T>(this IOnPropertyChanged thisValue, ref T backingField, [CallerMemberName]string propertyName = "")
             => backingField;
-
         public static (bool IsEqual, T Value) PropertySet<T>(this IOnPropertyChanged thisValue, ref T backingField, T newValue, [CallerMemberName]string propertyName = "", params string[] additionalPropertyNames)
         {
             if (Equals(thisValue, newValue))
@@ -33,6 +32,12 @@ namespace EifelMono.Fluent.Bindings
             return (false, backingField);
         }
 
+        public static void RefreshProperties(this IOnPropertyChanged thisValue)
+            => thisValue.PropertiesRefresh();
+        public static T GetProperty<T>(this IOnPropertyChanged thisValue, ref T backingField, [CallerMemberName]string propertyName = "")
+            => thisValue.PropertyGet(ref backingField, propertyName);
+        public static (bool IsEqual, T Value) SetProperty<T>(this IOnPropertyChanged thisValue, ref T backingField, T newValue, [CallerMemberName]string propertyName = "", params string[] additionalPropertyNames)
+            => thisValue.PropertySet(ref backingField, newValue, propertyName, additionalPropertyNames);
 
         #endregion
 #pragma warning restore IDE0060 // Remove unused parameter
