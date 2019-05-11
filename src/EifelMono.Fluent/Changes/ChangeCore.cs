@@ -15,7 +15,7 @@ namespace EifelMono.Fluent.Changes
     }
 #endif
 
-    public abstract class ChangeCore
+    public class ChangeCore
     {
         [JsonIgnore]
         public string _TypeName = null;
@@ -68,7 +68,7 @@ namespace EifelMono.Fluent.Changes
             get
             {
                 var parent = Parent;
-                while (parent.Parent is object)
+                while (parent?.Parent is object)
                     parent = parent.Parent;
                 return parent;
             }
