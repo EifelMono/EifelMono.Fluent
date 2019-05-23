@@ -11,14 +11,14 @@
     <Copyright>Copyright</Copyright>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--ItemGroup>
     <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildTimeStampUtcAttribute">
       <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
     </AssemblyAttribute>
     <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildMachineNameAttribute">
       <_Parameter1>$([System.Environment]::MachineName)</_Parameter1>
     </AssemblyAttribute>
-  </ItemGroup>
+  </ItemGroup-->
 
   <ItemGroup>
     <ProjectReference Include="..\EifelMono.Fluent\EifelMono.Fluent.csproj" />

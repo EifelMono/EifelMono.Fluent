@@ -3,13 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using EifelMono.Fluent.IO;
 using EifelMono.Fluent.Extensions;
+using System.Diagnostics;
+using System.IO;
+using EifelMono.Fluent.NuGet;
+using System.Threading.Tasks;
 
 namespace EifelMono.Fluent.ConsoleTestApp
 {
     class Program
     {
-        static void Main()
+        static string dotnetrun(string arguments)
         {
+            using var myProcess = new Process();
+            myProcess.StartInfo.FileName = "dotnet.exe";
+            myProcess.StartInfo.Arguments = arguments;
+            myProcess.StartInfo.UseShellExecute = false;
+            myProcess.StartInfo.RedirectStandardOutput = true;
+            myProcess.Start();
+            var result = myProcess.StandardOutput.ReadToEnd();
+            myProcess.WaitForExit();
+            return result;
+        }
+
+        static async Task Main()
+        {
+            var v = await nuget.org.GetPackageVersionsAsync("dotnet-serve");
+            if (v.Ok)
+                Console.WriteLine(string.Join("\r\n", v.Value));
+            Console.WriteLine(dotnetrun("--version"));
+            Console.ReadLine();
+            Console.WriteLine(dotnetrun("--list-sdks"));
+            Console.ReadLine();
+            Console.WriteLine(dotnetrun("--list-runtimes"));
+            Console.ReadLine();
+            Console.WriteLine(dotnetrun("tool list -g"));
+            Console.ReadLine();
+
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"EifelMono.Fluent FilePath, DirectoryPath, ....");
             Console.ForegroundColor = ConsoleColor.White;
@@ -61,7 +90,7 @@ namespace EifelMono.Fluent.ConsoleTestApp
                 .IfExists.Delete();
 
             var spezialFolders = fluent.Enum.Values<Environment.SpecialFolder>()
-                .Select(f=> DirectoryPath.OS.SpecialFolderPath(f)).ToList();
+                .Select(f => DirectoryPath.OS.SpecialFolderPath(f)).ToList();
 
             jsonFile.WriteAllText(spezialFolders.ToJson());
             var spezialFoldersFromFile = jsonFile.ReadAllText().FromJson<List<FilePath>>();
@@ -77,7 +106,7 @@ namespace EifelMono.Fluent.ConsoleTestApp
             Console.WriteLine(fluent.FluentLib.ToJson());
             Console.WriteLine(fluent.FluentLib.CustomAttributesAsJson());
 
-            Console.ForegroundColor= ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"fluent.App info about this app");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(fluent.App.ToJson());
