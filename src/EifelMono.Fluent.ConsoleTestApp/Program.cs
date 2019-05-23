@@ -15,7 +15,7 @@ namespace EifelMono.Fluent.ConsoleTestApp
         static string dotnetrun(string arguments)
         {
             using var myProcess = new Process();
-            myProcess.StartInfo.FileName = "dotnet.exe";
+            myProcess.StartInfo.FileName = "dotnet";
             myProcess.StartInfo.Arguments = arguments;
             myProcess.StartInfo.UseShellExecute = false;
             myProcess.StartInfo.RedirectStandardOutput = true;
