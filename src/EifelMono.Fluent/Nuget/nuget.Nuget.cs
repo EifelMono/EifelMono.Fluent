@@ -10,7 +10,7 @@ using Flurl.Http;
 namespace EifelMono.Fluent.NuGet
 {
 #pragma warning disable IDE1006 // Naming Styles
-        public static partial class nuget
+    public static partial class nuget
 #pragma warning restore IDE1006 // Naming Styles
     {
         public class NuGet
@@ -83,6 +83,14 @@ namespace EifelMono.Fluent.NuGet
 
             public Task<(bool Ok, List<string> Value)> GetPackageVersionsAsync(bool preRelease = false, CancellationToken cancelationToken = default)
                 => GetPackageVersionsAsync(PackageName, preRelease, cancelationToken);
+
+            public async Task<(bool Ok, string Value)> GetLastPackageVersionAsync(bool preRelease = false, CancellationToken cancelationToken = default)
+            {
+                if (await GetPackageVersionsAsync(preRelease, cancelationToken) is var result && result.Ok)
+                    return (result.Value.Count > 0, result.Value.Last());
+                else
+                    return (false, "");
+            }
 
             public async Task<(bool Ok, FilePath FileName)> DownloadLatestPackagAsync(DirectoryPath destination, CancellationToken cancelationToken = default)
             {

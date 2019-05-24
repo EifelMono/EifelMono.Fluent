@@ -4,9 +4,9 @@ using System.Linq;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 
+#pragma warning disable IDE1006 // Naming Styles
 namespace EifelMono.Fluent.DotNet
 {
-#pragma warning disable IDE1006 // Naming Styles
     public static partial class dotnet
     {
         public static class GlobalJson
@@ -15,15 +15,9 @@ namespace EifelMono.Fluent.DotNet
                 => DirectoryPath.OS.Current.CloneToFilePath(Classes.GlobalJson.FileName);
             public static bool Exists
                 => FileName.Exists;
-
-            public static Classes.GlobalJson FromVersion(string version)
+            public static Classes.GlobalJson NewWithVersion(string version)
                 => new Classes.GlobalJson(version);
-            public static Classes.GlobalJson FromMajorReleaseVersion()
-                => new Classes.GlobalJson(dotnet.MajorReleaseVersion);
-            public static Classes.GlobalJson FromMajorBetaVersion()
-                => new Classes.GlobalJson(dotnet.MajorBetaVersion);
         }
     }
-#pragma warning restore IDE1006 // Naming Styles
 }
 #endif

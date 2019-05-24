@@ -7,36 +7,42 @@ using System.Diagnostics;
 using System.IO;
 using EifelMono.Fluent.NuGet;
 using System.Threading.Tasks;
+using EifelMono.Fluent.DotNet;
 
 namespace EifelMono.Fluent.ConsoleTestApp
 {
     class Program
     {
-        static string dotnetrun(string arguments)
-        {
-            using var myProcess = new Process();
-            myProcess.StartInfo.FileName = "dotnet";
-            myProcess.StartInfo.Arguments = arguments;
-            myProcess.StartInfo.UseShellExecute = false;
-            myProcess.StartInfo.RedirectStandardOutput = true;
-            myProcess.Start();
-            var result = myProcess.StandardOutput.ReadToEnd();
-            myProcess.WaitForExit();
-            return result;
-        }
 
         static async Task Main()
         {
-            var v = await nuget.org.GetPackageVersionsAsync("dotnet-serve");
+          
+
+            {
+                var result = await dotnet.Shell.VersionAsync();
+                if (result.Ok)
+                    Console.WriteLine($"version {result.Value}");
+                Console.ReadLine();
+            }
+            {
+                if (await dotnet.Shell.SdksAsync() is var result && result.Ok)
+                    foreach (var item in result.Value)
+                        Console.WriteLine($"{item.IsBeta} {item.Version} [{item.Directroy}]");
+                Console.ReadLine();
+            }
+            {
+                if (await dotnet.Shell.RuntimesAsync() is var result && result.Ok)
+                    foreach (var item in result.Value)
+                        Console.WriteLine($"{item.IsBeta} {item.Version} [{item.Directroy}]");
+                Console.ReadLine();
+            }
+
+            var v = await nuget.org.GetLastPackageVersionAsync("dotnet-serve");
             if (v.Ok)
-                Console.WriteLine(string.Join("\r\n", v.Value));
-            Console.WriteLine(dotnetrun("--version"));
-            Console.ReadLine();
-            Console.WriteLine(dotnetrun("--list-sdks"));
-            Console.ReadLine();
-            Console.WriteLine(dotnetrun("--list-runtimes"));
-            Console.ReadLine();
-            Console.WriteLine(dotnetrun("tool list -g"));
+                Console.WriteLine($"Last={v.Value}");
+            var l = await nuget.org.GetPackageVersionsAsync("dotnet-serve");
+            if (l.Ok)
+                Console.WriteLine(string.Join("\r\n", l.Value));
             Console.ReadLine();
 
             Console.ForegroundColor = ConsoleColor.Yellow;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using EifelMono.Fluent.DotNet;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
@@ -26,31 +27,82 @@ namespace EifelMono.Fluent.Test.CoreTests
         }
 
         [Fact]
-        public void dotnet_Infos()
+        public void dotnet_ScanInfos()
         {
             WriteLine($"dotnet");
 
             WriteLine($"  SdkName");
-            WriteLine($"      {dotnet.SdkName}");
+            WriteLine($"      {dotnet.Scan.SdkName}");
             WriteLine($"  SdkReleaseName");
-            WriteLine($"      {dotnet.SdkReleaseName}");
+            WriteLine($"      {dotnet.Scan.SdkReleaseName}");
             WriteLine($"  SdkBetaName");
-            WriteLine($"      {dotnet.SdkBetaName}");
+            WriteLine($"      {dotnet.Scan.SdkBetaName}");
 
             WriteLine($"  SdksMajorReleaseVersion");
-            WriteLine($"      {dotnet.MajorReleaseVersion}");
+            WriteLine($"      {dotnet.Scan.MajorReleaseVersion}");
             WriteLine($"  Sdks MajorReleaseVersion");
-            WriteLine($"      {dotnet.MajorBetaVersion}");
+            WriteLine($"      {dotnet.Scan.MajorBetaVersion}");
             WriteLine($"  Sdks");
-            dotnet.Sdks.ForEach(item => WriteLine($"    {item}"));
+            dotnet.Scan.Sdks.ForEach(item => WriteLine($"    {item}"));
             WriteLine($"  SdksNames");
-            dotnet.SdkNames.ForEach(item => WriteLine($"    {item}"));
+            dotnet.Scan.SdkNames.ForEach(item => WriteLine($"    {item}"));
             WriteLine($"  SdkReleaseNames");
-            dotnet.SdkReleaseNames.ForEach(item => WriteLine($"    {item}"));
+            dotnet.Scan.SdkReleaseNames.ForEach(item => WriteLine($"    {item}"));
             WriteLine($"  SdkBetaNames");
-            dotnet.SdkBetaNames.ForEach(item => WriteLine($"    {item}"));
+            dotnet.Scan.SdkBetaNames.ForEach(item => WriteLine($"    {item}"));
             WriteLine($"  Runtimes");
-            dotnet.Runtimes.ForEach(item => WriteLine($"    {item}"));
+            dotnet.Scan.Runtimes.ForEach(item => WriteLine($"    {item}"));
+        }
+
+        [Fact]
+        public async void dotnet_ShellInfos()
+        {
+            WriteLine($"dotnet");
+            {
+                WriteLine($"  Version");
+                var (Ok, Value) = await dotnet.Shell.VersionAsync();
+                Assert.True(Ok);
+                Assert.True(!Value.IsNullOrEmpty());
+                WriteLine($"      {Value}");
+            }
+            {
+                WriteLine($"  Sdks");
+                var (Ok, Value) = await dotnet.Shell.SdksAsync();
+                Assert.True(Ok);
+                Assert.True(Value.Count > 0);
+                foreach (var item in Value)
+                {
+                    Assert.True(!item.Version.IsNullOrEmpty());
+                    Assert.True(!item.Directroy.IsNullOrEmpty());
+                    WriteLine($"    {item.IsBeta} {item.Version} [{item.Directroy}]");
+                }
+            }
+            {
+                WriteLine($"  Runtimes");
+                var (Ok, Value) = await dotnet.Shell.RuntimesAsync();
+                Assert.True(Ok);
+                Assert.True(Value.Count > 0);
+                foreach (var item in Value)
+                {
+                    Assert.True(!item.Version.IsNullOrEmpty());
+                    Assert.True(!item.Directroy.IsNullOrEmpty());
+                    WriteLine($"    {item.IsBeta} {item.Version} [{item.Directroy}]");
+                }
+            }
+
+            {
+                WriteLine($"  Tools");
+                var (Ok, Value) = await dotnet.Shell.ToolsAsync();
+                Assert.True(Ok);
+                Assert.True(Value.Count > 0);
+                foreach (var item in Value)
+                {
+                    Assert.True(!item.Version.IsNullOrEmpty());
+                    Assert.True(!item.PackageId.IsNullOrEmpty());
+                    Assert.True(!item.Command.IsNullOrEmpty());
+                    WriteLine($"    {item.IsBeta} {item.Version} {item.PackageId} {item.Command}");
+                }
+            }
         }
     }
 #pragma warning restore IDE1006 // Naming Styles
