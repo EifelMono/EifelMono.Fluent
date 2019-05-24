@@ -208,18 +208,6 @@ namespace EifelMono.Fluent.Test.IOTests
             WriteLine($"  Current.LastAccessTimeUtc {testFile.LastAccessTimeUtc}");
             WriteLine($"  Current.LastWriteTime {testFile.LastWriteTime}");
             WriteLine($"  Current.LastWriteTimeUtc {testFile.LastWriteTimeUtc}");
-
-            Assert.False(testFile.AttributeHidden);
-            testFile.AttributeHidden = true;
-            Assert.True(testFile.AttributeHidden);
-            testFile.AttributeHidden = false;
-            Assert.False(testFile.AttributeHidden);
-
-            testFile.AttributeHidden = true;
-            Assert.True(testFile.AttributeHidden);
-            testFile.AttributeHidden = false;
-            Assert.False(testFile.AttributeHidden);
-
         }
     }
 }
