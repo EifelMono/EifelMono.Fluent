@@ -11,6 +11,7 @@ namespace EifelMono.Fluent.DotNet
     {
         public static class GlobalJson
         {
+
             public static FilePath FileName
                 => DirectoryPath.OS.Current.CloneToFilePath(Classes.GlobalJson.FileName);
             public static bool Exists

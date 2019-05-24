@@ -14,12 +14,12 @@ namespace EifelMono.Fluent.Test.IOTests
         [Fact]
         public void OperatorTest()
         {
-            FilePath f = @"C:\test.txt";
+            FilePath f = $@"{DirectoryPath.OS.Data}\test.txt";
             Assert.Equal(typeof(FilePath), f.GetType());
 
             string s = f;
-            Assert.Equal(@"C:\test.txt", s);
-            Assert.Equal(@"C:\test.txt", f.Value);
+            Assert.Equal($@"{DirectoryPath.OS.Data}\test.txt", s);
+            Assert.Equal($@"{DirectoryPath.OS.Data}\test.txt", f.Value);
         }
         [Fact]
         public void TypeTest()

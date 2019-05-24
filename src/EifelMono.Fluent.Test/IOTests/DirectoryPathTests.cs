@@ -24,12 +24,12 @@ namespace EifelMono.Fluent.Test.IOTests
         [Fact]
         public void OperatorTest()
         {
-            DirectoryPath f = @"C:\";
+            DirectoryPath f = @$"{DirectoryPath.OS.Data}";
             Assert.Equal(typeof(DirectoryPath), f.GetType());
 
             string s = f;
-            Assert.Equal(@"C:\", s);
-            Assert.Equal(@"C:\", f.Value);
+            Assert.Equal($@"{DirectoryPath.OS.Data}", s);
+            Assert.Equal($@"{DirectoryPath.OS.Data}", f.Value);
         }
         [Fact]
         public void TypeTest()
