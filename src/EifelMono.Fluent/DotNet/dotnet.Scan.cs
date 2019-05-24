@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 using EifelMono.Fluent.DotNet.Classes;
 
 #pragma warning disable IDE1006 // Naming Styles
-namespace EifelMono.Fluent.DotNet
+namespace EifelMono.Fluent
 {
     public static partial class dotnet
     {
         public static class Scan
         {
             public static IEnumerable<DirectoryPath> Sdks
-           => OS.sdks.GetDirectories("*").Where(d => d.SplitValuesLast.StartsWithDigit()).Select(d => d.MakeAbsolute());
+                => OS.sdks.GetDirectories("*").Where(d => d.SplitValuesLast.StartsWithDigit()).Select(d => d.MakeAbsolute());
             public static IEnumerable<string> SdkNames
                 => Sdks.Select(d => d.SplitValuesLast);
 

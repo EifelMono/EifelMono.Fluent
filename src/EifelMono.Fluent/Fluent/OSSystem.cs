@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EifelMono.Fluent.Fluent
+namespace EifelMono.Fluent
 {
     public enum OSSystem
     {

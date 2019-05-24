@@ -108,7 +108,7 @@ namespace EifelMono.Fluent.ConsoleTestApp
             Console.WriteLine($"About App, Lib, OS");
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine(fluent.OS.ToJson());
+            Console.WriteLine(fluent.OSInfo.ToJson());
             Console.WriteLine(fluent.FluentLib.ToJson());
             Console.WriteLine(fluent.FluentLib.CustomAttributesAsJson());
 

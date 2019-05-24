@@ -5,7 +5,7 @@ using EifelMono.Fluent.IO;
 using EifelMono.Fluent.Extensions;
 
 #pragma warning disable IDE1006 // Naming Styles
-namespace EifelMono.Fluent.DotNet
+namespace EifelMono.Fluent
 {
     public static partial class dotnet
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 
+#pragma warning disable IDE1006 // Naming Styles
 namespace EifelMono.Fluent
 {
-#pragma warning disable IDE1006 // Naming Styles
+
     public static partial class fluent
-#pragma warning restore IDE1006 // Naming Styles
     {
         public static Action<Action> OnInvokeInMainThread { get; set; } = null;
 

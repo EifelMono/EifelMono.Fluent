@@ -4,17 +4,16 @@ using System.Reflection;
 using EifelMono.Fluent.Classes;
 using EifelMono.Fluent.IO;
 
+#pragma warning disable IDE1006 // Naming Styles
 namespace EifelMono.Fluent
 {
-#pragma warning disable IDE1006 // Naming Styles
     public static partial class fluent
-#pragma warning restore IDE1006 // Naming Styles
     {
         public static FilePath Executable
             => FilePath.OS.Current;
 
         private static OSInfo s_osInfo = null;
-        public static OSInfo OS => s_osInfo ?? (s_osInfo = new OSInfo());
+        public static OSInfo OSInfo => s_osInfo ?? (s_osInfo = new OSInfo());
 
         private static AssemblyInfo s_app = null;
         public static AssemblyInfo App => s_app ?? (s_app = new AssemblyInfo(Assembly.GetEntryAssembly()));

@@ -2,14 +2,18 @@
 using EifelMono.Fluent.IO;
 
 #pragma warning disable IDE1006 // Naming Styles
-namespace EifelMono.Fluent.DotNet
+namespace EifelMono.Fluent
 {
     public static partial class dotnet
     {
         public static class OS
         {
             public static DirectoryPath dotnet
-                => DirectoryPath.OS.SpezialDirectory.ProgramFiles.Clone("dotnet");
+                => fluent.OS.On(
+                    () => DirectoryPath.OS.SpezialDirectory.ProgramFiles.Clone("dotnet"),
+                    () => new DirectoryPath("/usr/local/share/dotnet"),
+                    () => new DirectoryPath("/usr/local/share/dotnet")
+                );
             public static DirectoryPath sdks
                 => dotnet.Clone("sdk");
             public static DirectoryPath runtimes

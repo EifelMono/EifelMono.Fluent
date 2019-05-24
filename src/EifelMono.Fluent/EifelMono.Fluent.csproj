@@ -12,7 +12,7 @@
     <Version>$(PackageVersion)</Version>
     <AssemblyVersion>$(PackageVersion)</AssemblyVersion>
     <FileVersion>$(PackageVersion)</FileVersion>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>preview</LangVersion>
     <NullableReferenceTypes>true</NullableReferenceTypes>
     <RepositoryUrl>https://github.com/EifelMono/EifelMono.Fluent.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

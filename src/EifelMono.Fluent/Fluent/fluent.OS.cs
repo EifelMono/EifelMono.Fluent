@@ -2,11 +2,10 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace EifelMono.Fluent.Fluent
-{
 #pragma warning disable IDE1006 // Naming Styles
+namespace EifelMono.Fluent
+{
     public static partial class fluent
-#pragma warning restore IDE1006 // Naming Styles
     {
         public static class OS
         {
@@ -23,7 +22,25 @@ namespace EifelMono.Fluent.Fluent
             }
 
             public static void On(Action onWindows, Action onLinux, Action onMacOS)
-                => OS.System.OnWindows(onWindows).OnLinux(onLinux).OnMacOS(onMacOS);
+            {
+                if (fluent.OSInfo.IsWindows)
+                { onWindows(); return; }
+                if (fluent.OSInfo.IsOSX)
+                { onMacOS(); return; }
+                if (fluent.OSInfo.IsLinux)
+                { onLinux(); return; }
+            }
+
+            public static T On<T>(Func<T> onWindows, Func<T> onLinux, Func<T> onMacOS)
+            {
+                if (fluent.OSInfo.IsWindows)
+                    return onWindows();
+                if (fluent.OSInfo.IsOSX)
+                    return onMacOS();
+                if (fluent.OSInfo.IsLinux)
+                    return onLinux();
+                return default;
+            }
 
             public static OSSystem OnWindows(Action onWindows)
             {

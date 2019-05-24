@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
+#pragma warning disable IDE1006 // Naming Styles
 namespace EifelMono.Fluent
 {
-#pragma warning disable IDE1006 // Naming Styles
     public static partial class fluent
-#pragma warning restore IDE1006 // Naming Styles
     {
         public static class Enum
         {

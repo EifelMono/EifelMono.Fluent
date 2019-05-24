@@ -83,14 +83,14 @@ namespace EifelMono.Fluent.Test.CoreTests
 
         {
             WriteLine($"fluent.OS".NewLine());
-            WriteLine($"CurrentPlatform {fluent.OS.CurrentPlatform}");
-            WriteLine($"IsWindows {fluent.OS.IsWindows}");
-            WriteLine($"IsOSX {fluent.OS.IsOSX}");
-            WriteLine($"IsLinux {fluent.OS.IsLinux}");
-            WriteLine($"FrameworkDescription {fluent.OS.FrameworkDescription}");
-            WriteLine($"OSArchitecture {fluent.OS.OSArchitecture}");
-            WriteLine($"OSDescription {fluent.OS.OSDescription}");
-            WriteLine($"ProcessArchitecture {fluent.OS.ProcessArchitecture}");
+            WriteLine($"CurrentPlatform {fluent.OSInfo.CurrentPlatform}");
+            WriteLine($"IsWindows {fluent.OSInfo.IsWindows}");
+            WriteLine($"IsOSX {fluent.OSInfo.IsOSX}");
+            WriteLine($"IsLinux {fluent.OSInfo.IsLinux}");
+            WriteLine($"FrameworkDescription {fluent.OSInfo.FrameworkDescription}");
+            WriteLine($"OSArchitecture {fluent.OSInfo.OSArchitecture}");
+            WriteLine($"OSDescription {fluent.OSInfo.OSDescription}");
+            WriteLine($"ProcessArchitecture {fluent.OSInfo.ProcessArchitecture}");
         }
 
         [Fact]
