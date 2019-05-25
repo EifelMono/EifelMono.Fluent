@@ -22,23 +22,22 @@ namespace EifelMono.Fluent
                 => Sdks.Select(d => d.SplitValuesLast);
 
             public static IEnumerable<string> SdkReleaseNames
-                => SdkNames.Where(name => !name.Contains("-"));
+                => SdkNames?.Where(name => !name.Contains("-"));
             public static IEnumerable<string> SdkBetaNames
-                => SdkNames.Where(name => name.Contains("-"));
+                => SdkNames?.Where(name => name.Contains("-"));
             public static string SdkName
-                => SdkNames.Last() ?? "";
+                => SdkNames?.Last() ?? "";
             public static string SdkReleaseName
-                => SdkReleaseNames.Last() ?? "";
+                => SdkReleaseNames?.Last() ?? "";
             public static string SdkBetaName
-                => SdkBetaNames.Last() ?? "";
+                => SdkBetaNames?.Last() ?? "";
 
-            public static string MajorReleaseVersion => SdkReleaseNames.Last() ?? "";
+            public static string MajorReleaseVersion => SdkReleaseNames?.Last() ?? "";
 
-            public static string MajorBetaVersion => SdkBetaNames.Last() ?? "";
+            public static string MajorBetaVersion => SdkBetaNames?.Last() ?? "";
 
             public static IEnumerable<DirectoryPath> Runtimes
                 => OS.runtimes.GetDirectories("*/*").Where(d => d.SplitValuesLast.StartsWithDigit()).Select(d => d.MakeAbsolute());
-
         }
     }
 }
