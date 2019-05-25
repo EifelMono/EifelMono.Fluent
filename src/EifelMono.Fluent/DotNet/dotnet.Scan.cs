@@ -26,15 +26,15 @@ namespace EifelMono.Fluent
             public static IEnumerable<string> SdkBetaNames
                 => SdkNames?.Where(name => name.Contains("-"));
             public static string SdkName
-                => SdkNames?.Last() ?? "";
+                => SdkNames?.LastOrDefault() ?? "";
             public static string SdkReleaseName
-                => SdkReleaseNames?.Last() ?? "";
+                => SdkReleaseNames?.LastOrDefault() ?? "";
             public static string SdkBetaName
-                => SdkBetaNames?.Last() ?? "";
+                => SdkBetaNames?.LastOrDefault() ?? "";
 
-            public static string MajorReleaseVersion => SdkReleaseNames?.Last() ?? "";
+            public static string MajorReleaseVersion => SdkReleaseNames?.LastOrDefault() ?? "";
 
-            public static string MajorBetaVersion => SdkBetaNames?.Last() ?? "";
+            public static string MajorBetaVersion => SdkBetaNames?.LastOrDefault() ?? "";
 
             public static IEnumerable<DirectoryPath> Runtimes
                 => OS.runtimes.GetDirectories("*/*").Where(d => d.SplitValuesLast.StartsWithDigit()).Select(d => d.MakeAbsolute());
