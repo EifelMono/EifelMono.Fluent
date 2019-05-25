@@ -480,8 +480,6 @@ namespace EifelMono.Fluent.Test.FlowTests
                     test.Value = value;
                 });
             Assert.Equal(result, await waitTask);
-            if (result)
-                Assert.Equal(dayOfWeeksSend.Length, send);
         }
     }
 }
