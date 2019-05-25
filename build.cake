@@ -41,17 +41,11 @@ Task("Doc")
 
 Task("Test")
 .Does(() => {
-    try {
-        Information(sln);
-        StartProcess("dotnet", "tool install dotnet-dlla -g");
-        DotNetCoreTest(sln.FullPath, new DotNetCoreTestSettings {
-                            Configuration= configuration
-        });
-    }
-    catch(Exception ex)
-    {
-        Error(ex.ToString());
-    }
+    Information(sln);
+    StartProcess("dotnet", "tool install dotnet-dlla -g");
+    DotNetCoreTest(sln.FullPath, new DotNetCoreTestSettings {
+                        Configuration= configuration
+    });
 });
 
 Task("Default")
