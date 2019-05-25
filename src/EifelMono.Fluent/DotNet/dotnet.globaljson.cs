@@ -11,10 +11,11 @@ namespace EifelMono.Fluent
     {
         public static class GlobalJson
         {
-            public static FilePath FileName
-                => DirectoryPath.OS.Current.CloneToFilePath(GlobalJson.FileName);
-            public static bool Exists
-                => FileName.Exists;
+            public static string FileName = "global.json";
+
+            public static bool CurrentExist
+                => DirectoryPath.OS.Current.CloneToFilePath(FileName).Exists;
+
             public static DotNet.Classes.GlobalJson NewWithVersion(string version)
                 => new DotNet.Classes.GlobalJson(version);
         }

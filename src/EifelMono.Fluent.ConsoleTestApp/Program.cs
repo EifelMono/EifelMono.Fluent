@@ -19,9 +19,9 @@ namespace EifelMono.Fluent.ConsoleTestApp
           
 
             {
-                var result = await dotnet.Shell.VersionAsync();
-                if (result.Ok)
-                    Console.WriteLine($"version {result.Value}");
+                var (Ok, Value) = await dotnet.Shell.VersionAsync();
+                if (Ok)
+                    Console.WriteLine($"version {Value}");
                 Console.ReadLine();
             }
             {

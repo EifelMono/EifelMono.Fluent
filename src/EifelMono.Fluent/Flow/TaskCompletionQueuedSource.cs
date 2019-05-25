@@ -109,7 +109,7 @@ namespace EifelMono.Fluent.Flow
                 foreach (var ct in cancellationTokens)
                     tokenRegisters.Add(ct.Register(() => { CompletionSource.TrySetCanceled(); }));
 
-                using (var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationTokens.ToList().Append(cancellationToken).ToArray()))
+                using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationTokens.ToList().Append(cancellationToken).ToArray());
                 {
                     T value = default;
                     bool finished = false;

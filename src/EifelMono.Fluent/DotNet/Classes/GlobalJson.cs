@@ -5,8 +5,6 @@ namespace EifelMono.Fluent.DotNet.Classes
 {
     public class GlobalJson
     {
-        public static string FileName { get; } = "global.json";
-
         public class SdkClass
         {
             [JsonProperty("version")]

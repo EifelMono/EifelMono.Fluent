@@ -3,63 +3,29 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 #pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable CS8509 // The switch expression does not handle all possible inputs (it is not exhaustive).
 namespace EifelMono.Fluent
 {
     public static partial class fluent
     {
         public static class OS
         {
+            public static OSSystem? _System = null;
             public static OSSystem System
             {
                 get
                 {
+                    if (_System is object)
+                        return (OSSystem)_System;
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        return OSSystem.Windows;
+                        return (OSSystem)(_System = OSSystem.Windows);
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                        return OSSystem.Linux;
-                    return OSSystem.MacOS;
+                        return (OSSystem)(_System = OSSystem.Linux);
+                    return (OSSystem)(_System = OSSystem.MacOS);
                 }
             }
 
-            public static void On(Action onWindows, Action onLinux, Action onMacOS)
-            {
-                if (fluent.OSInfo.IsWindows)
-                { onWindows(); return; }
-                if (fluent.OSInfo.IsOSX)
-                { onMacOS(); return; }
-                if (fluent.OSInfo.IsLinux)
-                { onLinux(); return; }
-            }
-
-            public static T On<T>(Func<T> onWindows, Func<T> onLinux, Func<T> onMacOS)
-            {
-                if (fluent.OSInfo.IsWindows)
-                    return onWindows();
-                if (fluent.OSInfo.IsOSX)
-                    return onMacOS();
-                if (fluent.OSInfo.IsLinux)
-                    return onLinux();
-                return default;
-            }
-
-            public static OSSystem OnWindows(Action onWindows)
-            {
-                if (OS.System.IsWindows())
-                    onWindows?.Invoke();
-                return OS.System;
-            }
-            public static OSSystem OnLinux(Action onLinux)
-            {
-                if (OS.System.IsLinux())
-                    onLinux?.Invoke();
-                return OS.System;
-            }
-            public static OSSystem OnMacOS(Action onMacOS)
-            {
-                if (OS.System.IsMacOS())
-                    onMacOS?.Invoke();
-                return OS.System;
-            }
+         
 
 #if !NETSTANDARD1_6
             public static void OpenUrl(string url)

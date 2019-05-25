@@ -9,7 +9,7 @@ namespace EifelMono.Fluent
         public static class OS
         {
             public static DirectoryPath dotnet
-                => fluent.OS.On(
+                => fluent.OS.System.On(
                     () => DirectoryPath.OS.SpezialDirectory.ProgramFiles.Clone("dotnet"),
                     () => new DirectoryPath("/usr/local/share/dotnet"),
                     () => new DirectoryPath("/usr/local/share/dotnet")
