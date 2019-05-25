@@ -192,6 +192,38 @@ namespace EifelMono.Fluent.IO
 
         #endregion
 
+        #region FindBackwards
+        public class Backwards
+        {
+            public FilePath FileName { get; set; }
+            public bool Exists { get; set; } = false;
+
+            public override string ToString()
+                => $"{Exists} {FileName}";
+        }
+
+        public Task<List<Backwards>> GetFilesBackwardsAsync(string filename, bool existingOnly = false)
+        {
+            var result = new List<Backwards>();
+            var dir = this.MakeFullPath();
+            while (dir != DirectoryRoot)
+            {
+                var filePath = new FilePath(dir, filename);
+                var exists = filePath.Exists;
+                if (!existingOnly || (existingOnly && exists))
+                    result.Add(new Backwards
+                    {
+                        FileName = filePath,
+                        Exists = exists
+                    });
+                dir = dir.Parent;
+            }
+            return Task.FromResult(result);
+        }
+
+
+        #endregion
+
         #region OS Directories
 
         public static class OS

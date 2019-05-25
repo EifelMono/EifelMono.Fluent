@@ -206,5 +206,14 @@ namespace EifelMono.Fluent.Test.IOTests
             foreach (var f in dir.GetFiles(@"**\*.cs"))
                 WriteLine(f);
         }
+
+        [Fact]
+        public async void FindBackwards()
+        {
+            {
+                var list = await DirectoryPath.OS.Current.GetFilesBackwardsAsync("readme.md");
+                Assert.True(list.Count > 0);
+            }
+        }
     }
 }
