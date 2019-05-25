@@ -33,12 +33,12 @@ namespace EifelMono.Fluent.Test.CoreTests
         public async void GetPackageDownloadTest()
         {
             {
-                var result = await nuget.org.DownloadLatestPackageAsync("EifelMono.Fluent", DirectoryPath.OS.Data);
+                var result = await nuget.org.DownloadLatestPackageAsync("EifelMono.Fluent", DirectoryPath.OS.Temp);
                 Assert.True(result.Ok);
                 Dump(result, "nuget.DownloadLatestPackageAsync");
             }
             {
-                var result = await nuget.org.DownloadLatestPreReleasePackageAsync("EifelMono.Fluent", DirectoryPath.OS.Data);
+                var result = await nuget.org.DownloadLatestPreReleasePackageAsync("EifelMono.Fluent", DirectoryPath.OS.Temp);
                 Assert.False(result.Ok);
                 Dump(result, "nuget.DownloadLatestPreReleasePackageAsync");
             }
