@@ -1,6 +1,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var sln= new FilePath("EifelMono.Fluent.sln");
+var testcsproj= new FilePath("./src/EifelMono.Fluent.Test/EifelMono.Fluent.Test.csproj");
 Task("Clean")
 .Does(()=> {
     for (int i= 0;i< 5; i++) // Try it more times.....
@@ -37,6 +38,21 @@ Task("Doc")
             { Arguments = $"/source=./src" }
         );
 });
+
+Task("Test")
+.Does(() => {
+    try {
+        Information(sln);
+        DotNetCoreTest(sln.FullPath, new DotNetCoreTestSettings {
+                            Configuration= configuration
+        });
+    }
+    catch(Exception ex)
+    {
+        Error(ex.ToString());
+    }
+});
+
 Task("Default")
 .IsDependentOn("Clean")
 .IsDependentOn("Restore")
