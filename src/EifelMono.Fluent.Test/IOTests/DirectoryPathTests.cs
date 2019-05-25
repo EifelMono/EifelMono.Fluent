@@ -24,7 +24,7 @@ namespace EifelMono.Fluent.Test.IOTests
         [Fact]
         public void OperatorTest()
         {
-            DirectoryPath f = @$"{DirectoryPath.OS.Data}";
+            DirectoryPath f = $@"{DirectoryPath.OS.Data}";
             Assert.Equal(typeof(DirectoryPath), f.GetType());
 
             string s = f;
