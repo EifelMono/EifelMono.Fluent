@@ -5,20 +5,25 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <Version> 1.0.1</Version>
     <AssemblyVersion>1.0.2.0</AssemblyVersion>
-  
+    <LangVersion>preview</LangVersion>
     <FileVersion>1.0.3.0</FileVersion>
     <Company>eifelmono</Company>
     <Copyright>Copyright</Copyright>
   </PropertyGroup>
 
-  <!--ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
     <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildTimeStampUtcAttribute">
       <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
     </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
     <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildMachineNameAttribute">
       <_Parameter1>$([System.Environment]::MachineName)</_Parameter1>
     </AssemblyAttribute>
-  </ItemGroup-->
+    <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildReleaseNameAttribute">
+      <_Parameter1>Test Release</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EifelMono.Fluent\EifelMono.Fluent.csproj" />

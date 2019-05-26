@@ -52,6 +52,9 @@ for more see the
 * Visual Studio 2019 RC/preview
 * dotnet core 3.0 Roslyn c# 8.0 
 
+## Safe in the Name 
+=> (bool Ok, T Value)
+
 
 ## Social
 <a href="https://twitter.com/eifelmono"><img src="https://img.shields.io/badge/twitter-%40eifelmono-55acee.svg?style=flat-square"></a>

@@ -50,7 +50,11 @@ namespace EifelMono.Fluent.Classes
 
         [DefaultValue("")]
         public string BuildMachineName
-        => CustomAttribute<BuildMachineNameAttribute>()?.MachineName ?? "";
+            => CustomAttribute<BuildMachineNameAttribute>()?.MachineName ?? "";
+
+        [DefaultValue("")]
+        public string BuildReleaseName
+            => CustomAttribute<BuildReleaseNameAttribute>()?.ReleaseName ?? "";
 
         // <Version> 1.0.1 </Version>
         [DefaultValue("")]

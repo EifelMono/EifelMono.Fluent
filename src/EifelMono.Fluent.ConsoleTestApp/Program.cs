@@ -16,7 +16,10 @@ namespace EifelMono.Fluent.ConsoleTestApp
 
         static async Task Main()
         {
-          
+
+            Console.WriteLine(fluent.App.BuildTimeStampUtc.ToLocalTime());
+            Console.WriteLine(fluent.App.BuildMachineName);
+            Console.WriteLine(fluent.App.BuildReleaseName);
 
             {
                 var (Ok, Value) = await dotnet.Shell.VersionAsync();
@@ -118,6 +121,7 @@ namespace EifelMono.Fluent.ConsoleTestApp
             Console.WriteLine(fluent.App.ToJson());
             Console.WriteLine(fluent.App.BuildTimeStampUtc.ToLocalTime());
             Console.WriteLine(fluent.App.BuildMachineName);
+            Console.WriteLine(fluent.App.BuildReleaseName);
 
             Console.WriteLine("Waiting for key return");
             Console.ReadLine();

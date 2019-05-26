@@ -91,6 +91,7 @@ namespace EifelMono.Fluent.Test.CoreTests
             WriteLine($"OSArchitecture {fluent.OSInfo.OSArchitecture}");
             WriteLine($"OSDescription {fluent.OSInfo.OSDescription}");
             WriteLine($"ProcessArchitecture {fluent.OSInfo.ProcessArchitecture}");
+            WriteLine($"fluent.OS.System {fluent.OS.System}");
         }
 
         [Fact]

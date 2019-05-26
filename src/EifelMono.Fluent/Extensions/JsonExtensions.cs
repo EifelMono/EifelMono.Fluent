@@ -1,20 +1,27 @@
 ﻿using System;
-using EifelMono.Fluent.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 namespace EifelMono.Fluent.Extensions
 {
     public static class JsonExtensions
     {
-        public static string ToJson(this object thisValue, bool indented = true, bool defaults = true)
+        private static JsonSerializerSettings CreateJsonSerializerSettings(bool indented = true, bool defaults = true, bool enumAsString = true)
         {
-            return JsonConvert.SerializeObject(thisValue, new JsonSerializerSettings
+            var result = new JsonSerializerSettings
             {
                 Formatting = indented ? Formatting.Indented : Formatting.None,
                 DefaultValueHandling = defaults ? DefaultValueHandling.Include : DefaultValueHandling.Ignore
-            });
+            };
+            if (enumAsString)
+               result.Converters.Add(new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
+            return result;
         }
+
+        public static string ToJson(this object thisValue, bool indented = true, bool defaults = true, bool enumAsString = true)
+            => JsonConvert.SerializeObject(thisValue, CreateJsonSerializerSettings(indented, defaults, enumAsString));
 
         public static object FromJson(this string thisValue, Type type, Func<string, Exception, object> onError = null)
         {
@@ -48,8 +55,8 @@ namespace EifelMono.Fluent.Extensions
             public static JsonEnvelope Create(object data)
                 => new JsonEnvelope { Name = data?.GetType().Name ?? "", Data = data };
         }
-        public static string ToJsonEnvelope(this object thisValue, bool indented = true, bool defaults = true)
-            => JsonEnvelope.Create(thisValue).ToJson(indented, defaults);
+        public static string ToJsonEnvelope(this object thisValue, bool indented = true, bool defaults = true, bool enumAsString = true)
+            => JsonEnvelope.Create(thisValue).ToJson(indented, defaults, enumAsString);
         public static T FormJsonEnvelope<T>(this string thisValue)
         {
             var envelopMessage = JsonConvert.DeserializeObject<JsonEnvelope>(thisValue);
