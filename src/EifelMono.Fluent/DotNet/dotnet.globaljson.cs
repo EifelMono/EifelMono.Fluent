@@ -15,13 +15,31 @@ namespace EifelMono.Fluent
         {
             public static string FileName = "global.json";
 
+            public class GlobalJsonBackwards : Backwards
+            {
+                public GlobalJsonBackwards() { }
+                public GlobalJsonBackwards(Backwards backwards)
+                {
+                    FileName = backwards.FileName;
+                    Exists = backwards.Exists;
+                    Version = fluent.Try(() => backwards.Exists ? FileName.ReadJson<DotNet.Classes.GlobalJson>().Sdk.Version : "");
+                }
+                public string Version { get; set; }
+                public override string ToString()
+                    => $"{Version} {base.ToString()}";
+            }
+
             public static bool CurrentExist
                 => DirectoryPath.OS.Current.CloneToFilePath(FileName).Exists;
 
-            public static Task<List<Backwards>> FilesBackwardsAsync(DirectoryPath directoryPath = null)
-                => (directoryPath ?? DirectoryPath.OS.Current).GetFilesBackwardsAsync(FileName);
-            public static Task<List<Backwards>> ExistingFilesBackwardsAsync(DirectoryPath directoryPath = null)
-                => (directoryPath ?? DirectoryPath.OS.Current).GetFilesBackwardsAsync(FileName, true);
+            private static async Task<List<GlobalJsonBackwards>> GetFilesBackwardsAsync(DirectoryPath directoryPath, bool existingOnly = false)
+                => (await (directoryPath ?? DirectoryPath.OS.Current).GetFilesBackwardsAsync(FileName, existingOnly).ConfigureAwait(false))
+                    .Select(item => new GlobalJsonBackwards(item)).ToList();
+
+            public static Task<List<GlobalJsonBackwards>> GetFilesBackwardsAsync(DirectoryPath directoryPath = null)
+                => GetFilesBackwardsAsync(directoryPath ?? DirectoryPath.OS.Current, false);
+            public static Task<List<GlobalJsonBackwards>> GetExistingFilesBackwardsAsync(DirectoryPath directoryPath = null)
+                => GetFilesBackwardsAsync(directoryPath ?? DirectoryPath.OS.Current, true);
 
             public static DotNet.Classes.GlobalJson NewWithVersion(string version)
                 => new DotNet.Classes.GlobalJson(version);

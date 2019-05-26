@@ -16,11 +16,29 @@ namespace EifelMono.Fluent.Extensions
             });
         }
 
-        public static object FromJson(this string thisValue, Type type)
-            => JsonConvert.DeserializeObject(thisValue, type);
+        public static object FromJson(this string thisValue, Type type, Func<string, Exception, object> onError = null)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject(thisValue, type);
+            }
+            catch (Exception ex)
+            {
+                return onError is object ? onError.Invoke(thisValue, ex) : fluent.Default(type);
+            }
+        }
 
-        public static T FromJson<T>(this string thisValue)
-            => JsonConvert.DeserializeObject<T>(thisValue);
+        public static T FromJson<T>(this string thisValue, Func<string, Exception, T> onError = null)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(thisValue);
+            }
+            catch (Exception ex)
+            {
+                return onError is object ? onError.Invoke(thisValue, ex) : fluent.Default<T>();
+            }
+        }
 
         public class JsonEnvelope
         {
@@ -40,13 +58,13 @@ namespace EifelMono.Fluent.Extensions
 
         public static object FormJsonEnvelope(this string thisValue, Type type)
         {
-            var envelopMessage = JsonConvert.DeserializeObject<JsonEnvelope>(thisValue);
+            var envelopMessage = thisValue.FromJson<JsonEnvelope>();
             return (envelopMessage.Data as JObject).ToObject(type);
         }
 
         public static (string Name, T Data) FormJsonEnvelopeAsEnvelop<T>(this string thisValue)
         {
-            var envelopMessage = JsonConvert.DeserializeObject<JsonEnvelope>(thisValue);
+            var envelopMessage = thisValue.FromJson<JsonEnvelope>();
             return (envelopMessage.Name, (T)(envelopMessage.Data as JObject).ToObject(typeof(T)));
         }
     }

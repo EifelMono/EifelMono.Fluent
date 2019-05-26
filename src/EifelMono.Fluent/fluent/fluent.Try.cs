@@ -22,6 +22,23 @@ namespace EifelMono.Fluent
                 finallyAction?.Invoke();
             }
         }
+        public static T Try<T>(Func<T> tryAction, Func<Exception, T> catchAction = null, Action finallyAction = null)
+        {
+            try
+            {
+                return tryAction.Invoke();
+            }
+            catch (Exception ex)
+            {
+                if (catchAction is object)
+                    return catchAction.Invoke(ex);
+            }
+            finally
+            {
+                finallyAction?.Invoke();
+            }
+            return default;
+        }
 
         public static (bool Ok, T Value) TrySafe<T>(Func<T> func, Action<Exception> catchAction = null, Action finallyAction = null)
         {

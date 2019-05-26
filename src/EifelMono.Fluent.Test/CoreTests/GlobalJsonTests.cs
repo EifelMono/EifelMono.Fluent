@@ -16,12 +16,12 @@ namespace EifelMono.Fluent.Test.CoreTests
         public async void GetGlobalJsonTests()
         {
             {
-                var result = await dotnet.GlobalJson.FilesBackwardsAsync();
+                var result = await dotnet.GlobalJson.GetFilesBackwardsAsync();
                 Assert.True(result.Count > 0);
             }
 
             {
-                var result = await dotnet.GlobalJson.ExistingFilesBackwardsAsync();
+                var result = await dotnet.GlobalJson.GetExistingFilesBackwardsAsync();
                 Assert.True(result.Count == 1);
             }
         }

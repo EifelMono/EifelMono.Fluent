@@ -11,14 +11,14 @@ namespace EifelMono.Fluent.IO
         public static T ReadJson<T>(this FilePath thisValue, Func<FilePath, Exception, T> onError = null)
         {
             if (!thisValue.Exists)
-                return onError != null ? onError.Invoke(thisValue, null) : default;
+                return onError is object ? onError.Invoke(thisValue, null) : fluent.Default<T>();
             try
             {
                 return thisValue.ReadAllText().FromJson<T>();
             }
             catch (Exception ex)
             {
-                return onError != null ? onError.Invoke(thisValue, ex) : default;
+                return onError is object ? onError.Invoke(thisValue, ex) : fluent.Default<T>();
             }
         }
     }

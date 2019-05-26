@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using EifelMono.Fluent.Classes;
+using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -26,5 +27,30 @@ namespace EifelMono.Fluent
         public static T[] @params<T>(params T[] values)
 #pragma warning restore IDE1006 // Naming Styles
             => values;
+
+        public static T Default<T>()
+            => (T)Default(typeof(T));
+
+        public static object Default(Type type)
+        {
+#if NETSTANDARD1_6
+            var infoType = type.GetTypeInfo();
+#else
+            var infoType = type;
+#endif
+            try
+            {
+                if (infoType.IsValueType)
+                    return Activator.CreateInstance(type);
+                if (infoType.IsClass)
+                {
+                    if (type == typeof(string))
+                        return "";
+                    return Activator.CreateInstance(type);
+                }
+            }
+            catch { }
+            return default;
+        }
     }
 }
