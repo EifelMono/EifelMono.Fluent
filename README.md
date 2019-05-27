@@ -53,8 +53,11 @@ for more see the
 * dotnet core 3.0 Roslyn c# 8.0 
 
 ## Safe in the Name 
+
 => (bool Ok, T Value)
 
+Methods for fluent
+=> (bool Ok, T Value, TF FluentValue)
 
 ## Social
 <a href="https://twitter.com/eifelmono"><img src="https://img.shields.io/badge/twitter-%40eifelmono-55acee.svg?style=flat-square"></a>

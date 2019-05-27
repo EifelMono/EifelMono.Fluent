@@ -1,10 +1,9 @@
-﻿#if ! NETSTANDARD1_6
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.IO;
-using static EifelMono.Fluent.IO.DirectoryPath;
+using EifelMono.Fluent.Log;
 
 #pragma warning disable IDE1006 // Naming Styles
 namespace EifelMono.Fluent
@@ -15,10 +14,10 @@ namespace EifelMono.Fluent
         {
             public static string FileName = "global.json";
 
-            public class GlobalJsonBackwards : Backwards
+            public class GlobalJsonBackwards : DirectoryPath.Backwards
             {
                 public GlobalJsonBackwards() { }
-                public GlobalJsonBackwards(Backwards backwards)
+                public GlobalJsonBackwards(DirectoryPath.Backwards backwards)
                 {
                     FileName = backwards.FileName;
                     Exists = backwards.Exists;
@@ -36,14 +35,29 @@ namespace EifelMono.Fluent
                 => (await (directoryPath ?? DirectoryPath.OS.Current).GetFilesBackwardsAsync(FileName, existingOnly).ConfigureAwait(false))
                     .Select(item => new GlobalJsonBackwards(item)).ToList();
 
-            public static Task<List<GlobalJsonBackwards>> GetFilesBackwardsAsync(DirectoryPath directoryPath = null)
+            public static Task<List<GlobalJsonBackwards>> GetFilesBackwardsAsync(DirectoryPath directoryPath = default)
                 => GetFilesBackwardsAsync(directoryPath ?? DirectoryPath.OS.Current, false);
-            public static Task<List<GlobalJsonBackwards>> GetExistingFilesBackwardsAsync(DirectoryPath directoryPath = null)
+            public static Task<List<GlobalJsonBackwards>> GetExistingFilesBackwardsAsync(DirectoryPath directoryPath = default)
                 => GetFilesBackwardsAsync(directoryPath ?? DirectoryPath.OS.Current, true);
 
             public static DotNet.Classes.GlobalJson NewWithVersion(string version)
                 => new DotNet.Classes.GlobalJson(version);
+
+            public static bool Create(string version, DirectoryPath directoryPath= default)
+            {
+                directoryPath ??= DirectoryPath.OS.Current;
+                try
+                {
+                    var fileName = directoryPath.CloneToFilePath(FileName).EnsureDirectoryExist();
+                    return fileName.WriteJsonSafe(NewWithVersion(version)).Ok;
+
+                }
+                catch (Exception ex)
+                {
+                    ex.LogException();
+                }
+                return false;
+            }
         }
     }
 }
-#endif

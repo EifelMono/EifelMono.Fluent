@@ -48,6 +48,11 @@ namespace EifelMono.Fluent.Log
             LogProxy?.OnLogException(thisValue);
             return thisValue;
         }
+        public static Exception LogSafeException(this Exception thisValue)
+        {
+            LogProxy?.OnLogSafeException(thisValue);
+            return thisValue;
+        }
         #endregion
     }
 }

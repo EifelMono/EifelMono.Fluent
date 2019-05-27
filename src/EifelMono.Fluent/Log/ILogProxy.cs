@@ -12,5 +12,6 @@ namespace EifelMono.Fluent.Log
         Action<string> OnLogError { get; set; }
 
         Action<Exception> OnLogException { get; set; }
+        Action<Exception> OnLogSafeException { get; set; }
     }
 }
