@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EifelMono.Fluent.Flow
 {
-    class WaitQueueValue<T> : TaskCompletionQueuedSource<T>
+    public class WaitQueueValue<T> : TaskCompletionQueuedSource<T>
     {
     }
 }

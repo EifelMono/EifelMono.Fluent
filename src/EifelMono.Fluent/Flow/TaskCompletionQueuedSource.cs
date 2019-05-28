@@ -100,9 +100,9 @@ namespace EifelMono.Fluent.Flow
         public void AddData(T addData, CancellationToken cancellationToken = default)
             => NewData(addData, cancellationToken);
 
-        protected async Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T waitValue, bool wait, params CancellationToken[] cancellationTokens)
+        protected async Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T[] waitValues, bool wait, params CancellationToken[] cancellationTokens)
         {
-            if (wait && waitValue is null)
+            if (wait && (waitValues is null || waitValues.Length == 0))
                 return (false, default, new AggregateException());
             CancellationToken cancellationToken;
             cancellationToken.Register(() => { CompletionSource.TrySetCanceled(); });
@@ -112,6 +112,7 @@ namespace EifelMono.Fluent.Flow
                 foreach (var ct in cancellationTokens)
                     tokenRegisters.Add(ct.Register(() => { CompletionSource.TrySetCanceled(); }));
 
+                var waitValuesList = wait ? waitValues.ToList() : new List<T>();
                 using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationTokens.ToList().Append(cancellationToken).ToArray());
                 {
                     T value = default;
@@ -119,7 +120,16 @@ namespace EifelMono.Fluent.Flow
                     while (!finished)
                     {
                         if (Items.TryDequeue(out value))
-                            finished = wait ? value != null && value.Equals(waitValue) : true;
+                        {
+                            if (wait)
+                            {
+                                if (waitValuesList.Contains(value))
+                                    waitValuesList.Remove(value);
+                                finished = waitValuesList.Count == 0;
+                            }
+                            else
+                                finished = true;
+                        }
                         else
                         {
                             try
@@ -157,10 +167,39 @@ namespace EifelMono.Fluent.Flow
             return (false, default, new Exception());
         }
 
-        public async Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(params CancellationToken[] cancellationTokens)
-            => await WaitValueAsync(default, false, cancellationTokens).ConfigureAwait(false);
 
-        public async Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T waitData, params CancellationToken[] cancellationTokens)
-            => await WaitValueAsync(waitData, true, cancellationTokens).ConfigureAwait(false);
+        public Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(params CancellationToken[] cancellationTokens)
+            => WaitValueAsync(new T[] { }, false, cancellationTokens);
+        public Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(TimeSpan timeSpan)
+            => WaitValueAsync(new T[] { }, false, new CancellationTokenSource(timeSpan).Token);
+
+
+        public Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T waitData1, params CancellationToken[] cancellationTokens)
+            => WaitValueAsync(new T[] { waitData1 }, true, cancellationTokens);
+        public Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T waitData1, TimeSpan timeSpan)
+            => WaitValueAsync(new T[] { waitData1 }, true, new CancellationTokenSource(timeSpan).Token);
+        public async Task<(bool Ok, Exception Exception)> WaitValuesAsync(T[] waitValues, params CancellationToken[] cancellationTokens)
+        {
+            var result = await WaitValueAsync(waitValues, true, cancellationTokens).ConfigureAwait(false);
+            return (result.Ok, result.Exception);
+        }
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T[] waitValues, TimeSpan timeSpan)
+            => WaitValuesAsync(waitValues, new CancellationTokenSource(timeSpan).Token);
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T waitData1, T waitData2, params CancellationToken[] cancellationTokens)
+            => WaitValuesAsync(new T[] { waitData1, waitData2 }, cancellationTokens);
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T waitData1, T waitData2, TimeSpan timeSpan)
+            => WaitValuesAsync(new T[] { waitData1, waitData2 }, new CancellationTokenSource(timeSpan).Token);
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T waitData1, T waitData2, T waitData3, params CancellationToken[] cancellationTokens)
+            => WaitValuesAsync(new T[] { waitData1, waitData2, waitData3 }, cancellationTokens);
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T waitData1, T waitData2, T waitData3, TimeSpan timeSpan)
+            => WaitValuesAsync(new T[] { waitData1, waitData2, waitData3 }, new CancellationTokenSource(timeSpan).Token);
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T waitData1, T waitData2, T waitData3, T waitData4, params CancellationToken[] cancellationTokens)
+            => WaitValuesAsync(new T[] { waitData1, waitData2, waitData3, waitData4 }, cancellationTokens);
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T waitData1, T waitData2, T waitData3, T waitData4, TimeSpan timeSpan)
+            => WaitValuesAsync(new T[] { waitData1, waitData2, waitData3, waitData4 }, new CancellationTokenSource(timeSpan).Token);
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T waitData1, T waitData2, T waitData3, T waitData4, T waitData5, params CancellationToken[] cancellationTokens)
+            => WaitValuesAsync(new T[] { waitData1, waitData2, waitData3, waitData4, waitData5 }, cancellationTokens);
+        public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T waitData1, T waitData2, T waitData3, T waitData4, T waitData5, TimeSpan timeSpan)
+            => WaitValuesAsync(new T[] { waitData1, waitData2, waitData3, waitData4, waitData5 }, new CancellationTokenSource(timeSpan).Token);
     }
 }
