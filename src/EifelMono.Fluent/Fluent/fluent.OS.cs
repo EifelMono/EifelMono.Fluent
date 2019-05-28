@@ -25,15 +25,19 @@ namespace EifelMono.Fluent
                 }
             }
 
-         
 
 #if !NETSTANDARD1_6
-            public static void OpenUrl(string url)
-                 => OS.System
-                    .OnWindows(() => Process.Start(new ProcessStartInfo("cmd", $"/C start {url.Replace("&", "^&")}") { CreateNoWindow = true }))
-                    .OnLinux(() => Process.Start("xdg-open", url))
-                    .OnMacOS(() => Process.Start("open", url));
+            public static Process OpenUrl(string url)
+                => System switch
+                {
+                    OSSystem.Windows => Process.Start(new ProcessStartInfo("cmd", $"/C start {url.Replace("&", "^&")}") { CreateNoWindow = true }),
+                    OSSystem.Linux => Process.Start("xdg-open", url),
+                    OSSystem.MacOS => Process.Start("open", url)
+                };
 #endif
         }
     }
 }
+
+
+

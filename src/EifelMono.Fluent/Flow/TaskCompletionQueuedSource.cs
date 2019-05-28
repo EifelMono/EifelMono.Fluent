@@ -7,7 +7,7 @@ using EifelMono.Fluent.Log;
 
 namespace EifelMono.Fluent.Flow
 {
-    public class TaskCompletionQueuedSource<T> where T : object
+    public class TaskCompletionQueuedSource<T>
     {
         public ConcurrentExtendedQueue<T> Items = new ConcurrentExtendedQueue<T>();
         protected object CompletionSourceLock = new object();
@@ -96,6 +96,9 @@ namespace EifelMono.Fluent.Flow
             });
             #endregion
         }
+
+        public void AddData(T addData, CancellationToken cancellationToken = default)
+            => NewData(addData, cancellationToken);
 
         protected async Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T waitValue, bool wait, params CancellationToken[] cancellationTokens)
         {

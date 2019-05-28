@@ -50,7 +50,6 @@ namespace EifelMono.Fluent
                 {
                     var fileName = directoryPath.CloneToFilePath(FileName).EnsureDirectoryExist();
                     return fileName.WriteJsonSafe(NewWithVersion(version)).Ok;
-
                 }
                 catch (Exception ex)
                 {

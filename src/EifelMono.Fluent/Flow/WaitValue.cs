@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using EifelMono.Fluent.Extensions;
@@ -50,41 +49,6 @@ namespace EifelMono.Fluent.Flow
             return value;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="waitValue"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>True=Wait finished, False=Canceled</returns>
-        //public async Task<bool> WaitValueAsync(T waitValue, CancellationToken cancellationToken = default)
-        //{
-        //    var queue = new TaskCompletionQueuedSource<T>();
-        //    void SubscribeOnChange(T newValue) => queue.NewData(newValue);
-        //    try
-        //    {
-        //        OnChange.Add(SubscribeOnChange);
-        //        if (Equals(Value, waitValue))
-        //            return true;
-        //        bool running = true;
-        //        while (running)
-        //        {
-        //            if (await queue.WaitValueAsync(cancellationToken).ConfigureAwait(false) is var result && result.Ok)
-        //            {
-        //                if (Equals(result.Value, waitValue))
-        //                    return true;
-        //            }
-        //            else
-        //                running = false;
-        //            if (cancellationToken.IsCancellationRequested)
-        //                running = false;
-        //        }
-        //        return false;
-        //    }
-        //    finally
-        //    {
-        //        OnChange.Remove(SubscribeOnChange);
-        //    }
-        //}
 
         #region WaitValueAsync
         public async Task<bool> WaitValueAsync(T[] waitValues, CancellationToken cancellationToken = default)
