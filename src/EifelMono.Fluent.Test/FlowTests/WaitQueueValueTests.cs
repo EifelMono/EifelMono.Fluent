@@ -16,17 +16,25 @@ namespace EifelMono.Fluent.Test.FlowTests
         public WaitQueueValueTests(ITestOutputHelper output) : base(output) { }
 
         [Theory]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday })]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Tuesday})]
         [InlineData(new DayOfWeek[] { DayOfWeek.Wednesday })]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Thursday})]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Friday })]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Saturday })]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Sunday })]
         [InlineData(new DayOfWeek[] { DayOfWeek.Wednesday, DayOfWeek.Friday })]
         [InlineData(new DayOfWeek[] { DayOfWeek.Saturday, DayOfWeek.Friday })]
+        [InlineData(new DayOfWeek[] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday,
+                DayOfWeek.Saturday, DayOfWeek.Sunday})]
         public async void WaitQueueValueTest(DayOfWeek[] waitValues)
         {
             var v = new WaitQueueValue<DayOfWeek>();
             _ = Task.Run(async () =>
             {
+                await Task.Delay(TimeSpan.FromMilliseconds(100));
                 foreach (var dayOfWeek in fluent.Enum.Values<DayOfWeek>())
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(100));
                     v.AddData(dayOfWeek);
                 }
             });
