@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -100,7 +101,7 @@ namespace EifelMono.Fluent.Flow
         public void AddData(T addData, CancellationToken cancellationToken = default)
             => NewData(addData, cancellationToken);
 
-        protected async Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T[] waitValues, bool wait, params CancellationToken[] cancellationTokens)
+        protected async Task<(bool Ok, T Value, Exception Exception)> WaitValuesAsync(T[] waitValues, bool wait, params CancellationToken[] cancellationTokens)
         {
             if (wait && (waitValues is null || waitValues.Length == 0))
                 return (false, default, new AggregateException());
@@ -169,18 +170,18 @@ namespace EifelMono.Fluent.Flow
 
 
         public Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(params CancellationToken[] cancellationTokens)
-            => WaitValueAsync(new T[] { }, false, cancellationTokens);
+            => WaitValuesAsync(new T[] { }, false, cancellationTokens);
         public Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(TimeSpan timeSpan)
-            => WaitValueAsync(new T[] { }, false, new CancellationTokenSource(timeSpan).Token);
+            => WaitValuesAsync(new T[] { }, false, new CancellationTokenSource(timeSpan).Token);
 
 
         public Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T waitData1, params CancellationToken[] cancellationTokens)
-            => WaitValueAsync(new T[] { waitData1 }, true, cancellationTokens);
+            => WaitValuesAsync(new T[] { waitData1 }, true, cancellationTokens);
         public Task<(bool Ok, T Value, Exception Exception)> WaitValueAsync(T waitData1, TimeSpan timeSpan)
-            => WaitValueAsync(new T[] { waitData1 }, true, new CancellationTokenSource(timeSpan).Token);
+            => WaitValuesAsync(new T[] { waitData1 }, true, new CancellationTokenSource(timeSpan).Token);
         public async Task<(bool Ok, Exception Exception)> WaitValuesAsync(T[] waitValues, params CancellationToken[] cancellationTokens)
         {
-            var result = await WaitValueAsync(waitValues, true, cancellationTokens).ConfigureAwait(false);
+            var result = await WaitValuesAsync(waitValues, true, cancellationTokens).ConfigureAwait(false);
             return (result.Ok, result.Exception);
         }
         public Task<(bool Ok, Exception Exception)> WaitValuesAsync(T[] waitValues, TimeSpan timeSpan)

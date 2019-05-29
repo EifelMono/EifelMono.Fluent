@@ -36,11 +36,9 @@ namespace EifelMono.Fluent.Test.FlowTests
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
                     foreach (var dayOfWeek in fluent.Enum.Values<DayOfWeek>())
-                    {
                         v.AddData(dayOfWeek);
-                    }
                 });
-                var result = await v.WaitValuesAsync(waitValues, TimeSpan.FromSeconds(1));
+                var result = await v.WaitValuesAsync(waitValues, TimeSpan.FromSeconds(2));
                 Assert.True(result.Ok);
             }
         }
@@ -61,14 +59,12 @@ namespace EifelMono.Fluent.Test.FlowTests
             for (int index = 0; index < 5; index++)
             {
                 var v = new WaitQueueValue<DayOfWeek>();
-                var task = v.WaitValuesAsync(waitValues, TimeSpan.FromSeconds(1));
+                var task = v.WaitValuesAsync(waitValues, TimeSpan.FromSeconds(2));      
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
                     foreach (var dayOfWeek in fluent.Enum.Values<DayOfWeek>())
-                    {
                         v.AddData(dayOfWeek);
-                    }
                 });
                 var result = await task;
                 Assert.True(result.Ok);
