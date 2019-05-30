@@ -21,16 +21,16 @@ Task("Build")
         Configuration= configuration
     });
 });
-Task("CleanNuget")
+Task("CleanArtifacts")
 .Does(()=> {
-     EnsureDirectoryExists($"./nuget");
-     CleanDirectories($"./nuget");
+     EnsureDirectoryExists($"./artifacts");
+     CleanDirectories($"./artifacts");
 });
-Task("CopyNuget")
+Task("CopyArtifacts")
 .Does(()=> {
-    EnsureDirectoryExists($"./nuget");
+    EnsureDirectoryExists($"./artifacts");
     foreach(var file in GetFiles($"./src/**/bin/{configuration}/*.nupkg"))
-        CopyFile(file, $"./nuget/{file.GetFilename()}");
+        CopyFile(file, $"./artifacts/{file.GetFilename()}");
 });
 Task("Doc")
 .Does(()=> {
@@ -52,8 +52,8 @@ Task("Default")
 .IsDependentOn("Clean")
 .IsDependentOn("Restore")
 .IsDependentOn("Build")
-.IsDependentOn("CleanNuget")
-.IsDependentOn("CopyNuget")
+.IsDependentOn("CleanArtifacts")
+.IsDependentOn("CopyArtifacts")
 .Does(() => {
 });
 
