@@ -16,7 +16,7 @@ namespace EifelMono.Fluent.Extensions
                 DefaultValueHandling = defaults ? DefaultValueHandling.Include : DefaultValueHandling.Ignore
             };
             if (enumAsString)
-               result.Converters.Add(new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
+                result.Converters.Add(new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
             return result;
         }
 
@@ -74,5 +74,11 @@ namespace EifelMono.Fluent.Extensions
             var envelopMessage = thisValue.FromJson<JsonEnvelope>();
             return (envelopMessage.Name, (T)(envelopMessage.Data as JObject).ToObject(typeof(T)));
         }
+
+        public static T JsonClone<T>(this T thisValue) where T : object
+            => thisValue.ToJson().FromJson<T>();
+        public static TResult JsonClone<TInput, TResult>(this TInput thisValue) where TInput : class
+                                                                                where TResult : class, new()
+            => thisValue.ToJson().FromJson<TResult>();
     }
 }

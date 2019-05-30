@@ -7,7 +7,7 @@ using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EifelMono.Fluent.Test.CoreTests
+namespace EifelMono.Fluent.Test.DotNetTests
 {
 #pragma warning disable IDE1006 // Naming Styles
     public class DotNetTests : XunitCore

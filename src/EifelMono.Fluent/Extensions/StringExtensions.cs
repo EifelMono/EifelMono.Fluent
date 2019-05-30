@@ -13,7 +13,7 @@ namespace EifelMono.Fluent.Extensions
         public static bool IsLengthGreater(this string thisValue, int value)
             => thisValue is null ? false : thisValue.Length > value;
 
-        public static string ToJoinString(this List<string> thisValue, string joinChar)
+        public static string ToJoinString<T>(this List<T> thisValue, string joinChar)
             => string.Join(joinChar, thisValue);
         public static string Repeat(this string thisValue, int count)
             => string.Concat(Enumerable.Repeat(thisValue, count));

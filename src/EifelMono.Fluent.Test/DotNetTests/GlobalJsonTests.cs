@@ -5,7 +5,7 @@ using Xunit;
 using Xunit.Abstractions;
 
 #pragma warning disable IDE1006 // Naming Styles
-namespace EifelMono.Fluent.Test.CoreTests
+namespace EifelMono.Fluent.Test.DotNetTests
 {
 
     public class GlobalJsonTest : XunitCore

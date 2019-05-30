@@ -20,7 +20,7 @@ namespace EifelMono.Fluent.Tests.ChangesTests
         public class RootClass : ChangeClass
         {
             public ChangeProperty<bool> BoolProperty { get; set; } = new ChangeProperty<bool>();
-            public ChangeProperty<String> StringProperty { get; set; } = new ChangeProperty<string>();
+            public ChangeProperty<string> StringProperty { get; set; } = new ChangeProperty<string>();
             public NumericClass NumericClass { get; set; } = new NumericClass();
         }
         [Fact]
