@@ -27,6 +27,7 @@ namespace EifelMono.Fluent.Core
         public Set<T> Include(Set<T> set)
             => Include(set.Items);
 
+
         public Set<T> Exclude(IEnumerable<T> items)
         {
             lock (Items)
@@ -97,6 +98,30 @@ namespace EifelMono.Fluent.Core
                 Items.Clear();
             return this;
         }
+
+        public Set<T> Or(IEnumerable<T> items)
+         => Include(items);
+        public Set<T> Or(params T[] items)
+            => Include(items);
+        public Set<T> Or(Set<T> set)
+            => Include(set);
+
+        public Set<T> And(IEnumerable<T> items)
+        {
+            lock (Items)
+            {
+                var saveItems = new List<T>(Items);
+                foreach (var item in items)
+                    if (saveItems.Contains(item))
+                        Items.Add(item);
+            }
+            return this;
+        }
+
+        public Set<T> And(params T[] items)
+            => And((IEnumerable<T>)items);
+        public Set<T> And(Set<T> set)
+            => And(set.Items);
 
         public Set<T> Invert()
         {

@@ -98,7 +98,54 @@ namespace EifelMono.Fluent.Test.CoreTests
 
             Assert.False(x.Has(DayOfWeek.Monday, DayOfWeek.Friday, DayOfWeek.Saturday));
             Assert.False(x.Is(DayOfWeek.Monday, DayOfWeek.Friday, DayOfWeek.Saturday));
+        }
 
+        [Fact]
+        public void BinaryTests()
+        {
+            var days = new Set<DayOfWeek>();
+            Assert.True(days.IsEmpty());
+            days.Invert();
+            Assert.False(days.IsEmpty());
+            AllDays(days);
+
+            var weekDays = new Set<DayOfWeek>();
+            weekDays.Fill().Exclude(DayOfWeek.Saturday, DayOfWeek.Sunday);
+            Assert.True(weekDays.Has(DayOfWeek.Monday));
+            Assert.True(weekDays.Has(DayOfWeek.Tuesday));
+            Assert.True(weekDays.Has(DayOfWeek.Wednesday));
+            Assert.True(weekDays.Has(DayOfWeek.Thursday));
+            Assert.True(weekDays.Has(DayOfWeek.Friday));
+            Assert.False(weekDays.Has(DayOfWeek.Saturday));
+            Assert.False(weekDays.Has(DayOfWeek.Sunday));
+
+            var testDays = new Set<DayOfWeek>(DayOfWeek.Monday, DayOfWeek.Thursday);
+            Assert.True(testDays.Has(DayOfWeek.Monday));
+            Assert.False(testDays.Has(DayOfWeek.Tuesday));
+            Assert.False(testDays.Has(DayOfWeek.Wednesday));
+            Assert.True(testDays.Has(DayOfWeek.Thursday));
+            Assert.False(testDays.Has(DayOfWeek.Friday));
+            Assert.False(testDays.Has(DayOfWeek.Saturday));
+            Assert.False(testDays.Has(DayOfWeek.Sunday));
+            testDays.And(new Set<DayOfWeek>().Fill());
+            Assert.True(testDays.Has(DayOfWeek.Monday));
+            Assert.False(testDays.Has(DayOfWeek.Tuesday));
+            Assert.False(testDays.Has(DayOfWeek.Wednesday));
+            Assert.True(testDays.Has(DayOfWeek.Thursday));
+            Assert.False(testDays.Has(DayOfWeek.Friday));
+            Assert.False(testDays.Has(DayOfWeek.Saturday));
+            Assert.False(testDays.Has(DayOfWeek.Sunday));
+
+            testDays = days.JsonClone();
+            AllDays(testDays);
+            testDays.And(weekDays);
+            Assert.True(weekDays.Has(DayOfWeek.Monday));
+            Assert.True(weekDays.Has(DayOfWeek.Tuesday));
+            Assert.True(weekDays.Has(DayOfWeek.Wednesday));
+            Assert.True(weekDays.Has(DayOfWeek.Thursday));
+            Assert.True(weekDays.Has(DayOfWeek.Friday));
+            Assert.False(weekDays.Has(DayOfWeek.Saturday));
+            Assert.False(weekDays.Has(DayOfWeek.Sunday));
         }
     }
 }
