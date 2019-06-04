@@ -388,6 +388,28 @@ namespace EifelMono.Fluent.IO
             => File.ReadAllLines(Value, encoding);
         public string ReadAllText()
             => File.ReadAllText(Value);
+        public string ReadAllText(string defaultValue)
+        {
+            try
+            {
+                if (Exists)
+                    return File.ReadAllText(Value);
+            }
+            catch { }
+            return defaultValue;
+        }
+
+        public (bool ok, string Value, FilePath FluentValue) ReadAllTextSafe(string defaultValue)
+        {
+            try
+            {
+                if (Exists)
+                    return (true, File.ReadAllText(Value), this);
+            }
+            catch { }
+            return (false, defaultValue, this);
+        }
+
         public string ReadAllText(Encoding encoding)
             => File.ReadAllText(Value, encoding);
         public IEnumerable<string> ReadLines()
