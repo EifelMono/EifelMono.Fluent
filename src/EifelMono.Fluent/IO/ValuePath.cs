@@ -35,6 +35,16 @@ namespace EifelMono.Fluent.IO
             => true;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        protected bool IsPathRooted
+            => Path.IsPathRooted(Value);
+
+#if !(NETSTANDARD1_6 || NETSTANDARD2_0)
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        protected bool IsPathFullyQualified
+            => Path.IsPathFullyQualified(Value);
+#endif
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public List<string> SplitValues { get; private set; } = new List<string>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

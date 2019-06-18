@@ -173,6 +173,64 @@ namespace EifelMono.Fluent.Flow
             => WaitValuesAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpan.AsToken());
         #endregion
 
+        #region WaitNotValueAsync
+        public async Task<bool> WaitNotValueAsync(T[] waitNotValues, CancellationToken cancellationToken = default)
+        {
+            if (waitNotValues is null || waitNotValues.Length == 0)
+                return false;
+            var queue = new TaskCompletionQueuedSource<T>();
+            if (!waitNotValues.Contains(Value))
+                return true;
+            void SubscribeOnChange(T newValue) => queue.NewData(newValue);
+            try
+            {
+                OnChange.Add(SubscribeOnChange);
+                bool running = true;
+                while (running)
+                {
+                    if (await queue.WaitValueAsync(cancellationToken).ConfigureAwait(false) is var result && result.Ok)
+                    {
+                        if (!waitNotValues.Contains(result.Value))
+                            return true;
+                    }
+                    else
+                        running = false;
+                    if (cancellationToken.IsCancellationRequested)
+                        running = false;
+                }
+                return false;
+            }
+            finally
+            {
+                OnChange.Remove(SubscribeOnChange);
+            }
+        }
+
+        public Task<bool> WaitNotValueAsync(T waitValue1, CancellationToken cancellationToken = default)
+            => WaitNotValueAsync(new T[] { waitValue1 }, cancellationToken);
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, CancellationToken cancellationToken = default)
+            => WaitNotValueAsync(new T[] { waitValue1, waitValue2 }, cancellationToken);
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, CancellationToken cancellationToken = default)
+            => WaitNotValueAsync(new T[] { waitValue1, waitValue2, waitValue3 }, cancellationToken);
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, CancellationToken cancellationToken = default)
+            => WaitNotValueAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4 }, cancellationToken);
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, CancellationToken cancellationToken = default)
+            => WaitNotValueAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4, waitValue5 }, cancellationToken);
+
+        public Task<bool> WaitNotValueAsync(T[] waitValues, TimeSpan timeSpan)
+          => WaitNotValueAsync(waitValues, timeSpan.AsToken());
+        public Task<bool> WaitNotValueAsync(T waitValue1, TimeSpan timeSpane)
+            => WaitNotValueAsync(waitValue1, timeSpane.AsToken());
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, TimeSpan timeSpane)
+            => WaitNotValueAsync(waitValue1, waitValue2, timeSpane.AsToken());
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, TimeSpan timeSpane)
+            => WaitNotValueAsync(waitValue1, waitValue2, waitValue3, timeSpane.AsToken());
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, TimeSpan timeSpane)
+            => WaitNotValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, timeSpane.AsToken());
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, TimeSpan timeSpane)
+            => WaitNotValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpane.AsToken());
+
+        #endregion
 
         public static implicit operator T(WaitValue<T> value)
             => value.Value;
