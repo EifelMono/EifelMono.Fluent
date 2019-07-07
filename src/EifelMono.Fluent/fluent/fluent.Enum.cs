@@ -23,13 +23,16 @@ namespace EifelMono.Fluent
                 return (false, default);
             }
 
-            public static (bool Ok, string Value) Name<T>(int value) where T : System.Enum
+            public static (bool Ok, string Value) Name(Type type, int value)
             {
-                if (TrySafe(() => System.Enum.GetName(typeof(T), value)) is var result && result.Ok && result.Value != null)
+                if (TrySafe(() => System.Enum.GetName(type, value)) is var result && result.Ok && result.Value != null)
                     return result;
                 else
                     return (false, default);
             }
+            public static (bool Ok, string Value) Name<T>(int value) where T : System.Enum
+                => Name(typeof(T), value);
+
             public static (bool Ok, string Value) Name<T>(T value) where T : System.Enum
                 => Name<T>(Convert.ToInt32(value));
 

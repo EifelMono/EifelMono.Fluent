@@ -1,5 +1,4 @@
-﻿#if ! NETSTANDARD1_6
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -133,4 +132,3 @@ namespace EifelMono.Fluent
     }
 #pragma warning restore IDE1006 // Naming Styles
 }
-#endif

@@ -12,14 +12,14 @@ namespace EifelMono.Fluent.Classes
         }
     }
 
-    public class FluentParent<T> : FluentParent where T : object
+    public class FluentParent<T> : FluentParent 
     {
         public new T ParentThis { get => (T)base.ParentThis; protected set => base.ParentThis = value; }
 
         public FluentParent(T parentThis) : base(parentThis) { }
     }
 
-    public abstract class FluentParentCondition<T> : FluentParent<T> where T : object
+    public abstract class FluentParentCondition<T> : FluentParent<T> 
     {
         protected Func<bool> ConditionFunc { get; set; }
         public FluentParentCondition(T parentThis, Func<bool> conditionFunc) : base(parentThis)

@@ -64,7 +64,7 @@ namespace EifelMono.Fluent.Test.FlowTests
         public async void TestTaskWithCancelation_Cancel()
         {
             {
-                var cts = new CancellationTokenSource();
+                using var cts = new CancellationTokenSource();
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
@@ -81,7 +81,7 @@ namespace EifelMono.Fluent.Test.FlowTests
                 }
             }
             {
-                var cts = new CancellationTokenSource();
+                using var cts = new CancellationTokenSource();
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
@@ -103,7 +103,7 @@ namespace EifelMono.Fluent.Test.FlowTests
         public async void TestTaskWithExternalCancelation_Cancel()
         {
             {
-                var cts = new CancellationTokenSource();
+                using var cts = new CancellationTokenSource();
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
@@ -120,7 +120,7 @@ namespace EifelMono.Fluent.Test.FlowTests
                 }
             }
             {
-                var cts = new CancellationTokenSource();
+                using var cts = new CancellationTokenSource();
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
@@ -142,7 +142,7 @@ namespace EifelMono.Fluent.Test.FlowTests
         public async void TestTaskWithExternalCancelation_NoCancel()
         {
             {
-                var cts = new CancellationTokenSource();
+                using var cts = new CancellationTokenSource();
                 try
                 {
                     var timeStamp = await WorkAsync(TimeSpan.FromSeconds(1), false).WithCancellation(cts.Token);
@@ -154,7 +154,7 @@ namespace EifelMono.Fluent.Test.FlowTests
                 }
             }
             {
-                var cts = new CancellationTokenSource();
+                using var cts = new CancellationTokenSource();
                 try
                 {
                     var timeStamp = await WorkWithExceptionAsync(TimeSpan.FromSeconds(1), false).WithCancellation(cts.Token);

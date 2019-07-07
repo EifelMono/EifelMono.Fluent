@@ -1,18 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using EifelMono.Fluent.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace EifelMono.Fluent.Changes
 {
-    public abstract class ChangeProperty : ChangeCore
+    public class ChangeProperty : ChangeCore
     {
         protected object LockObject = new object();
         public DateTime TimeStamp { get; set; } = DateTime.MinValue;
         protected object _Value;
         public object Value
         {
-            get => _Value; set
+            get => _Value;
+            set
             {
                 bool changed = false;
                 lock (LockObject)
@@ -27,6 +29,46 @@ namespace EifelMono.Fluent.Changes
                 }
                 if (changed)
                     Notify(this);
+            }
+        }
+
+        public void DoNotify(ChangeProperty changedProperty = default)
+            => Notify(changedProperty ?? this);
+
+        public void DisableNotify()
+           => _isNotifyEnabled = false;
+        public void EnableNotify(ChangeProperty changedProperty = default)
+        {
+            _isNotifyEnabled = true;
+            DoNotify(changedProperty);
+        }
+
+        protected List<string> _Infos = new List<string>();
+        public List<string> Infos
+        {
+            get => _Infos;
+            set
+            {
+                _Infos = value;
+                Notify(this);
+            }
+        }
+
+        [JsonIgnore]
+        public string this[int i]
+        {
+            get
+            {
+                while (_Infos.Count <= i)
+                    _Infos.Add("");
+                return _Infos[i];
+            }
+            set
+            {
+                while (_Infos.Count <= i)
+                    _Infos.Add("");
+                _Infos[i] = value;
+                DoNotify();
             }
         }
 
@@ -80,15 +122,20 @@ namespace EifelMono.Fluent.Changes
 
         public override string ToString()
             => $"{base.ToString()} = {Value?.ToString() ?? "Null"} at {TimeStamp}";
-        public string ToChangeString(bool shortInfo = true)
+        public string ToChangeString(bool shortInfo = true, bool withInfos = true)
         {
+            string result;
             var error = HasError ? $"Error {Error}" : "";
             if (shortInfo)
-                return $"{Name} = {LastValue?.ToString() ?? "Null"} => {Value?.ToString() ?? "Null"}"
-                 + $" {SecondsToLast} seconds to last {error}".Trim();
+                result = $"{Name} = {LastValue?.ToString() ?? "Null"} => {Value?.ToString() ?? "Null"}"
+                 + $" {SecondsToLast} seconds to last {error}";
             else
-                return $"{base.ToString()} at {TimeStamp} from {LastValue?.ToString() ?? "Null"} to {Value?.ToString() ?? "Null"}"
-                 + $" seconds to last {SecondsToLast} from now {SecondsFromNow} {error}".Trim();
+                result = $"{base.ToString()} at {TimeStamp} from {LastValue?.ToString() ?? "Null"} to {Value?.ToString() ?? "Null"}"
+                 + $" seconds to last {SecondsToLast} from now {SecondsFromNow} {error}";
+            if (withInfos)
+                if (Infos.Count > 0)
+                    result += Environment.NewLine + string.Join(Environment.NewLine, Infos);
+            return result;
         }
     }
 
@@ -117,10 +164,20 @@ namespace EifelMono.Fluent.Changes
 
     public class ChangeEnumProperty<T> : ChangeProperty<T> where T : Enum
     {
+        public ChangeEnumProperty(T value = default) : base()
+        {
+            TypeName = typeof(T).Name;
+            _Value = default(T);
+            LastValue = default;
+            Value = value;
+            Exception = null;
+        }
+
         [JsonConverter(typeof(StringEnumConverter))]
         public new T Value { get => (T)base.Value; set => base.Value = value; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public new T LastValue { get => (T)base.LastValue; set => base.LastValue = value; }
     }
+
 }

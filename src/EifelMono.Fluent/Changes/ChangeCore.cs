@@ -2,34 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.Flow;
 using Newtonsoft.Json;
 
 namespace EifelMono.Fluent.Changes
 {
-#if NETSTANDARD1_6
-    public static class NetStandard16Exentsions
-    {
-        public static bool IsSubclassOf(this Type thisValue, Type inheritedType)
-            => inheritedType.IsAssignableFrom(thisValue);
-    }
-#endif
-
     public class ChangeCore
     {
         [JsonIgnore]
-        public string _TypeName = null;
+        private string _typeName = null;
         public string TypeName
         {
-            get => _TypeName ?? (_TypeName = GetType().Name);
-            set => _TypeName = value;
+            get => _typeName ?? (_typeName = GetType().Name);
+            set => _typeName = value;
         }
 
+        public int Level { get; set; }
         public string Name { get; set; }
 
         private string _fullName = null;
 
-        public string FullName { get => _fullName ?? (_fullName = GetFullName()); }
+        public string FullName
+        {
+            get => _fullName ?? (_fullName = GetFullName());
+            set
+            {
+                if (_fullName != value)
+                    _fullName = value;
+            }
+        }
 
         protected string GetFullName()
         {
@@ -42,9 +44,13 @@ namespace EifelMono.Fluent.Changes
             }
             return fullName;
         }
+
         public ChangeCore()
         {
             SetParent(this);
+
+            if (_fullName.IsNullOrEmpty())
+                _fullName = GetFullName();
         }
 
         protected void SetParent(ChangeCore parent)
@@ -62,7 +68,6 @@ namespace EifelMono.Fluent.Changes
             }
         }
         protected ChangeCore Parent { get; set; } = null;
-
         protected ChangeCore FindRootParent
         {
             get
@@ -79,6 +84,10 @@ namespace EifelMono.Fluent.Changes
             if (FindRootParent is var rootParent && rootParent is object)
                 rootParent?.OnNotify?.Invoke(changedProperty);
         }
+
+        protected bool _isNotifyEnabled = true;
+        [JsonIgnore]
+        public bool IsNotifyEnabled => _isNotifyEnabled;
 
         [JsonIgnore]
         public ActionList<ChangeProperty> OnNotify { get; set; } = new ActionList<ChangeProperty>();
@@ -112,6 +121,50 @@ namespace EifelMono.Fluent.Changes
                 return result;
             }
         }
+
+        public List<ChangeCore> GetChildrensTree()
+            => GetChildrens(int.MaxValue);
+
+        public List<ChangeCore> GetChildrens()
+            => GetChildrens(2);
+
+        protected List<ChangeCore> GetChildrens(int maxDepth)
+        {
+            int level = 0;
+            var parent = this;
+            while (parent.Parent is object)
+            {
+                level++;
+                parent = parent.Parent;
+            }
+            return GetInternalChildrens(this, level, 0, maxDepth);
+        }
+
+        public List<ChangeCore> GetInternalChildrens(ChangeCore parent, int level, int depth, int maxDepth)
+        {
+            var result = new List<ChangeCore>();
+            if (parent is null)
+                return result;
+            parent.Level = level;
+            result.Add(parent);
+            level++;
+            depth++;
+            if (depth < maxDepth)
+                foreach (var propertyInfo in parent.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(p => p.PropertyType.IsSubclassOf(typeof(ChangeCore))))
+                {
+                    var o = propertyInfo.GetValue(parent) as ChangeCore;
+                    if (propertyInfo.PropertyType.IsSubclassOf(typeof(ChangeClass)))
+                        result.AddRange(GetInternalChildrens(o, level, depth, maxDepth));
+                    if (propertyInfo.PropertyType.IsSubclassOf(typeof(ChangeProperty)))
+                    {
+                        o.Level = level;
+                        result.Add(o);
+                    }
+                }
+            return result;
+        }
+
         public override string ToString()
             => $"{Prefix}:{FullName}";
     }

@@ -1,5 +1,4 @@
-﻿#if ! NETSTANDARD1_6
-using EifelMono.Fluent.IO;
+﻿using EifelMono.Fluent.IO;
 
 #pragma warning disable IDE1006 // Naming Styles
 namespace EifelMono.Fluent
@@ -27,4 +26,3 @@ namespace EifelMono.Fluent
         }
     }
 }
-#endif

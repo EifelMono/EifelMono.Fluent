@@ -12,8 +12,21 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EifelMono.Fluent\EifelMono.Fluent.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)'== 'netstandard1.6' ">
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_6_PLUS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)'== 'netstandard2.0' ">
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_6_PLUS;NETSTANDARD2_0_PLUS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+    <DefineConstants>$(DefineConstants);NETSTANDARD1_6_PLUS;NETSTANDARD2_0_PLUS;NETSTANDARD2_1_PLUS</DefineConstants>
+  </PropertyGroup>
 </Project>

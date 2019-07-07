@@ -75,7 +75,7 @@ namespace EifelMono.Fluent.Extensions
             return (envelopMessage.Name, (T)(envelopMessage.Data as JObject).ToObject(typeof(T)));
         }
 
-        public static T JsonClone<T>(this T thisValue) where T : object
+        public static T JsonClone<T>(this T thisValue) 
             => thisValue.ToJson().FromJson<T>();
         public static TResult JsonClone<TInput, TResult>(this TInput thisValue) where TInput : class
                                                                                 where TResult : class, new()
