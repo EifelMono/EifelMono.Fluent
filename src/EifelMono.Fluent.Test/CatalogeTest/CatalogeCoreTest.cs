@@ -18,12 +18,17 @@ namespace EifelMono.Fluent.Test.CoreTests
             var o1 = new
             {
                 Name = "Name.1",
-                Items = new List<string>
+                StringItems = new List<string>
                 {
                     "Items1.1",
                     "Items1.2",
                     "Items1.3",
-                    "Items1.4",
+                },
+                IntItems = new List<int>
+                {
+                    1,
+                    2,
+                    3,
                 },
                 o2 = new
                 {
@@ -33,12 +38,17 @@ namespace EifelMono.Fluent.Test.CoreTests
                         "Items2.1",
                         "Items2.2",
                         "Items2.3",
-                        "Items2.4",
                     },
                 }
             };
-            var cataloge = o1.ToCataloge();
-            Console.WriteLine(cataloge);
+            {
+                var cataloge = o1.ToCataloge();
+                WriteLine(cataloge);
+            }
+            {
+                var cataloge = o1.ToCataloge((s)=> s.SetDepth(5));
+                WriteLine(cataloge);
+            }
         }
     }
 }
