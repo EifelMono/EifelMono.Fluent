@@ -15,37 +15,8 @@ namespace EifelMono.Fluent.ConsoleTestApp
 {
     class Program
     {
-        static void Test()
-        {
-            var o1 = new
-            {
-                Name = "Name.1",
-                Items = new List<string>
-                {
-                    "Items1.1",
-                    "Items1.2",
-                    "Items1.3",
-                    "Items1.4",
-                },
-                o2 = new
-                {
-                    Name = "name.2",
-                    Items = new List<string>
-                    {
-                        "Items2.1",
-                        "Items2.2",
-                        "Items2.3",
-                        "Items2.4",
-                    },
-                }
-            };
-            var cataloge = o1.ToCataloge();
-            Console.WriteLine(cataloge);
-        }
         static async Task Main()
         {
-            Test();
-
             Console.WriteLine(fluent.App.BuildTimeStampUtc.ToLocalTime());
             Console.WriteLine(fluent.App.BuildMachineName);
             Console.WriteLine(fluent.App.BuildReleaseName);

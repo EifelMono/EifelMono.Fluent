@@ -123,7 +123,7 @@ namespace EifelMono.Fluent.Cataloge
                 return;
             }
             var type = @object.GetType();
-            if (depth > Settings.Depth || type.IsPrimitive || type == typeof(string))
+            if (depth > Settings.Depth || type.IsPrimitive || type.IsEnum || type == typeof(string))
             {
                 name = name.StartsWith(".") ? name : $".{name}";
                 if (depth > Settings.Depth)

@@ -15,6 +15,16 @@ namespace EifelMono.Fluent.Cataloge
             action?.Invoke(settings);
             return new CatalogeSerialize().Serialize(@object, settings);
         }
+
+        public static string ToCatalogeAsString(this object @object, Action<CatalogeSettings> action = null)
+        {
+            var settings = DefaultSettings;
+            action?.Invoke(settings);
+            return new CatalogeSerialize().Serialize(@object, settings).Replace(Environment.NewLine, " ");
+        }
+
+        public static string ToCatalogeAsToString(this object @object)
+            => @object.ToCatalogeAsString((s) => s.SetDepth(2).ExcludeFlags(CatalogeFlag.NonPublic));
     }
 }
 

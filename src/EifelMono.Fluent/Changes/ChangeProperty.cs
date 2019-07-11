@@ -54,6 +54,22 @@ namespace EifelMono.Fluent.Changes
             }
         }
 
+        public string AddInfo(string info, int maxInfos = 10)
+        {
+            DisableNotify();
+            try
+            {
+                Infos.Add(info);
+                while (Infos.Count > maxInfos)
+                    Infos.RemoveAt(0);
+            }
+            finally
+            {
+                EnableNotify();
+            }
+            return info;
+        }
+
         [JsonIgnore]
         public string this[int i]
         {

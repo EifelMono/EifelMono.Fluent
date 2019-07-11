@@ -21,7 +21,7 @@
     <FileVersion>$(Version)</FileVersion>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup  Condition="'$(Configuration)' == 'Release'">
     <AssemblyAttribute Include="EifelMono.Fluent.Attributes.BuildTimeStampUtcAttribute">
       <_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
     </AssemblyAttribute>
