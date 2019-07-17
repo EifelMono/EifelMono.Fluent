@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using EifelMono.Fluent.Log;
 
 namespace EifelMono.Fluent.Extensions
 {
@@ -78,6 +79,37 @@ namespace EifelMono.Fluent.Extensions
         /// <returns></returns>
         public static Task WithCancellation(this Task thisValue, long milliSeconds)
             => WithCancellation(thisValue, TimeSpan.FromMilliseconds(milliSeconds));
+
+
+        public static async Task<T> AwaitWithTimeoutAsync<T>(this T thisValue, TimeSpan timeout) where T : Task
+        {
+            try
+            {
+                if (await Task.WhenAny(thisValue,
+                        Task.Delay(timeout)).ConfigureAwait(false) == thisValue)
+                    return thisValue;
+            }
+            catch (Exception ex)
+            {
+                if (!(ex is OperationCanceledException))
+                    ex.LogException();
+            }
+            return default;
+        }
+
+        public static async Task<(bool Ok, T Value)> AwaitWithTimeoutSafeAsync<T>(this T thisValue, TimeSpan timeout) where T : Task
+        {
+            try
+            {
+                return (true, await thisValue.AwaitWithTimeoutAsync(timeout).ConfigureAwait(false));
+            }
+            catch (Exception ex)
+            {
+                if (!(ex is OperationCanceledException))
+                    ex.LogException();
+            }
+            return (false, thisValue);
+        }
 
     }
 }

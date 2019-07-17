@@ -49,6 +49,28 @@ namespace EifelMono.Fluent.Flow
             return value;
         }
 
+        #region WaitAsync
+        public async Task<bool> WaitAsync(CancellationToken cancellationToken = default)
+        {
+            var queue = new TaskCompletionQueuedSource<T>();
+            void SubscribeOnChange(T newValue) => queue.NewData(newValue);
+            try
+            {
+                OnChange.Add(SubscribeOnChange);
+                if (await queue.WaitValueAsync(cancellationToken).ConfigureAwait(false) is var result && result.Ok)
+                    Value = result.Value;
+                return result.Ok;
+            }
+            finally
+            {
+                OnChange.Remove(SubscribeOnChange);
+            }
+        }
+
+        public Task<bool> WaitAsync(TimeSpan timeSpan)
+            => WaitAsync(timeSpan.AsToken());
+        #endregion
+
 
         #region WaitValueAsync
         public async Task<bool> WaitValueAsync(T[] waitValues, CancellationToken cancellationToken = default)
