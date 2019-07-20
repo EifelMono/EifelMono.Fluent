@@ -46,56 +46,72 @@ namespace EifelMono.Fluent.Test.CoreTests
                 WriteLine(cataloge);
             }
             {
-                var cataloge = o1.ToCataloge((s)=> s.SetDepth(5));
+                var cataloge = o1.ToCataloge((s) => s.SetDepth(5));
                 WriteLine(cataloge);
             }
 
             {
-                var cataloge = o1.ToCatalogeAsToString();
+                var cataloge = o1.ToCatalogeToString();
                 WriteLine(cataloge);
             }
         }
 
+        class ClassA
+        {
+            public string Name { get; set; }
+            public int Cip { get; set; } = DateTime.Now.Millisecond;
+            public DateTime TimeStamp { get; set; } = DateTime.Now;
+
+            public ClassA A { get; set; }
+
+            public override string ToString()
+                => this.ToCatalogeToString();
+        }
         [Fact]
         public void Run_CatalogeAsToString()
         {
-            var o1 = new
+            var o = new ClassA
             {
-                TimeStamp = DateTime.Now,
-                Name = "Name.1",
-                StringItems = new List<string>
-                {
-                    "Items1.1",
-                    "Items1.2",
-                    "Items1.3",
-                },
-                IntItems = new List<int>
-                {
-                    1,
-                    2,
-                    3,
-                },
-                o2 = new
-                {
-                    Name = "name.2",
-                    Items = new List<string>
-                    {
-                        "Items2.1",
-                        "Items2.2",
-                        "Items2.3",
-                    },
-                }
+                Name = "1",
             };
-
+            WriteLine(o.ToCatalogeToString());
+            WriteLine(o.ToCatalogeToString(1));
+            WriteLine(o.ToCatalogeToString(2));
+            WriteLine(o.ToCatalogeToString(3));
+            WriteLine(o.ToCatalogeToString(4));
+            WriteLine();
+            var o1 = new ClassA
             {
-                var cataloge = o1.ToCatalogeAsToString();
-                WriteLine(cataloge);
-            }
-
+                Name = "1.1"
+            };
+            o.A = o1;
+            WriteLine(o.ToCatalogeToString());
+            WriteLine(o.ToCatalogeToString(1));
+            WriteLine(o.ToCatalogeToString(2));
+            WriteLine(o.ToCatalogeToString(3));
+            WriteLine(o.ToCatalogeToString(4));
+            WriteLine();
+            var o2 = new ClassA
             {
-                var cataloge = o1.ToCatalogeAsToString(3);
-                WriteLine(cataloge);
-            }
+                Name = "1.1.1"
+            };
+            o1.A = o2;
+            WriteLine(o.ToCatalogeToString());
+            WriteLine(o.ToCatalogeToString(1));
+            WriteLine(o.ToCatalogeToString(2));
+            WriteLine(o.ToCatalogeToString(3));
+            WriteLine(o.ToCatalogeToString(4));
+            WriteLine();
+            var o3 = new ClassA
+            {
+                Name = "1.1.1.1"
+            };
+            o2.A = o3;
+            WriteLine(o.ToCatalogeToString());
+            WriteLine(o.ToCatalogeToString(1));
+            WriteLine(o.ToCatalogeToString(2));
+            WriteLine(o.ToCatalogeToString(3));
+            WriteLine(o.ToCatalogeToString(4));
         }
     }
 }

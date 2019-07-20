@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -18,45 +19,36 @@ namespace EifelMono.Fluent.Cataloge
             return _cataloge.ToString();
         }
 
-        private List<PropertyInfo> GetProperties(object @object)
+        private BindingFlags GetBindingFlags()
         {
-            var result = new List<PropertyInfo>();
-
-            if (Settings.Flags.Contains(CatalogeFlag.Properties))
-            {
-                BindingFlags bindingFlags = default;
-                if (Settings.Flags.Contains(CatalogeFlag.Public))
-                    bindingFlags |= BindingFlags.Public;
-                if (Settings.Flags.Contains(CatalogeFlag.NonPublic))
-                    bindingFlags |= BindingFlags.NonPublic;
-                if (Settings.Flags.Contains(CatalogeFlag.Instance))
-                    bindingFlags |= BindingFlags.Instance;
-                if (Settings.Flags.Contains(CatalogeFlag.Static))
-                    bindingFlags |= BindingFlags.Static;
-                foreach (var property in @object.GetType().GetProperties(bindingFlags))
-                    result.Add(property);
-            }
-            return result;
+            BindingFlags bindingFlags = default;
+            if (Settings.Flags.Contains(CatalogeFlag.Public))
+                bindingFlags |= BindingFlags.Public;
+            if (Settings.Flags.Contains(CatalogeFlag.NonPublic))
+                bindingFlags |= BindingFlags.NonPublic;
+            if (Settings.Flags.Contains(CatalogeFlag.Instance))
+                bindingFlags |= BindingFlags.Instance;
+            if (Settings.Flags.Contains(CatalogeFlag.Static))
+                bindingFlags |= BindingFlags.Static;
+            return bindingFlags;
         }
 
-        private List<FieldInfo> GetFields(object @object)
-        {
-            var result = new List<FieldInfo>();
+        private IEnumerable<PropertyInfo> GetProperties(object @object)
+            => Settings.Flags.Contains(CatalogeFlag.Properties)
+                ? @object.GetType().GetProperties(GetBindingFlags())
+                : Enumerable.Empty<PropertyInfo>();
 
-            if (Settings.Flags.Contains(CatalogeFlag.Fields))
-            {
-                BindingFlags bindingFlags = default;
-                if (Settings.Flags.Contains(CatalogeFlag.Public))
-                    bindingFlags |= BindingFlags.Public;
-                if (Settings.Flags.Contains(CatalogeFlag.NonPublic))
-                    bindingFlags |= BindingFlags.NonPublic;
-                if (Settings.Flags.Contains(CatalogeFlag.Instance))
-                    bindingFlags |= BindingFlags.Instance;
-                if (Settings.Flags.Contains(CatalogeFlag.Static))
-                    bindingFlags |= BindingFlags.Static;
-                foreach (var field in @object.GetType().GetFields(bindingFlags))
-                    result.Add(field);
-            }
+        private IEnumerable<FieldInfo> GetFields(object @object)
+            => Settings.Flags.Contains(CatalogeFlag.Fields)
+                ? @object.GetType().GetFields(GetBindingFlags())
+                : Enumerable.Empty<FieldInfo>();
+
+        protected string ObjectToBracketsString(object o)
+        {
+            var result = o?.ToString() ?? "null";
+            if (Settings.IfEqualInToStringEmbracedWithBrackets)
+                if (result.Contains("="))
+                    result = $"({result})";
             return result;
         }
 
@@ -69,7 +61,7 @@ namespace EifelMono.Fluent.Cataloge
                 {
                     var o = property.GetValue(@object);
                     if (Settings.ToStringOnType.Contains(property.PropertyType))
-                        _cataloge.AppendLine($"{name}{newName}={o?.ToString() ?? ""}");
+                        _cataloge.AppendLine($"{name}{newName}={ObjectToBracketsString(o)}");
                     else
                     {
                         var i = 0;
@@ -96,7 +88,7 @@ namespace EifelMono.Fluent.Cataloge
                 var o = field.GetValue(@object);
                 var newName = string.IsNullOrEmpty(field.Name) ? "" : $".{field.Name}";
                 if (Settings.ToStringOnType.Contains(field.FieldType))
-                    _cataloge.AppendLine($"{name}{newName}=({o?.ToString() ?? ""})");
+                    _cataloge.AppendLine($"{name}{newName}={ObjectToBracketsString(o)}");
                 else
                 {
                     var i = 0;
@@ -126,18 +118,13 @@ namespace EifelMono.Fluent.Cataloge
             if (depth > Settings.Depth || type.IsPrimitive || type.IsEnum || type == typeof(string))
             {
                 name = name.StartsWith(".") ? name : $".{name}";
-                if (depth > Settings.Depth)
-                    _cataloge.AppendLine($"{name}=({@object.ToString()})");
-                else
-                    _cataloge.AppendLine($"{name}={@object.ToString()}");
+                _cataloge.AppendLine($"{name}={ObjectToBracketsString(@object)}");
                 return;
             }
 
             depth++;
-            if (Settings.Flags.Contains(CatalogeFlag.Properties))
-                InternalSerializeProperties(@object, name, depth);
-            if (Settings.Flags.Contains(CatalogeFlag.Fields))
-                InternalSerializeFields(@object, name, depth);
+            InternalSerializeProperties(@object, name, depth);
+            InternalSerializeFields(@object, name, depth);
         }
     }
 }

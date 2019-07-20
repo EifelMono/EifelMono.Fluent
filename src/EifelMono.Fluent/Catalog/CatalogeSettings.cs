@@ -9,6 +9,8 @@ namespace EifelMono.Fluent.Cataloge
         public HashSet<CatalogeFlag> Flags { get; internal set; } = new HashSet<CatalogeFlag>();
         public int Depth { get; set; } = 2;
 
+        public bool IfEqualInToStringEmbracedWithBrackets { get; set; } = true;
+
         public List<Type> ToStringOnType { get; set; } = new List<Type>();
 
         public CatalogeSettings Clone()
@@ -22,7 +24,8 @@ namespace EifelMono.Fluent.Cataloge
 
         public static List<Type> KnownToStringOnType { get; set; } = new List<Type>
         {
-            typeof(DateTime)
+            typeof(DateTime),
+            typeof(Version)
         };
     }
 
