@@ -19,6 +19,11 @@ namespace EifelMono.Fluent.Cataloge
                 Depth = Depth,
                 ToStringOnType = new List<Type>(ToStringOnType)
             };
+
+        public static List<Type> KnownToStringOnType { get; set; } = new List<Type>
+        {
+            typeof(DateTime)
+        };
     }
 
     public static class ConvertSettingsExtension
@@ -67,6 +72,17 @@ namespace EifelMono.Fluent.Cataloge
             return thisValue;
         }
 
+        public static T AddKnownToStringOnType<T>(this T thisValue, params Type[] types) where T : CatalogeSettings
+        {
+            foreach (var type in CatalogeSettings.KnownToStringOnType)
+                if (!thisValue.ToStringOnType.Contains(type))
+                    thisValue.ToStringOnType.Add(type);
+            foreach (var type in types)
+                if (!thisValue.ToStringOnType.Contains(type))
+                    thisValue.ToStringOnType.Add(type);
+            return thisValue;
+        }
+
         public static T RemoveToStringOnType<T>(this T thisValue, params Type[] types) where T : CatalogeSettings
         {
             foreach (var type in types)
@@ -79,5 +95,7 @@ namespace EifelMono.Fluent.Cataloge
             thisValue.ToStringOnType.Clear();
             return thisValue;
         }
+
+
     }
 }

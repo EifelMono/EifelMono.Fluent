@@ -96,7 +96,7 @@ namespace EifelMono.Fluent.Cataloge
                 var o = field.GetValue(@object);
                 var newName = string.IsNullOrEmpty(field.Name) ? "" : $".{field.Name}";
                 if (Settings.ToStringOnType.Contains(field.FieldType))
-                    _cataloge.AppendLine($"{name}{newName}={o?.ToString() ?? ""}");
+                    _cataloge.AppendLine($"{name}{newName}=({o?.ToString() ?? ""})");
                 else
                 {
                     var i = 0;

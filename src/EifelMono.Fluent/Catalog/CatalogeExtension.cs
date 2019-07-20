@@ -23,8 +23,12 @@ namespace EifelMono.Fluent.Cataloge
             return new CatalogeSerialize().Serialize(@object, settings).Replace(Environment.NewLine, " ");
         }
 
-        public static string ToCatalogeAsToString(this object @object)
-            => @object.ToCatalogeAsString((s) => s.SetDepth(2).ExcludeFlags(CatalogeFlag.NonPublic));
+        public static string ToCatalogeAsToString(this object @object, int depth = 2)
+            => @object.ToCatalogeAsString(
+                s => s.SetDepth(depth)
+                        .AddKnownToStringOnType()
+                        .ExcludeFlags(CatalogeFlag.NonPublic)
+                );
     }
 }
 
