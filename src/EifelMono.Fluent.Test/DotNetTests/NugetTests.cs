@@ -1,4 +1,5 @@
-﻿using EifelMono.Fluent.IO;
+﻿using System;
+using EifelMono.Fluent.IO;
 using EifelMono.Fluent.NuGet;
 using EifelMono.Fluent.Test.XunitTests;
 using Xunit;
@@ -23,9 +24,9 @@ namespace EifelMono.Fluent.Test.DotNetTests
 
             {
                 var (Ok, Value) = await nuget.org.GetPackageVersionsAsync("EifelMono.Fluent", true);
-                Assert.False(Ok);
+                Assert.True(Ok);
                 Dump(Value, "Versions for EifelMono.Fluent");
-                Assert.Empty(Value);
+                Assert.NotEmpty(Value);
             }
         }
 
@@ -41,12 +42,10 @@ namespace EifelMono.Fluent.Test.DotNetTests
             {
                 WriteLine($"EifelMono.Fluent Download Folder {DirectoryPath.OS.Temp}");
                 var result = await nuget.org.DownloadLatestPreReleasePackageAsync("EifelMono.Fluent", DirectoryPath.OS.Temp);
-                Assert.False(result.Ok);
+                Assert.True(result.Ok);
                 Dump(result, "nuget.DownloadLatestPreReleasePackageAsync");
             }
         }
-
-
     }
 #pragma warning restore IDE1006 // Naming Styles
 }
