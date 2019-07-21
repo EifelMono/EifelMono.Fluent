@@ -42,6 +42,36 @@ Console.WriteLine(testFile.LastWriteTime);
 foreach (var file in testFile.Directory.GetFiles(@"**\*.txt,*.bak"))
     Console.WriteLine(file);
 ```
+
+##Catalog
+
+Serialized your object to a ini like output 
+
+* ToCatalog()            => string with each filed/propertiy in a line (optional settings)
+* ToCatalogString()      => string with no newlines (optional settings)
+* ToCatalogToString()    => string with no newlines (optional depth)
+* 
+
+```csharp
+using EifelMono.Fluent.Cataloge;
+:
+
+public class ClassA
+{
+    public string Name {get;set;}
+    public int Cip {get;set;}
+
+    :
+    public override string ToString()
+        => this.ToCatalogeToString();
+}
+
+=> ToString() => .Name=.. .Cip=.. 
+
+
+
+```
+
 for more see the
 * [wiki](https://github.com/EifelMono/EifelMono.Fluent/wiki)
 * [Sample](https://github.com/EifelMono/EifelMono.Fluent/blob/master/src/EifelMono.Fluent.ConsoleTestApp/Program.cs)
@@ -52,7 +82,7 @@ for more see the
 * Visual Studio 2019 RC/preview
 * dotnet core 3.0 Roslyn c# 8.0 
 
-## Safe in the Name 
+## Safe at the end of the metod name 
 
 => (bool Ok, T Value)
 

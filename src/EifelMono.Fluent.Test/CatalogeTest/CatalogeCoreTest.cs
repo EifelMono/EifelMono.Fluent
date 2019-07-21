@@ -62,13 +62,64 @@ namespace EifelMono.Fluent.Test.CoreTests
             public int Cip { get; set; } = DateTime.Now.Millisecond;
             public DateTime TimeStamp { get; set; } = DateTime.Now;
 
+
+            public List<string> Items { get; set; } = new List<string>();
             public ClassA A { get; set; }
 
             public override string ToString()
                 => this.ToCatalogeToString();
         }
+
         [Fact]
-        public void Run_CatalogeAsToString()
+        public void Run_ClassA_ToCataloge()
+        {
+            var o = new ClassA
+            {
+                Name = "1",
+            };
+            WriteLine(o.ToCataloge());
+            WriteLine(o.ToCataloge(s => s.SetDepth(1)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(2)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(3)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(4)));
+            WriteLine();
+            var o1 = new ClassA
+            {
+                Name = "1.1",
+                Items= new List<string> { "Item1.1.A", "Item1.1.B", "Item1.1.C" }
+            };
+            o.A = o1;
+            WriteLine(o.ToCataloge());
+            WriteLine(o.ToCataloge(s => s.SetDepth(1)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(2)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(3)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(4)));
+            WriteLine();
+            var o2 = new ClassA
+            {
+                Name = "1.1.1"
+            };
+            o1.A = o2;
+            WriteLine(o.ToCataloge());
+            WriteLine(o.ToCataloge(s => s.SetDepth(1)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(2)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(3)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(4)));
+            WriteLine();
+            var o3 = new ClassA
+            {
+                Name = "1.1.1.1"
+            };
+            o2.A = o3;
+            WriteLine(o.ToCataloge());
+            WriteLine(o.ToCataloge(s => s.SetDepth(1)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(2)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(3)));
+            WriteLine(o.ToCataloge(s => s.SetDepth(4)));
+        }
+
+        [Fact]
+        public void Run_ClassA_ToCatalogeAsToString()
         {
             var o = new ClassA
             {
@@ -82,7 +133,8 @@ namespace EifelMono.Fluent.Test.CoreTests
             WriteLine();
             var o1 = new ClassA
             {
-                Name = "1.1"
+                Name = "1.1",
+                Items = new List<string> { "Item1.1.A", "Item1.1.B", "Item1.1.C" }
             };
             o.A = o1;
             WriteLine(o.ToCatalogeToString());
