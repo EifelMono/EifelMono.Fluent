@@ -67,10 +67,21 @@ namespace EifelMono.Fluent.Flow
             }
         }
 
+        public async Task<bool> WaitAsync(CancellationContainer cancellationContainer)
+        {
+            try
+            {
+                return await WaitAsync(cancellationContainer.Token).ConfigureAwait(false);
+            }
+            finally
+            {
+                cancellationContainer.DisposeAfterAction();
+            }
+        }
+
         public Task<bool> WaitAsync(TimeSpan timeSpan)
             => WaitAsync(timeSpan.AsToken());
         #endregion
-
 
         #region WaitValueAsync
         public async Task<bool> WaitValueAsync(T[] waitValues, CancellationToken cancellationToken = default)
@@ -105,6 +116,19 @@ namespace EifelMono.Fluent.Flow
             }
         }
 
+        public async Task<bool> WaitValueAsync(T[] waitValues, CancellationContainer cancellationContainer)
+        {
+            try
+            {
+                return await WaitValueAsync(waitValues, cancellationContainer.Token).ConfigureAwait(false);
+            }
+            finally
+            {
+                cancellationContainer?.DisposeAfterAction();
+            }
+        }
+
+
         public Task<bool> WaitValueAsync(T waitValue1, CancellationToken cancellationToken = default)
             => WaitValueAsync(new T[] { waitValue1 }, cancellationToken);
         public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, CancellationToken cancellationToken = default)
@@ -128,6 +152,17 @@ namespace EifelMono.Fluent.Flow
             => WaitValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, timeSpane.AsToken());
         public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, TimeSpan timeSpane)
             => WaitValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpane.AsToken());
+
+        public Task<bool> WaitValueAsync(T waitValue1, CancellationContainer cancellationContainer)
+          => WaitValueAsync(new T[] { waitValue1 }, cancellationContainer);
+        public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, CancellationContainer cancellationContainer)
+            => WaitValueAsync(new T[] { waitValue1, waitValue2 }, cancellationContainer);
+        public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, T waitValue3, CancellationContainer cancellationContainer)
+            => WaitValueAsync(new T[] { waitValue1, waitValue2, waitValue3 }, cancellationContainer);
+        public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, CancellationContainer cancellationContainer)
+            => WaitValueAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4 }, cancellationContainer);
+        public Task<bool> WaitValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, CancellationContainer cancellationContainer)
+            => WaitValueAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4, waitValue5 }, cancellationContainer);
 
         #endregion
 
@@ -170,8 +205,20 @@ namespace EifelMono.Fluent.Flow
             }
         }
 
+        public async Task<bool> WaitValuesAsync(T[] waitValues, CancellationContainer cancellationContainer)
+        {
+            try
+            {
+                return await WaitValuesAsync(waitValues, cancellationContainer.Token).ConfigureAwait(false);
+            }
+            finally
+            {
+                cancellationContainer?.DisposeAfterAction();
+            }
+        }
+
         public Task<bool> WaitValuesAsync(T waitValue1, CancellationToken cancellationToken = default)
-            => WaitValuesAsync(new T[] { waitValue1 }, cancellationToken);
+        => WaitValuesAsync(new T[] { waitValue1 }, cancellationToken);
         public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, CancellationToken cancellationToken = default)
             => WaitValuesAsync(new T[] { waitValue1, waitValue2 }, cancellationToken);
         public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, T waitValue3, CancellationToken cancellationToken = default)
@@ -193,6 +240,17 @@ namespace EifelMono.Fluent.Flow
             => WaitValuesAsync(waitValue1, waitValue2, waitValue3, waitValue4, timeSpan.AsToken());
         public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, TimeSpan timeSpan)
             => WaitValuesAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpan.AsToken());
+
+        public Task<bool> WaitValuesAsync(T waitValue1, CancellationContainer cancellationContainer)
+            => WaitValuesAsync(new T[] { waitValue1 }, cancellationContainer);
+        public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, CancellationContainer cancellationContainer)
+            => WaitValuesAsync(new T[] { waitValue1, waitValue2 }, cancellationContainer);
+        public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, T waitValue3, CancellationContainer cancellationContainer)
+            => WaitValuesAsync(new T[] { waitValue1, waitValue2, waitValue3 }, cancellationContainer);
+        public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, CancellationContainer cancellationContainer)
+            => WaitValuesAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4 }, cancellationContainer);
+        public Task<bool> WaitValuesAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, CancellationContainer cancellationContainer)
+            => WaitValuesAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4, waitValue5 }, cancellationContainer);
         #endregion
 
         #region WaitNotValueAsync
@@ -228,8 +286,20 @@ namespace EifelMono.Fluent.Flow
             }
         }
 
+        public async Task<bool> WaitNotValueAsync(T[] waitNotValues, CancellationContainer cancellationContainer)
+        {
+            try
+            {
+                return await WaitNotValueAsync(waitNotValues, cancellationContainer.Token).ConfigureAwait(false);
+            }
+            finally
+            {
+                cancellationContainer?.DisposeAfterAction();
+            }
+        }
+
         public Task<bool> WaitNotValueAsync(T waitValue1, CancellationToken cancellationToken = default)
-            => WaitNotValueAsync(new T[] { waitValue1 }, cancellationToken);
+        => WaitNotValueAsync(new T[] { waitValue1 }, cancellationToken);
         public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, CancellationToken cancellationToken = default)
             => WaitNotValueAsync(new T[] { waitValue1, waitValue2 }, cancellationToken);
         public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, CancellationToken cancellationToken = default)
@@ -251,6 +321,17 @@ namespace EifelMono.Fluent.Flow
             => WaitNotValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, timeSpane.AsToken());
         public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, TimeSpan timeSpane)
             => WaitNotValueAsync(waitValue1, waitValue2, waitValue3, waitValue4, waitValue5, timeSpane.AsToken());
+
+        public Task<bool> WaitNotValueAsync(T waitValue1, CancellationContainer cancellationContainer)
+            => WaitNotValueAsync(new T[] { waitValue1 }, cancellationContainer);
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, CancellationContainer cancellationContainer)
+            => WaitNotValueAsync(new T[] { waitValue1, waitValue2 }, cancellationContainer);
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, CancellationContainer cancellationContainer)
+            => WaitNotValueAsync(new T[] { waitValue1, waitValue2, waitValue3 }, cancellationContainer);
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, CancellationContainer cancellationContainer)
+            => WaitNotValueAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4 }, cancellationContainer);
+        public Task<bool> WaitNotValueAsync(T waitValue1, T waitValue2, T waitValue3, T waitValue4, T waitValue5, CancellationContainer cancellationContainer)
+            => WaitNotValueAsync(new T[] { waitValue1, waitValue2, waitValue3, waitValue4, waitValue5 }, cancellationContainer);
 
         #endregion
 

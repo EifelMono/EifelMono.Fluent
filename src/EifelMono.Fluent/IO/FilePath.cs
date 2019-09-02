@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using EifelMono.Fluent.Extensions;
 using EifelMono.Fluent.Interfaces;
+using EifelMono.Fluent.Log;
 
 namespace EifelMono.Fluent.IO
 {
@@ -399,14 +400,17 @@ namespace EifelMono.Fluent.IO
             return defaultValue;
         }
 
-        public (bool ok, string Value, FilePath FluentValue) ReadAllTextSafe(string defaultValue)
+        public (bool Ok, string Value, FilePath FluentValue) ReadAllTextSafe(string defaultValue)
         {
             try
             {
                 if (Exists)
                     return (true, File.ReadAllText(Value), this);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                ex.LogException();
+            }
             return (false, defaultValue, this);
         }
 
@@ -445,6 +449,20 @@ namespace EifelMono.Fluent.IO
         {
             File.WriteAllText(Value, contents);
             return this;
+        }
+
+        public (bool Ok, FilePath FluentValue) WriteAllTextSafe(string contents)
+        {
+            try
+            {
+                File.WriteAllText(Value, contents);
+                return (true, this);
+            }
+            catch (Exception ex)
+            {
+                ex.LogException();
+            }
+            return (false, this);
         }
         public FilePath WriteAllText(string contents, Encoding encoding)
         {
