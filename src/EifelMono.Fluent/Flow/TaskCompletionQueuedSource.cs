@@ -41,7 +41,7 @@ namespace EifelMono.Fluent.Flow
 
         public T LastData { get; set; } = default;
 
-        public void NewData(T newData, CancellationToken cancellationToken = default)
+        public void NewData(T newData, CancellationToken cancellationToken = default, Action onReady= null)
         {
             LastData = newData;
             Items.Enqueue(newData);
@@ -93,6 +93,10 @@ namespace EifelMono.Fluent.Flow
                 catch (Exception ex)
                 {
                     ex.LogException();
+                }
+                finally
+                {
+                    onReady?.Invoke();
                 }
             });
             #endregion
