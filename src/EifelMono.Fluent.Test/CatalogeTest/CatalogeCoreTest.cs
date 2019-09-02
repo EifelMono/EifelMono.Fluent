@@ -51,7 +51,7 @@ namespace EifelMono.Fluent.Test.CoreTests
             }
 
             {
-                var cataloge = o1.ToCatalogeToString();
+                var cataloge = o1.ToCatalogeString();
                 WriteLine(cataloge);
             }
         }
@@ -67,7 +67,7 @@ namespace EifelMono.Fluent.Test.CoreTests
             public ClassA A { get; set; }
 
             public override string ToString()
-                => this.ToCatalogeToString();
+                => this.ToCatalogeString();
         }
 
         [Fact]
@@ -125,11 +125,11 @@ namespace EifelMono.Fluent.Test.CoreTests
             {
                 Name = "1",
             };
-            WriteLine(o.ToCatalogeToString());
-            WriteLine(o.ToCatalogeToString(1));
-            WriteLine(o.ToCatalogeToString(2));
-            WriteLine(o.ToCatalogeToString(3));
-            WriteLine(o.ToCatalogeToString(4));
+            WriteLine(o.ToCatalogeString());
+            WriteLine(o.ToCatalogeString(1));
+            WriteLine(o.ToCatalogeString(2));
+            WriteLine(o.ToCatalogeString(3));
+            WriteLine(o.ToCatalogeString(4));
             WriteLine();
             var o1 = new ClassA
             {
@@ -137,33 +137,33 @@ namespace EifelMono.Fluent.Test.CoreTests
                 Items = new List<string> { "Item1.1.A", "Item1.1.B", "Item1.1.C" }
             };
             o.A = o1;
-            WriteLine(o.ToCatalogeToString());
-            WriteLine(o.ToCatalogeToString(1));
-            WriteLine(o.ToCatalogeToString(2));
-            WriteLine(o.ToCatalogeToString(3));
-            WriteLine(o.ToCatalogeToString(4));
+            WriteLine(o.ToCatalogeString());
+            WriteLine(o.ToCatalogeString(1));
+            WriteLine(o.ToCatalogeString(2));
+            WriteLine(o.ToCatalogeString(3));
+            WriteLine(o.ToCatalogeString(4));
             WriteLine();
             var o2 = new ClassA
             {
                 Name = "1.1.1"
             };
             o1.A = o2;
-            WriteLine(o.ToCatalogeToString());
-            WriteLine(o.ToCatalogeToString(1));
-            WriteLine(o.ToCatalogeToString(2));
-            WriteLine(o.ToCatalogeToString(3));
-            WriteLine(o.ToCatalogeToString(4));
+            WriteLine(o.ToCatalogeString());
+            WriteLine(o.ToCatalogeString(1));
+            WriteLine(o.ToCatalogeString(2));
+            WriteLine(o.ToCatalogeString(3));
+            WriteLine(o.ToCatalogeString(4));
             WriteLine();
             var o3 = new ClassA
             {
                 Name = "1.1.1.1"
             };
             o2.A = o3;
-            WriteLine(o.ToCatalogeToString());
-            WriteLine(o.ToCatalogeToString(1));
-            WriteLine(o.ToCatalogeToString(2));
-            WriteLine(o.ToCatalogeToString(3));
-            WriteLine(o.ToCatalogeToString(4));
+            WriteLine(o.ToCatalogeString());
+            WriteLine(o.ToCatalogeString(1));
+            WriteLine(o.ToCatalogeString(2));
+            WriteLine(o.ToCatalogeString(3));
+            WriteLine(o.ToCatalogeString(4));
         }
     }
 }

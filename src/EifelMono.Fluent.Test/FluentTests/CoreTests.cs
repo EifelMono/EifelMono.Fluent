@@ -14,8 +14,8 @@ namespace EifelMono.Fluent.Test.FluentTests
         public CoreTEsts(ITestOutputHelper output) : base(output) { }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
-        [Fact(Skip ="No idee to cast")]
-#pragma warning enable xUnit1004 // Test methods should not be skipped
+        [Fact(Skip = "No idee to cast")]
+#pragma warning restore xUnit1004 // Test methods should not be skipped
         public void Fluent_Cast()
         {
             //var a = new List<object>

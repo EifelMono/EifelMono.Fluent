@@ -216,11 +216,11 @@ namespace EifelMono.Fluent.Flow
         public CancellationContainerItem this[string name]
             => Items.FirstOrDefault(i => i.Name == name);
 
-        public List<CancellationContainerItem> CanceledItems()
+        public List<CancellationContainerItem> CanceledItems
             => Items.Where(i => i.Token.IsCancellationRequested).ToList();
-        public List<CancellationToken> CanceledItemsTokens()
+        public List<CancellationToken> CanceledItemsTokens
             => Items.Where(i => i.Token.IsCancellationRequested).Select(i => i.Token).ToList();
-        public List<CancellationTokenSource> CanceledItemsSources()
+        public List<CancellationTokenSource> CanceledItemsSources
             => Items.Where(i => i.Token.IsCancellationRequested && i.Source is object)
                 .Select(i => i.Source).ToList();
 
