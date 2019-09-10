@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 namespace EifelMono.Fluent.Test.FluentTests
 {
-    public class CoreTEsts : XunitCore
+    public class CoreTests : XunitCore
     {
 
-        public CoreTEsts(ITestOutputHelper output) : base(output) { }
+        public CoreTests(ITestOutputHelper output) : base(output) { }
 
 #pragma warning disable xUnit1004 // Test methods should not be skipped
         [Fact(Skip = "No idee to cast")]
