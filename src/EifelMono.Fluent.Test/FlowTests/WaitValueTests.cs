@@ -513,5 +513,92 @@ namespace EifelMono.Fluent.Test.FlowTests
             WriteLine($"result={result} storage={storage}");
             Assert.Equal(result, storage);
         }
+
+        public enum AppServiceState
+        {
+            SetupStart,
+            SetupReady,
+
+            SettingsStart,
+            SettingsReady,
+
+            BackupStart,
+            BackupReady,
+
+            DianaStart,
+            DianaReady,
+
+            PlcStart,
+            PlcReady,
+
+            CommunicationStart,
+            CommunicationReady,
+
+            OrchestrationStart,
+            OrchestrationReady,
+
+            TaskRunning,
+            TaskFinished,
+        }
+
+        public class AppData : IDisposable
+        {
+            public WaitEnumValue<AppServiceState> State { get; set; } = new WaitEnumValue<AppServiceState>();
+            public void Dispose()
+            {
+            }
+        }
+        [Theory]
+        [InlineData(0)]
+        //[InlineData(1)]
+        //[InlineData(3)]
+        //[InlineData(5)]
+        //[InlineData(10)]
+        //[InlineData(33)]
+        //[InlineData(55)]
+        //[InlineData(100)]
+        //[InlineData(333)]
+        //[InlineData(555)]
+        //[InlineData(1000)]
+        public async void TestWaitValue(int msecWaitOnStart)
+        {
+            using var app = new AppData
+            {
+                State = new WaitEnumValue<AppServiceState>(),
+            };
+
+            var appStateOrchestration = false;
+            _ = Task.Run(async () =>
+            {
+                WriteLine("Start Task Waiting OrchestrationStart");
+                await app.State.WaitValueAsync(AppServiceState.OrchestrationStart);
+                WriteLine("Start Task Waiting Ready OrchestrationStart");
+                appStateOrchestration = true;
+                app.State.Value = AppServiceState.TaskRunning;
+                WriteLine("Start Task Ready OrchestrationStart Set TaskRunning");
+            });
+
+            var appStateCommunication = false;
+            _ = Task.Run(async () =>
+            {
+                WriteLine("Start Task Waiting CommunicationStart");
+                await app.State.WaitValueAsync(AppServiceState.CommunicationStart);
+                WriteLine("Start Task Waiting Ready CommunicationStart");
+                appStateCommunication = true;
+                app.State.Value = AppServiceState.OrchestrationStart;
+                WriteLine("Start Task Ready CommunicationStart Set OrchestrationStart");
+            });
+
+            if (msecWaitOnStart > 0)
+                await Task.Delay(TimeSpan.FromMilliseconds(msecWaitOnStart));
+            app.State.Value = AppServiceState.CommunicationStart;
+
+
+            await Task.Delay(1000000);
+            await app.State.WaitValueAsync(AppServiceState.TaskRunning, TimeSpan.FromMilliseconds(msecWaitOnStart + 2000));
+
+            Assert.True(appStateCommunication);
+            Assert.True(appStateOrchestration);
+        }
     }
 }
