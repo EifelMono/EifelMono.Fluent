@@ -42,8 +42,10 @@ namespace EifelMono.Fluent.Log
             LogProxy?.OnLogError(thisValue);
             return thisValue;
         }
-        public static Exception LogException(this Exception thisValue)
+        public static Exception LogException(this Exception thisValue, string message= null)
         {
+            if (message is { })
+                message.LogError();
             LogProxy?.OnLogException(thisValue);
             return thisValue;
         }
