@@ -12,5 +12,10 @@ namespace EifelMono.Fluent.Extensions
             => new DateTime(thisValue.Year, thisValue.Month, 1);
         public static DateTime LastDayOfMonth(this DateTime thisValue)
             => new DateTime(thisValue.Year, thisValue.Month, DateTime.DaysInMonth(thisValue.Year, thisValue.Month));
+
+        public static bool IsSameYear(this DateTime thisValue, DateTime dateTime)
+            => thisValue.Year == dateTime.Year;
+        public static bool IsSameYearAndMonth(this DateTime thisValue, DateTime dateTime)
+            => thisValue.Year == dateTime.Year && thisValue.Month == dateTime.Month;
     }
 }
