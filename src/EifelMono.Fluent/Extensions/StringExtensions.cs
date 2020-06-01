@@ -28,5 +28,49 @@ namespace EifelMono.Fluent.Extensions
 
         public static bool AreDigits(this string thisValue)
             => thisValue.All(char.IsDigit);
+
+        public static List<string> Between(this string thisValue, string startText, string endtext)
+        {
+            var result = new List<string>();
+            var index = 0;
+            while (true)
+            {
+                var start = thisValue.IndexOf(startText, index);
+                if (start < 0)
+                    break;
+                index = start + startText.Length;
+                var end = thisValue.IndexOf(endtext, index);
+                if (end < 0)
+                    break;
+                index = end + endtext.Length;
+                var textBetween = thisValue.Substring(start + startText.Length, end - (start + startText.Length)).Trim();
+                result.Add(textBetween);
+            }
+            return result;
+        }
+
+        public static string Before(this string thisValue, string search)
+        {
+            int pos = thisValue.IndexOf(search, StringComparison.Ordinal);
+            return pos != -1 ? thisValue.Substring(0, pos) : "";
+        }
+
+        public static string LastBefore(this string thisValue, string search)
+        {
+            int pos = thisValue.LastIndexOf(search, StringComparison.Ordinal);
+            return pos != -1 ? thisValue.Substring(0, pos) : "";
+        }
+
+        public static string After(this string thisValue, string search)
+        {
+            int pos = thisValue.IndexOf(search, StringComparison.Ordinal);
+            return pos != -1 ? thisValue.Substring(pos + search.Length) : "";
+        }
+
+        public static string LastAfter(this string thisValue, string search)
+        {
+            int pos = thisValue.LastIndexOf(search, StringComparison.Ordinal);
+            return pos != -1 ? thisValue.Substring(pos + search.Length) : "";
+        }
     }
 }

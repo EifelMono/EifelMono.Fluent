@@ -7,18 +7,18 @@ namespace EifelMono.Fluent.Extensions
 {
     public static class StringBuilderExtensions
     {
-        public static int PositionOf(this StringBuilder sb, string searchText)
+        public static int PositionOf(this StringBuilder thisValue, string searchText)
         {
             try
             {
                 if (string.IsNullOrEmpty(searchText))
                     return -1;
-                for (int i = 0; i <= sb.Length - searchText.Length; i++)
+                for (int i = 0; i <= thisValue.Length - searchText.Length; i++)
                 {
                     var equal = 0;
                     for (int j = 0; j < searchText.Length; j++)
                     {
-                        if (sb[i + j] == searchText[j])
+                        if (thisValue[i + j] == searchText[j])
                             equal++;
                         else
                             break;
