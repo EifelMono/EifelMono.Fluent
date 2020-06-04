@@ -550,29 +550,30 @@ namespace EifelMono.Fluent.Test.FlowTests
         }
         [Theory]
         [InlineData(0)]
-        //[InlineData(1)]
-        //[InlineData(3)]
-        //[InlineData(5)]
-        //[InlineData(10)]
-        //[InlineData(33)]
-        //[InlineData(55)]
-        //[InlineData(100)]
-        //[InlineData(333)]
-        //[InlineData(555)]
-        //[InlineData(1000)]
+        [InlineData(1)]
+        [InlineData(3)]
+        [InlineData(5)]
+        [InlineData(10)]
+        [InlineData(33)]
+        [InlineData(55)]
+        [InlineData(100)]
+        [InlineData(333)]
+        [InlineData(555)]
+        [InlineData(1000)]
         public async void TestWaitValue(int msecWaitOnStart)
         {
             using var app = new AppData
             {
-                State = new WaitEnumValue<AppServiceState>(),
+                State = new WaitEnumValue<AppServiceState>(AppServiceState.SetupStart),
             };
 
             var appStateOrchestration = false;
             _ = Task.Run(async () =>
             {
                 WriteLine("Start Task Waiting OrchestrationStart");
-                await app.State.WaitValueAsync(AppServiceState.OrchestrationStart);
+                bool result = await app.State.WaitValueAsync(AppServiceState.OrchestrationStart, TimeSpan.FromMilliseconds(msecWaitOnStart + 2000));
                 WriteLine("Start Task Waiting Ready OrchestrationStart");
+                Assert.True(result);
                 appStateOrchestration = true;
                 app.State.Value = AppServiceState.TaskRunning;
                 WriteLine("Start Task Ready OrchestrationStart Set TaskRunning");
@@ -582,8 +583,9 @@ namespace EifelMono.Fluent.Test.FlowTests
             _ = Task.Run(async () =>
             {
                 WriteLine("Start Task Waiting CommunicationStart");
-                await app.State.WaitValueAsync(AppServiceState.CommunicationStart);
+                bool result = await app.State.WaitValueAsync(AppServiceState.CommunicationStart, TimeSpan.FromMilliseconds(msecWaitOnStart + 2000));
                 WriteLine("Start Task Waiting Ready CommunicationStart");
+                Assert.True(result);
                 appStateCommunication = true;
                 app.State.Value = AppServiceState.OrchestrationStart;
                 WriteLine("Start Task Ready CommunicationStart Set OrchestrationStart");
@@ -593,9 +595,8 @@ namespace EifelMono.Fluent.Test.FlowTests
                 await Task.Delay(TimeSpan.FromMilliseconds(msecWaitOnStart));
             app.State.Value = AppServiceState.CommunicationStart;
 
-
-            await Task.Delay(1000000);
-            await app.State.WaitValueAsync(AppServiceState.TaskRunning, TimeSpan.FromMilliseconds(msecWaitOnStart + 2000));
+            var result = await app.State.WaitValueAsync(AppServiceState.TaskRunning, TimeSpan.FromMilliseconds(msecWaitOnStart + 2000));
+            Assert.True(result);
 
             Assert.True(appStateCommunication);
             Assert.True(appStateOrchestration);
