@@ -104,7 +104,7 @@ namespace EifelMono.Fluent.Test.IOTests
             Assert.Equal(1 + (dirMax + dirMax * dirMax + dirMax * dirMax * dirMax), dirs.Count);
         }
 
-        [Fact]
+        [Fact(Skip = "Only single Test")]
         public async void TestDeleteDirectories()
         {
 #pragma warning disable IDE0059 // Value assigned to symbol is never used
@@ -119,7 +119,7 @@ namespace EifelMono.Fluent.Test.IOTests
             Assert.Empty(dirs);
         }
 
-        [Theory]
+        [Theory(Skip = "Only single Test")]
         [InlineData(1, "ABCDEF")]
         [InlineData(3, "ABCDEF")]
         [InlineData(5, "ABCDEF")]
@@ -170,7 +170,7 @@ namespace EifelMono.Fluent.Test.IOTests
             //if (count != -1)
             //    Assert.Equal(count, foundDirectories.Count);
         }
-        [Fact]
+        [Fact(Skip = "Only single Test")]
         public void SrcCsSearchWithoutCheck()
         {
             try
@@ -191,7 +191,7 @@ namespace EifelMono.Fluent.Test.IOTests
         }
 
 
-        [Fact]
+        [Fact(Skip = "Only single Test")]
         public async void FindFilesAsync()
         {
             var dir = s_srcPath;
@@ -199,7 +199,7 @@ namespace EifelMono.Fluent.Test.IOTests
                 WriteLine(f);
         }
 
-        [Fact]
+        [Fact(Skip = "Only single Test")]
         public void FindFiles()
         {
             var dir = s_srcPath;
@@ -207,7 +207,7 @@ namespace EifelMono.Fluent.Test.IOTests
                 WriteLine(f);
         }
 
-        [Fact]
+        [Fact(Skip = "Only single Test")]
         public async void FindBackwards()
         {
             {
