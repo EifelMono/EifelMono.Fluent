@@ -9,6 +9,15 @@ namespace EifelMono.Fluent.Flow
     {
         protected List<object> Items { get; set; } = new List<object>();
 
+        protected object AddFirst(object item)
+        {
+            lock (Items)
+            {
+                Items.Insert(0, item);
+            }
+            return item;
+        }
+
         protected object Add(object item)
         {
             lock (Items)
