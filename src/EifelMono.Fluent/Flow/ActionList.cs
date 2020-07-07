@@ -131,6 +131,12 @@ namespace EifelMono.Fluent.Flow
 
     public class ActionList : ActionListCore
     {
+        public Action AddFirst(Action action)
+        {
+            base.AddFirst(action);
+            return action;
+        }
+
         public Action Add(Action action)
         {
             base.Add(action);
@@ -154,6 +160,12 @@ namespace EifelMono.Fluent.Flow
 
     public class ActionList<T1> : ActionListCore
     {
+        public Action<T1> AddFirst(Action<T1> action)
+        {
+            base.AddFirst(action);
+            return action;
+        }
+
         public Action<T1> Add(Action<T1> action)
         {
             base.Add(action);
@@ -177,6 +189,12 @@ namespace EifelMono.Fluent.Flow
 
     public class ActionList<T1, T2> : ActionListCore
     {
+        public Action<T1, T2> AddFirst(Action<T1, T2> action)
+        {
+            base.AddFirst(action);
+            return action;
+        }
+
         public Action<T1, T2> Add(Action<T1, T2> action)
         {
             base.Add(action);
@@ -199,6 +217,12 @@ namespace EifelMono.Fluent.Flow
 
     public class ActionList<T1, T2, T3> : ActionListCore
     {
+        public Action<T1, T2, T3> AddFirst(Action<T1, T2, T3> action)
+        {
+            base.AddFirst(action);
+            return action;
+        }
+
         public Action<T1, T2, T3> Add(Action<T1, T2, T3> action)
         {
             base.Add(action);
@@ -222,6 +246,12 @@ namespace EifelMono.Fluent.Flow
 
     public class ActionList<T1, T2, T3, T4> : ActionListCore
     {
+        public Action<T1, T2, T3, T4> AddFirst(Action<T1, T2, T3, T4> action)
+        {
+            base.AddFirst(action);
+            return action;
+        }
+
         public Action<T1, T2, T3, T4> Add(Action<T1, T2, T3, T4> action)
         {
             base.Add(action);
@@ -245,6 +275,11 @@ namespace EifelMono.Fluent.Flow
 
     public class ActionList<T1, T2, T3, T4, T5> : ActionListCore
     {
+        public Action<T1, T2, T3, T4, T5> AddFirst(Action<T1, T2, T3, T4, T5> action)
+        {
+            base.AddFirst(action);
+            return action;
+        }
         public Action<T1, T2, T3, T4, T5> Add(Action<T1, T2, T3, T4, T5> action)
         {
             base.Add(action);

@@ -15,7 +15,7 @@
     <RepositoryType>git</RepositoryType>
     <Copyright>(C)copyright eifelmono</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.1.4</Version>
+    <Version>0.1.5</Version>
     <PackageVersion>$(Version)</PackageVersion>
     <AssemblyVersion>$(Version)</AssemblyVersion>
     <FileVersion>$(Version)</FileVersion>
