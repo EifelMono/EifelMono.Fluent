@@ -7,11 +7,12 @@ namespace EifelMono.Fluent.Flow
 {
     public abstract class ActionListCore
     {
+        private object _lockItems = new object();
         protected List<object> Items { get; set; } = new List<object>();
 
         protected object AddFirst(object item)
         {
-            lock (Items)
+            lock (_lockItems)
             {
                 Items.Insert(0, item);
             }
@@ -20,7 +21,7 @@ namespace EifelMono.Fluent.Flow
 
         protected object Add(object item)
         {
-            lock (Items)
+            lock (_lockItems)
             {
                 Items.Add(item);
             }
@@ -29,7 +30,7 @@ namespace EifelMono.Fluent.Flow
 
         public object Remove(object item)
         {
-            lock (Items)
+            lock (_lockItems)
             {
                 if (Items.Contains(item))
                     Items.Remove(item);
@@ -39,13 +40,13 @@ namespace EifelMono.Fluent.Flow
 
         public bool Contains(object item)
         {
-            lock (Items)
-                return (Items.Contains(item));
+            lock (_lockItems)
+                return Items.Contains(item);
         }
 
         public void Clear()
         {
-            lock (Items)
+            lock (_lockItems)
                 Items.Clear();
         }
 
@@ -53,14 +54,14 @@ namespace EifelMono.Fluent.Flow
         {
             get
             {
-                lock (Items)
+                lock (_lockItems)
                     return Items.Count;
             }
         }
 
         protected List<object> Clone()
         {
-            lock (Items)
+            lock (_lockItems)
                 return Items.Select(item => item).ToList();
         }
 
@@ -148,7 +149,7 @@ namespace EifelMono.Fluent.Flow
             base.Remove(action);
             return action;
         }
-        
+
         public bool Contains(Action action) => base.Contains(action);
         public new Action this[int index] => base[index] as Action;
 
