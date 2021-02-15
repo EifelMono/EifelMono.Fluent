@@ -110,12 +110,12 @@ namespace EifelMono.Fluent.Flow
             if (wait && (waitValues is null || waitValues.Length == 0))
                 return (false, default, new AggregateException());
             CancellationToken cancellationToken;
-            cancellationToken.Register(() => { CompletionSource.TrySetCanceled(); });
             var tokenRegisters = new List<CancellationTokenRegistration>();
             try
             {
                 foreach (var ct in cancellationTokens)
                     tokenRegisters.Add(ct.Register(() => { CompletionSource.TrySetCanceled(); }));
+                tokenRegisters.Add(cancellationToken.Register(() => { CompletionSource.TrySetCanceled(); }));
 
                 var waitValuesList = wait ? waitValues.ToList() : new List<T>();
                 using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationTokens.ToList().Append(cancellationToken).ToArray());
