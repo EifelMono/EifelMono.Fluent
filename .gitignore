@@ -241,8 +241,8 @@ _Pvt_Extensions
 
 # cake.build
 **/tools/**
-!**/tools/packages.config
 tools/**
+!**/tools/packages.config
 
 # svn
 .svn
